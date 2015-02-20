@@ -1,13 +1,13 @@
 package com.Lisa;
-import java.util.*;
+import java.util.*;>
 
 // Created by lisa on 2/18/15.
 
-public class Hand {
+public class Player {
 
     private LinkedList<Card> hand = new LinkedList<Card>();
-//    private LinkedList<ArrayList<Card>> runs = new LinkedList<ArrayList<Card>();
-//    private LinkedList<ArrayList<Card> books = new LinkedList<ArrayList<Card>();
+    private LinkedList<ArrayList<Run>> runs = new LinkedList<ArrayList<Run>>();
+    private LinkedList<ArrayList<Book>> books = new LinkedList<ArrayList<Book>>();
 
     public LinkedList<Card> getHand() {
         return hand;

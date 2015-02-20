@@ -38,16 +38,16 @@ public class Deck {
         this.discardPile = discardPile;
     }
 
-    public Hand dealCards(int numCards, Hand hand) {
+    public Player dealCards(int numCards, Player player) {
 
         Random randomNumberGenerator = new Random();
 
         for (int x = 0; x < numCards; x ++) {
             int cardIndex = randomNumberGenerator.nextInt(this.getActiveDeck().size());
-            hand.getHand().add(this.getActiveDeck().get(cardIndex));
+            player.getHand().add(this.getActiveDeck().get(cardIndex));
             this.getActiveDeck().remove(cardIndex);
         }
 
-        return hand;
+        return player;
     }
 }
