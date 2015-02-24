@@ -14,12 +14,9 @@ public class Main {
         // Opening deal
         humanPlayer = newDeck.dealCards(10, humanPlayer);
         computerAiPlayer = newDeck.dealCards(10, computerAiPlayer);
+        newDeck.startDiscardPile(newDeck);
 
-        // Output player cards
-        System.out.println("Your hand:");
-        for (Card card : humanPlayer.getHand()) {
-            System.out.println(card.getName());
-        }
+        outputGameStatus(humanPlayer, newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -34,12 +31,41 @@ public class Main {
         // check if any player's hand is empty (they have won)
     }
 
-    public static void interactWithHuman() {
-        // Display human's hand
+    public static void outputGameStatus(Player human, Deck newDeck) {
+
+        // Output player cards
+        System.out.println("YOUR HAND:");
+        for (Card card : human.getHand()) {
+            outputCardToTerminalInColor(card);
+            if (card != human.getHand().getLast()) {
+                System.out.print(", ");
+            }
+        }
+
         // Display top card in discard pile
+        System.out.println("\n\nDISCARD PILE:");
+        outputCardToTerminalInColor(newDeck.getDiscardPile().peek());
+
         // Display all runs and books on table
+    }
+
+    public static void outputCardToTerminalInColor(Card card) {
+
+        // Set colors for terminal output
+        String ANSI_red = "\u001B[31m";
+        String ANSI_reset_color = "\u001B[0m";
+
+        if (card.getSuit() > 9828) {
+            System.out.print(ANSI_red + card.getName() + ANSI_reset_color);
+        } else {
+            System.out.print(card.getName());
+        }
+    }
+
+    public static void getPlayerAction() {
         // Display options: draw from deck, draw from discard, meld (create new run or book), lay off (add to existing run or book)
         // Receive player input
+        System.out.println("");
     }
 
     public static void aiStrategize() {
