@@ -68,11 +68,11 @@ public class Main {
         System.out.println("");
     }
 
-    public static void aiStrategize() {
-        // if whatever, do whatever
-    }
-
-    public static void calculateScore() {
-        // TODO
-    }
+//    public static void aiStrategize() {
+//        // if whatever, do whatever
+//    }
+//
+//    public static void calculateScore() {
+//        // TODO
+//    }
 }
