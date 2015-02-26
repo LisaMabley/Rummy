@@ -12,9 +12,9 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        humanPlayer = newDeck.dealCards(10, humanPlayer);
-        computerAiPlayer = newDeck.dealCards(10, computerAiPlayer);
-        newDeck.startDiscardPile(newDeck);
+        newDeck.dealCards(10, humanPlayer.getHand());
+        newDeck.dealCards(10, computerAiPlayer.getHand());
+        newDeck.dealCards(1, newDeck.getDiscardPile());
 
         outputGameStatus(humanPlayer, newDeck);
 
@@ -24,27 +24,27 @@ public class Main {
         // Ask if player wants to play again
     }
 
-    public static void startRound() {
-        // check if discard pile is empty
-        // interactWithHuman()
-        // aiStrategize()
-        // check if any player's hand is empty (they have won)
-    }
+//    public static void startRound() {
+//        // check if discard pile is empty
+//        // interactWithHuman()
+//        // aiStrategize()
+//        // check if any player's hand is empty (they have won)
+//    }
 
     public static void outputGameStatus(Player human, Deck newDeck) {
 
         // Output player cards
         System.out.println("YOUR HAND:");
-        for (Card card : human.getHand()) {
+        for (Card card : human.getHand().getGroup()) {
             outputCardToTerminalInColor(card);
-            if (card != human.getHand().getLast()) {
+            if (card != human.getHand().getGroup().getLast()) {
                 System.out.print(", ");
             }
         }
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
-        outputCardToTerminalInColor(newDeck.getDiscardPile().peek());
+        outputCardToTerminalInColor(newDeck.getDiscardPile().getGroup().peek());
 
         // Display all runs and books on table
     }
@@ -62,11 +62,11 @@ public class Main {
         }
     }
 
-    public static void getPlayerAction() {
-        // Display options: draw from deck, draw from discard, meld (create new run or book), lay off (add to existing run or book)
-        // Receive player input
-        System.out.println("");
-    }
+//    public static void getPlayerAction() {
+//        // Display options: draw from deck, draw from discard, meld (create new run or book), lay off (add to existing run or book)
+//        // Receive player input
+////        System.out.println("");
+//    }
 
 //    public static void aiStrategize() {
 //        // if whatever, do whatever
