@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Deck {
 
-    private LinkedList<Card> activeDeck = new LinkedList<Card>();
-    private LinkedList<Card> discardPile = new LinkedList<Card>();
+    private CardGroup stock = new CardGroup();
+    private CardGroup discardPile = new CardGroup();
 
     public Deck() {
         // Generate cards
@@ -17,37 +17,38 @@ public class Deck {
             for (int y = 1; y < 14; y++) {
                 value = y;
                 Card newcard = new Card(suit, value);
-                this.activeDeck.add(newcard);
+                this.stock.addCard(newcard);
             }
         }
     }
 
-    public LinkedList<Card> getActiveDeck() {
-        return activeDeck;
+    public CardGroup getStock() {
+        return stock;
     }
 
-    public void setActiveDeck(LinkedList<Card> activeDeck) {
-        this.activeDeck = activeDeck;
-    }
-
-    public LinkedList<Card> getDiscardPile() {
+    public CardGroup getDiscardPile() {
         return discardPile;
     }
 
-    public void setDiscardPile(LinkedList<Card> discardPile) {
-        this.discardPile = discardPile;
-    }
-
-    public Player dealCards(int numCards, Player player) {
+    public void dealCards(int numCards, CardGroup group) {
 
         Random randomNumberGenerator = new Random();
 
         for (int x = 0; x < numCards; x ++) {
-            int cardIndex = randomNumberGenerator.nextInt(this.getActiveDeck().size());
-            player.getHand().add(this.getActiveDeck().get(cardIndex));
-            this.getActiveDeck().remove(cardIndex);
+            int cardIndex = randomNumberGenerator.nextInt(this.stock.getGroup().size());
+            group.addCard(this.stock.getGroup().remove(cardIndex));
         }
-
-        return player;
     }
+
+    public void drawFromStockPile(CardGroup hand) {
+        dealCards(1, hand);
+    }
+
+    public void drawFromDiscardPile(CardGroup hand) {
+        hand.getGroup().add(discardPile.getGroup().pop());
+    }
+
+//    public static void discard(Card card) {
+//        //
+//    }
 }

@@ -5,6 +5,7 @@ package com.Lisa;
 public class Card {
 
     private String name;
+    private char suit;
     private int suitId;
     private int valueId;
 
@@ -22,35 +23,34 @@ public class Card {
             stringName = String.valueOf(valueId);
 
         } else if (valueId == 1) {
-            stringName = "Ace";
+            stringName = "A";
 
         } else if (valueId == 11) {
-            stringName = "Jack";
+            stringName = "J";
 
         } else if (valueId == 12) {
-            stringName = "Queen";
+            stringName = "Q";
 
         } else if (valueId == 13) {
-            stringName = "King";
+            stringName = "K";
         }
-
-        stringName += " of ";
 
         switch (suitId) {
             case 1:
-                stringName += "Hearts";
+                this.suit = 9829;
                 break;
             case 2:
-                stringName += "Diamonds";
+                this.suit = 9830;
                 break;
             case 3:
-                stringName += "Spades";
+                this.suit = 9824;
                 break;
             case 4:
-                stringName += "Clubs";
+                this.suit = 9827;
                 break;
         }
 
+        stringName += Character.toString(this.suit);
         return stringName;
     }
 
@@ -58,12 +58,14 @@ public class Card {
         return name;
     }
 
-    public int getSuitId() {
-        return suitId;
-    }
+    public char getSuit() { return suit; }
 
-    public int getValueId() {
-        return valueId;
-    }
+//    public int getSuitId() {
+//        return suitId;
+//    }
+
+//    public int getValueId() {
+//        return valueId;
+//    }
 
 }

@@ -9,7 +9,7 @@ public class CardGroup {
     protected LinkedList<Card> group = new LinkedList<Card>();
 
     public LinkedList<Card> getGroup() {
-        return group;
+        return this.group;
     }
 
     public void addCard(Card card) {
