@@ -111,7 +111,7 @@ public class Main {
 
     public static void discard(LinkedList<Card> hand, Deck newDeck) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        int cardToDiscard = 0;
+        int cardToDiscard = -1;
 
         // Get valid response from user
         while (true) {
@@ -131,33 +131,18 @@ public class Main {
                 // User input an invalid integer
                 continue;
             }
-
             break;
         }
 
-        // Discard selected card
-//        switch (cardToDiscard) {
-//            case 1:
-//                newDeck.drawFromStockPile(player.getHandGroup());
-//                break;
-//            case 2:
-//                newDeck.drawFromDiscardPile(player.getHandGroup());
-//                break;
-//        }
+        System.out.print("Discarded ");
+        outputCardToTerminalInColor(hand.get(cardToDiscard));
+        //  Discard selected card
+        newDeck.discardCard(hand.remove(cardToDiscard));
+
         outputGameStatus(hand, newDeck);
     }
 }
 
-//    public static void getPlayerAction() {
-//        // Display options: draw from deck, draw from discard, meld (create new run or book), lay off (add to existing run or book)
-//        // Receive player input
-////        System.out.println("");
-//    }
-
-//    public static void aiStrategize() {
-//        // if whatever, do whatever
-//    }
-//
 //    public static void calculateScore() {
 //        // TODO
 //    }

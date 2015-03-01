@@ -51,7 +51,7 @@ public class Deck {
         hand.add(this.getDiscardPile().pop());
     }
 
-//    public static void discard(Card card) {
-//        //
-//    }
+    public void discardCard(Card card) {
+        this.discardPile.addCard(card);
+    }
 }

@@ -59,13 +59,4 @@ public class Card {
     }
 
     public char getSuit() { return suit; }
-
-//    public int getSuitId() {
-//        return suitId;
-//    }
-
-//    public int getValueId() {
-//        return valueId;
-//    }
-
 }
