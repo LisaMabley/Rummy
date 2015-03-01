@@ -73,7 +73,7 @@ public class Main {
     }
 
     public static void draw(LinkedList<Card> hand, Deck newDeck) {
-        System.out.println("DRAW:\n");
+        System.out.println("DRAW:");
         int drawFromPile = 0;
 
         // Get valid response from user
@@ -111,7 +111,23 @@ public class Main {
 
     public static void discard(LinkedList<Card> hand, Deck newDeck) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        int cardToDiscard = -1;
+        int indexOfCardToDiscard = selectCard(hand);
+
+        // Output action
+        System.out.print("\nDiscarded ");
+        outputCardToTerminalInColor(hand.get(indexOfCardToDiscard));
+
+        //  Discard selected card
+        newDeck.discardCard(hand.remove(indexOfCardToDiscard));
+
+        // For confirmation. DELETE when game is final
+        outputGameStatus(hand, newDeck);
+    }
+
+    public static int selectCard(LinkedList<Card> hand) {
+        // Returns a positive int indicating which card user wishes to select from their hand
+
+        int cardIndex = -1;
 
         // Get valid response from user
         while (true) {
@@ -119,27 +135,21 @@ public class Main {
             System.out.println("Please use your number keypad to enter which card, as counted from the left.");
 
             try {
-                cardToDiscard = scanner.nextInt();
-                cardToDiscard --;
+                cardIndex = scanner.nextInt();
+                cardIndex --;
 
             } catch (InputMismatchException ime) {
                 // User did not input an integer
                 continue;
             }
 
-            if (cardToDiscard < 0 || cardToDiscard > hand.size()) {
+            if (cardIndex < 0 || cardIndex > hand.size()) {
                 // User input an invalid integer
                 continue;
             }
             break;
         }
-
-        System.out.print("Discarded ");
-        outputCardToTerminalInColor(hand.get(cardToDiscard));
-        //  Discard selected card
-        newDeck.discardCard(hand.remove(cardToDiscard));
-
-        outputGameStatus(hand, newDeck);
+        return cardIndex;
     }
 }
 
