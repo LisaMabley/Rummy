@@ -9,11 +9,7 @@ public class Player {
     private LinkedList<Run> runs = new LinkedList<Run>();
     private LinkedList<Book> books = new LinkedList<Book>();
 
-    public LinkedList<Card> getHandCards() {
+    public LinkedList<Card> getHand() {
         return hand.getGroup();
-    }
-
-    public CardGroup getHandGroup() {
-        return hand;
     }
 }

@@ -16,13 +16,13 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHandCards());
-        newDeck.dealCards(10, computerAiPlayer.getHandCards());
+        newDeck.dealCards(10, humanPlayer.getHand());
+        newDeck.dealCards(10, computerAiPlayer.getHand());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer.getHandCards(), newDeck);
-        draw(humanPlayer.getHandCards(), newDeck);
-        discard(humanPlayer.getHandCards(), newDeck);
+        outputGameStatus(humanPlayer.getHand(), newDeck);
+        draw(humanPlayer.getHand(), newDeck);
+        discard(humanPlayer.getHand(), newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
