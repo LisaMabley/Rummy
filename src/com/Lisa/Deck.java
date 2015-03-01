@@ -22,11 +22,18 @@ public class Deck {
         }
     }
 
-    public CardGroup getStock() {
-        return stock;
+    public LinkedList<Card> getStockCards() {
+
+        return stock.getGroup();
     }
 
-    public CardGroup getDiscardPile() {
+    public LinkedList<Card> getDiscardPileCards() {
+
+        return discardPile.getGroup();
+    }
+
+    public CardGroup getDiscardPileGroup() {
+
         return discardPile;
     }
 

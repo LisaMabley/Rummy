@@ -15,9 +15,9 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHand());
-        newDeck.dealCards(10, computerAiPlayer.getHand());
-        newDeck.dealCards(1, newDeck.getDiscardPile());
+        newDeck.dealCards(10, humanPlayer.getHandGroup());
+        newDeck.dealCards(10, computerAiPlayer.getHandGroup());
+        newDeck.dealCards(1, newDeck.getDiscardPileGroup());
 
         outputGameStatus(humanPlayer, newDeck);
         draw(humanPlayer, newDeck);
@@ -39,19 +39,19 @@ public class Main {
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
-        for (Card card : human.getHand().getGroup()) {
+        for (Card card : human.getHandCards()) {
             outputCardToTerminalInColor(card);
-            if (card != human.getHand().getGroup().getLast()) {
+            if (card != human.getHandCards().getLast()) {
                 System.out.print(", ");
             }
         }
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
-        if (newDeck.getDiscardPile().getGroup().isEmpty()) {
-            newDeck.dealCards(1, newDeck.getDiscardPile());
+        if (newDeck.getDiscardPileCards().isEmpty()) {
+            newDeck.dealCards(1, newDeck.getDiscardPileGroup());
         }
-        outputCardToTerminalInColor(newDeck.getDiscardPile().getGroup().peek());
+        outputCardToTerminalInColor(newDeck.getDiscardPileCards().peek());
 
         // Display all runs and books on table
         System.out.println("\n");
@@ -98,10 +98,10 @@ public class Main {
         // Draw card from selected pile
         switch (drawFromPile) {
             case 1:
-                newDeck.drawFromStockPile(player.getHand());
+                newDeck.drawFromStockPile(player.getHandGroup());
                 break;
             case 2:
-                newDeck.drawFromDiscardPile(player.getHand());
+                newDeck.drawFromDiscardPile(player.getHandGroup());
                 break;
         }
         outputGameStatus(player, newDeck);
