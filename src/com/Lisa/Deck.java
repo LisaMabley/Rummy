@@ -1,4 +1,5 @@
 package com.Lisa;
+
 import java.util.*;
 
 // Created by lisa on 2/18/15.
@@ -22,37 +23,32 @@ public class Deck {
         }
     }
 
-    public LinkedList<Card> getStockCards() {
+    public LinkedList<Card> getStockPile() {
 
         return stock.getGroup();
     }
 
-    public LinkedList<Card> getDiscardPileCards() {
+    public LinkedList<Card> getDiscardPile() {
 
         return discardPile.getGroup();
     }
 
-    public CardGroup getDiscardPileGroup() {
-
-        return discardPile;
-    }
-
-    public void dealCards(int numCards, CardGroup group) {
+    public void dealCards(int numCards, LinkedList<Card> group) {
 
         Random randomNumberGenerator = new Random();
 
         for (int x = 0; x < numCards; x ++) {
-            int cardIndex = randomNumberGenerator.nextInt(this.stock.getGroup().size());
-            group.addCard(this.stock.getGroup().remove(cardIndex));
+            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
+            group.add(this.getStockPile().remove(cardIndex));
         }
     }
 
-    public void drawFromStockPile(CardGroup hand) {
+    public void drawFromStockPile(LinkedList<Card> hand) {
         dealCards(1, hand);
     }
 
-    public void drawFromDiscardPile(CardGroup hand) {
-        hand.getGroup().add(discardPile.getGroup().pop());
+    public void drawFromDiscardPile(LinkedList<Card> hand) {
+        hand.add(this.getDiscardPile().pop());
     }
 
 //    public static void discard(Card card) {

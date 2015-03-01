@@ -1,6 +1,7 @@
 package com.Lisa;
 
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
@@ -15,12 +16,13 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHandGroup());
-        newDeck.dealCards(10, computerAiPlayer.getHandGroup());
-        newDeck.dealCards(1, newDeck.getDiscardPileGroup());
+        newDeck.dealCards(10, humanPlayer.getHandCards());
+        newDeck.dealCards(10, computerAiPlayer.getHandCards());
+        newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer, newDeck);
-        draw(humanPlayer, newDeck);
+        outputGameStatus(humanPlayer.getHandCards(), newDeck);
+        draw(humanPlayer.getHandCards(), newDeck);
+        discard(humanPlayer.getHandCards(), newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -35,23 +37,23 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(Player human, Deck newDeck) {
+    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck) {
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
-        for (Card card : human.getHandCards()) {
+        for (Card card : hand) {
             outputCardToTerminalInColor(card);
-            if (card != human.getHandCards().getLast()) {
+            if (card != hand.getLast()) {
                 System.out.print(", ");
             }
         }
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
-        if (newDeck.getDiscardPileCards().isEmpty()) {
-            newDeck.dealCards(1, newDeck.getDiscardPileGroup());
+        if (newDeck.getDiscardPile().isEmpty()) {
+            newDeck.dealCards(1, newDeck.getDiscardPile());
         }
-        outputCardToTerminalInColor(newDeck.getDiscardPileCards().peek());
+        outputCardToTerminalInColor(newDeck.getDiscardPile().peek());
 
         // Display all runs and books on table
         System.out.println("\n");
@@ -70,7 +72,7 @@ public class Main {
         }
     }
 
-    public static void draw(Player player, Deck newDeck) {
+    public static void draw(LinkedList<Card> hand, Deck newDeck) {
         System.out.println("DRAW:\n");
         int drawFromPile = 0;
 
@@ -98,14 +100,53 @@ public class Main {
         // Draw card from selected pile
         switch (drawFromPile) {
             case 1:
-                newDeck.drawFromStockPile(player.getHandGroup());
+                newDeck.drawFromStockPile(hand);
                 break;
             case 2:
-                newDeck.drawFromDiscardPile(player.getHandGroup());
+                newDeck.drawFromDiscardPile(hand);
                 break;
         }
-        outputGameStatus(player, newDeck);
+        outputGameStatus(hand, newDeck);
     }
+
+    public static void discard(LinkedList<Card> hand, Deck newDeck) {
+        System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
+        int cardToDiscard = 0;
+
+        // Get valid response from user
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please use your number keypad to enter which card, as counted from the left.");
+
+            try {
+                cardToDiscard = scanner.nextInt();
+                cardToDiscard --;
+
+            } catch (InputMismatchException ime) {
+                // User did not input an integer
+                continue;
+            }
+
+            if (cardToDiscard < 0 || cardToDiscard > hand.size()) {
+                // User input an invalid integer
+                continue;
+            }
+
+            break;
+        }
+
+        // Discard selected card
+//        switch (cardToDiscard) {
+//            case 1:
+//                newDeck.drawFromStockPile(player.getHandGroup());
+//                break;
+//            case 2:
+//                newDeck.drawFromDiscardPile(player.getHandGroup());
+//                break;
+//        }
+        outputGameStatus(hand, newDeck);
+    }
+}
 
 //    public static void getPlayerAction() {
 //        // Display options: draw from deck, draw from discard, meld (create new run or book), lay off (add to existing run or book)
@@ -120,4 +161,4 @@ public class Main {
 //    public static void calculateScore() {
 //        // TODO
 //    }
-}
+//}
