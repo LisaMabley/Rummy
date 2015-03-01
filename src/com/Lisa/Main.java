@@ -13,13 +13,14 @@ public class Main {
 
         // Initialize hands
         Player humanPlayer = new Player();
-        Player computerAiPlayer = new Player();
+        Player computerAiPlayer = new ComputerPlayer();
 
         // Opening deal
         newDeck.dealCards(10, humanPlayer.getHand());
         newDeck.dealCards(10, computerAiPlayer.getHand());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
+        // While loop to come
         outputGameStatus(humanPlayer.getHand(), newDeck);
         draw(humanPlayer.getHand(), newDeck);
         discard(humanPlayer.getHand(), newDeck);
@@ -31,7 +32,6 @@ public class Main {
     }
 
 //    public static void startRound() {
-//        // check if discard pile is empty
 //        // interactWithHuman()
 //        // aiStrategize()
 //        // check if any player's hand is empty (they have won)
