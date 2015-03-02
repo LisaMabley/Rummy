@@ -45,21 +45,29 @@ public class ComputerPlayer extends Player {
 
     public void aiDiscard(Deck deck) {
         // Evaluates options and chooses which card to discard
-        // TODO do not allow card that was picked up from discard this turn do be discarded
 
         LinkedList<Card> discardPossibilities = new LinkedList<Card>();
         discardPossibilities.addAll(hand.getGroup());
         Card cardToDiscard = discardPossibilities.peek();
+        boolean cardDrawnFromDiscardPileThisTurn = false;
+        Card cardFromDiscard = hand.getGroup().getFirst();
 
         // Remove cards with possible melds from consideration
         for (Card card : hand.getGroup()) {
-            if (possibleMelds(card)) {
+            if (!card.canDiscardThisTurn()) {
+                cardDrawnFromDiscardPileThisTurn = true;
+                cardFromDiscard = card;
+                discardPossibilities.remove(card);
+            } else if (possibleMelds(card)) {
                 discardPossibilities.remove(card);
             }
         }
 
         if (discardPossibilities.isEmpty()) {
-            discardPossibilities = hand.getGroup();
+            discardPossibilities.addAll(hand.getGroup());
+            if (cardDrawnFromDiscardPileThisTurn == true) {
+                discardPossibilities.remove(cardFromDiscard);
+            }
         }
 
         // Choose smallest card of smallest suit in hand from remaining cards

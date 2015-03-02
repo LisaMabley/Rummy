@@ -9,10 +9,13 @@ public class Card {
     private int suitId;
     private int valueId;
 
+    private boolean canDiscardThisTurn;
+
     public Card(int suit, int value) {
         this.suitId = suit;
         this.valueId = value;
         this.name = cardString(suit, value);
+        this.canDiscardThisTurn = true;
     }
 
     private String cardString(int suitId, int valueId){
@@ -54,6 +57,7 @@ public class Card {
         return stringName;
     }
 
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -61,4 +65,16 @@ public class Card {
     public char getSuit() { return suit; }
 
     public int getValueId() { return valueId; }
+
+    public boolean canDiscardThisTurn() {
+        return canDiscardThisTurn;
+    }
+
+    public void changeCanDiscardThisTurn() {
+        if (this.canDiscardThisTurn) {
+            this.canDiscardThisTurn = false;
+        } else {
+            this.canDiscardThisTurn = true;
+        }
+    }
 }

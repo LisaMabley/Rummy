@@ -119,6 +119,11 @@ public class Main {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
         int indexOfCardToDiscard = selectCard(hand);
 
+        while (!hand.get(indexOfCardToDiscard).canDiscardThisTurn()) {
+            System.out.println("Please discard a different card than the one you drew from the discard pile this turn.");
+            indexOfCardToDiscard = selectCard(hand);
+        }
+
         // Output action
         System.out.print("\nDiscarded ");
         outputCardToTerminalInColor(hand.get(indexOfCardToDiscard));

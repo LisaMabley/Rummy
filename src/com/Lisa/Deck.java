@@ -51,10 +51,16 @@ public class Deck {
     }
 
     public void drawFromDiscardPile(LinkedList<Card> hand) {
-        hand.add(this.getDiscardPile().pop());
+
+        Card cardDrawnFromDiscard = this.getDiscardPile().pop();
+        cardDrawnFromDiscard.changeCanDiscardThisTurn();
+        hand.add(cardDrawnFromDiscard);
     }
 
     public void discardCard(Card card) {
+        if (!card.canDiscardThisTurn()) {
+            card.changeCanDiscardThisTurn();
+        }
         this.getDiscardPile().push(card);
     }
 }
