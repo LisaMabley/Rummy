@@ -13,17 +13,22 @@ public class Main {
 
         // Initialize hands
         Player humanPlayer = new Player();
-        Player computerAiPlayer = new ComputerPlayer();
+        ComputerPlayer computerAiPlayer = new ComputerPlayer();
 
         // Opening deal
         newDeck.dealCards(10, humanPlayer.getHand());
         newDeck.dealCards(10, computerAiPlayer.getHand());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        // While loop to come
+        // While loop to come to repeat turns
         outputGameStatus(humanPlayer.getHand(), newDeck);
         draw(humanPlayer.getHand(), newDeck);
         discard(humanPlayer.getHand(), newDeck);
+
+        // Computer player's turn
+        computerAiPlayer.aiDraw(newDeck);
+        outputGameStatus(computerAiPlayer.getHand(), newDeck);
+
 
         // While whatever startRound()
         // When whatever calculateScore()

@@ -59,4 +59,6 @@ public class Card {
     }
 
     public char getSuit() { return suit; }
+
+    public int getValueId() { return valueId; }
 }

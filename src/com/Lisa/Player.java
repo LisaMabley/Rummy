@@ -5,9 +5,9 @@ import java.util.*;
 
 public class Player {
 
-    private CardGroup hand = new CardGroup();
-    private LinkedList<Run> runs = new LinkedList<Run>();
-    private LinkedList<Book> books = new LinkedList<Book>();
+    protected CardGroup hand = new CardGroup();
+    protected LinkedList<Run> runs = new LinkedList<Run>();
+    protected LinkedList<Book> books = new LinkedList<Book>();
 
     public LinkedList<Card> getHand() {
         return hand.getGroup();
