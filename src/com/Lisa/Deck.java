@@ -1,5 +1,6 @@
 package com.Lisa;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 // Created by lisa on 2/18/15.
@@ -8,6 +9,8 @@ public class Deck {
 
     private CardGroup stock = new CardGroup();
     private CardGroup discardPile = new CardGroup();
+
+    public static int[] suits = { 9824, 9827, 9829, 9830 };
 
     public Deck() {
         // Generate cards

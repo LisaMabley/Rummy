@@ -28,7 +28,8 @@ public class Main {
         // Computer player's turn
         computerAiPlayer.aiDraw(newDeck);
         outputGameStatus(computerAiPlayer.getHand(), newDeck);
-
+        computerAiPlayer.aiDiscard(newDeck);
+        outputGameStatus(computerAiPlayer.getHand(), newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
