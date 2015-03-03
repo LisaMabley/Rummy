@@ -54,4 +54,5 @@ public class Deck {
     public void discardCard(Card card) {
         this.getDiscardPile().push(card);
     }
+
 }

@@ -4,4 +4,10 @@ package com.Lisa;
 
 public class Book extends CardGroup {
 
+    private CardGroup stockBook = new CardGroup();
+
+    public Book() {
+
+    }
+
 }
