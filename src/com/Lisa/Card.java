@@ -2,7 +2,7 @@ package com.Lisa;
 
 // Created by lisa on 2/18/15.
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private String name;
     private char suit;
@@ -55,6 +55,18 @@ public class Card {
 
         stringName += Character.toString(this.suit);
         return stringName;
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        int comparedValue = card.valueId;
+        if (this.valueId > comparedValue) {
+            return 1;
+        } else if (this.valueId == comparedValue) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 
     // Getters and setters

@@ -21,9 +21,9 @@ public class Main {
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
         // While loop to come to repeat turns
-        outputGameStatus(humanPlayer.getHand(), newDeck);
-        draw(humanPlayer.getHand(), newDeck);
-        discard(humanPlayer.getHand(), newDeck);
+        outputGameStatus(humanPlayer.getSortedHand(), newDeck);
+        draw(humanPlayer.getSortedHand(), newDeck);
+        discard(humanPlayer.getSortedHand(), newDeck);
 
         // Computer player's turn
         computerAiPlayer.aiDraw(newDeck);
@@ -47,6 +47,7 @@ public class Main {
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
+
         for (Card card : hand) {
             outputCardToTerminalInColor(card);
             if (card != hand.getLast()) {

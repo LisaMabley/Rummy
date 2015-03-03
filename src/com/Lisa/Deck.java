@@ -26,16 +26,6 @@ public class Deck {
         }
     }
 
-    public LinkedList<Card> getStockPile() {
-
-        return stock.getGroup();
-    }
-
-    public LinkedList<Card> getDiscardPile() {
-
-        return discardPile.getGroup();
-    }
-
     public void dealCards(int numCards, LinkedList<Card> group) {
 
         Random randomNumberGenerator = new Random();
@@ -62,5 +52,16 @@ public class Deck {
             card.changeCanDiscardThisTurn();
         }
         this.getDiscardPile().push(card);
+    }
+
+    // Getters
+    public LinkedList<Card> getStockPile() {
+
+        return stock.getGroup();
+    }
+
+    public LinkedList<Card> getDiscardPile() {
+
+        return discardPile.getGroup();
     }
 }

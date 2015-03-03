@@ -12,4 +12,9 @@ public class Player {
     public LinkedList<Card> getHand() {
         return hand.getGroup();
     }
+
+    public LinkedList<Card> getSortedHand() {
+        hand.sortGroup();
+        return hand.getGroup();
+    }
 }
