@@ -30,30 +30,30 @@ public class Deck {
         return stock.getGroup();
     }
 
-    public LinkedList<Card> getDiscardPile() {
+    public CardGroup getDiscardPile() {
 
-        return discardPile.getGroup();
+        return discardPile;
     }
 
-    public void dealCards(int numCards, LinkedList<Card> group) {
+    public void dealCards(int numCards, CardGroup group) {
 
         Random randomNumberGenerator = new Random();
 
         for (int x = 0; x < numCards; x ++) {
             int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
-            group.add(this.getStockPile().remove(cardIndex));
+            group.addCardAndSort(this.getStockPile().remove(cardIndex));
         }
     }
 
-    public void drawFromStockPile(LinkedList<Card> hand) {
+    public void drawFromStockPile(CardGroup hand) {
         dealCards(1, hand);
     }
 
-    public void drawFromDiscardPile(LinkedList<Card> hand) {
-        hand.add(this.getDiscardPile().pop());
+    public void drawFromDiscardPile(CardGroup hand) {
+        hand.getGroup().add(this.getDiscardPile().getGroup().pop());
     }
 
     public void discardCard(Card card) {
-        this.getDiscardPile().push(card);
+        this.getDiscardPile().getGroup().push(card);
     }
 }

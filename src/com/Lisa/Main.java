@@ -16,13 +16,13 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHand());
-        newDeck.dealCards(10, computerAiPlayer.getHand());
+        newDeck.dealCards(10, humanPlayer.getHandGroup());
+        newDeck.dealCards(10, computerAiPlayer.getHandGroup());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer.getHand(), newDeck);
-        draw(humanPlayer.getHand(), newDeck);
-        discard(humanPlayer.getHand(), newDeck);
+        outputGameStatus(humanPlayer.getHandGroup(), newDeck);
+        draw(humanPlayer.getHandGroup(), newDeck);
+        discard(humanPlayer.getHandGroup(), newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -37,23 +37,25 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck) {
+    public static void outputGameStatus(CardGroup handGroup, Deck newDeck) {
+
+        LinkedList<Card> handCards = handGroup.getGroup();
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
-        for (Card card : hand) {
+        for (Card card : handCards) {
             outputCardToTerminalInColor(card);
-            if (card != hand.getLast()) {
+            if (card != handCards.getLast()) {
                 System.out.print(", ");
             }
         }
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
-        if (newDeck.getDiscardPile().isEmpty()) {
+        if (newDeck.getDiscardPile().getGroup().isEmpty()) {
             newDeck.dealCards(1, newDeck.getDiscardPile());
         }
-        outputCardToTerminalInColor(newDeck.getDiscardPile().peek());
+        outputCardToTerminalInColor(newDeck.getDiscardPile().getGroup().peek());
 
         // Display all runs and books on table
         System.out.println("\n");
@@ -72,7 +74,7 @@ public class Main {
         }
     }
 
-    public static void draw(LinkedList<Card> hand, Deck newDeck) {
+    public static void draw(CardGroup hand, Deck newDeck) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -109,16 +111,16 @@ public class Main {
         outputGameStatus(hand, newDeck);
     }
 
-    public static void discard(LinkedList<Card> hand, Deck newDeck) {
+    public static void discard(CardGroup hand, Deck newDeck) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        int indexOfCardToDiscard = selectCard(hand);
+        int indexOfCardToDiscard = selectCard(hand.getGroup());
 
         // Output action
         System.out.print("\nDiscarded ");
-        outputCardToTerminalInColor(hand.get(indexOfCardToDiscard));
+        outputCardToTerminalInColor(hand.getGroup().get(indexOfCardToDiscard));
 
         //  Discard selected card
-        newDeck.discardCard(hand.remove(indexOfCardToDiscard));
+        newDeck.discardCard(hand.getGroup().remove(indexOfCardToDiscard));
 
         // For confirmation. DELETE when game is final
         outputGameStatus(hand, newDeck);
