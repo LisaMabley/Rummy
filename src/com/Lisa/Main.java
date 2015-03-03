@@ -1,7 +1,5 @@
 package com.Lisa;
 
-import sun.awt.image.ImageWatched;
-
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -13,12 +11,6 @@ public class Main {
         // Initialize deck
         Deck newDeck = new Deck();
 
-        Book humanBook = new Book();
-        Book computerBook = new Book();
-
-        Run humanRun = new Run();
-        Run computerRun = new Run();
-
         // Initialize hands
         Player humanPlayer = new Player();
         Player computerAiPlayer = new Player();
@@ -28,10 +20,9 @@ public class Main {
         newDeck.dealCards(10, computerAiPlayer.getHand());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        draw(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        meld(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        discard(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        outputGameStatus(humanPlayer.getHand(), newDeck);
+        draw(humanPlayer.getHand(), newDeck);
+        discard(humanPlayer.getHand(), newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -46,7 +37,7 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck) {
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
@@ -56,11 +47,6 @@ public class Main {
                 System.out.print(", ");
             }
         }
-        System.out.println("\n\nMELD PILE:");
-        for (Card card : runs) {
-            outputCardToTerminalInColor(card);
-        }
-
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
@@ -86,7 +72,7 @@ public class Main {
         }
     }
 
-    public static void draw(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void draw(LinkedList<Card> hand, Deck newDeck) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -120,35 +106,10 @@ public class Main {
                 newDeck.drawFromDiscardPile(hand);
                 break;
         }
-        outputGameStatus(hand, newDeck, books, runs);
+        outputGameStatus(hand, newDeck);
     }
 
-    public static void meld(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
-        System.out.println("MELD:\nWould you like to meld any runs or books?");
-        LinkedList<Card> meldList = new LinkedList<Card>();
-        while (true) {
-            outputGameStatus(hand, newDeck, books, runs);
-            int indexOfCardToMeld = selectCard(hand);
-            meldList.add(hand.get(indexOfCardToMeld));
-//            int indexOfCardToMeld = selectCard(hand);
-            System.out.println("Any more? Enter 0 if you're done");
-//            meldList.add(hand.get(indexOfCardToMeld));
-            if (indexOfCardToMeld == 0) {
-                outputCardToTerminalInColor(hand.get(indexOfCardToMeld));
-                break;
-            }
-        }
-
-
-        // Output action
-        System.out.print("\nMelded \n");
-        outputGameStatus(hand, newDeck, books, runs);
-
-        // For confirmation. DELETE when game is final
-//        outputGameStatus(hand, newDeck);
-    }
-
-    public static void discard(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void discard(LinkedList<Card> hand, Deck newDeck) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
         int indexOfCardToDiscard = selectCard(hand);
 
@@ -160,7 +121,7 @@ public class Main {
         newDeck.discardCard(hand.remove(indexOfCardToDiscard));
 
         // For confirmation. DELETE when game is final
-        outputGameStatus(hand, newDeck, books, runs);
+        outputGameStatus(hand, newDeck);
     }
 
     public static int selectCard(LinkedList<Card> hand) {

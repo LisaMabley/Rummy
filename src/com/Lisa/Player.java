@@ -6,19 +6,11 @@ import java.util.*;
 public class Player {
 
     private CardGroup hand = new CardGroup();
-    private CardGroup runs = new CardGroup();
-    private CardGroup books = new CardGroup();
+    private LinkedList<Run> runs = new LinkedList<Run>();
+    private LinkedList<Book> books = new LinkedList<Book>();
 
     public LinkedList<Card> getHand() {
         return hand.getGroup();
-    }
-
-    public LinkedList<Card> getRuns() {
-        return runs.getGroup();
-    }
-
-    public LinkedList<Card> getBooks() {
-        return books.getGroup();
     }
     // This is a change
 }

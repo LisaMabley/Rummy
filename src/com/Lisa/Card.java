@@ -2,17 +2,20 @@ package com.Lisa;
 
 // Created by lisa on 2/18/15.
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private String name;
     private char suit;
     private int suitId;
     private int valueId;
 
+    private boolean canDiscardThisTurn;
+
     public Card(int suit, int value) {
         this.suitId = suit;
         this.valueId = value;
         this.name = cardString(suit, value);
+        this.canDiscardThisTurn = true;
     }
 
     private String cardString(int suitId, int valueId){
@@ -54,9 +57,36 @@ public class Card {
         return stringName;
     }
 
+    @Override
+    public int compareTo(Card card) {
+        int comparedValue = card.valueId;
+        if (this.valueId > comparedValue) {
+            return 1;
+        } else if (this.valueId == comparedValue) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+
+    // Getters and setters
     public String getName() {
         return name;
     }
 
     public char getSuit() { return suit; }
+
+    public int getValueId() { return valueId; }
+
+    public boolean canDiscardThisTurn() {
+        return canDiscardThisTurn;
+    }
+
+    public void changeCanDiscardThisTurn() {
+        if (this.canDiscardThisTurn) {
+            this.canDiscardThisTurn = false;
+        } else {
+            this.canDiscardThisTurn = true;
+        }
+    }
 }
