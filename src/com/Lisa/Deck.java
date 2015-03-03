@@ -9,6 +9,8 @@ public class Deck {
     private CardGroup stock = new CardGroup();
     private CardGroup discardPile = new CardGroup();
 
+    public static int[] suits = { 9824, 9827, 9829, 9830 };
+
     public Deck() {
         // Generate cards
         for (int x = 1; x < 5; x++) {

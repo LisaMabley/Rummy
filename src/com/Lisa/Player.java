@@ -12,5 +12,4 @@ public class Player {
     public LinkedList<Card> getHand() {
         return hand.getGroup();
     }
-    // This is a change
 }
