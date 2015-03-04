@@ -28,10 +28,10 @@ public class Main {
         newDeck.dealCards(10, computerAiPlayer.getHand());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        draw(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        meld(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        discard(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        outputGameStatus(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        draw(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        meld(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        discard(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -46,7 +46,15 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void outputGameStatus(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+        // Output computer cards for test
+        System.out.println("\nCPU HAND:");
+        for (Card card : cpuHand) {
+            outputCardToTerminalInColor(card);
+            if (card != cpuHand.getLast()) {
+                System.out.print(", ");
+            }
+        }
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
@@ -58,6 +66,9 @@ public class Main {
         }
         System.out.println("\n\nMELD PILE:");
         for (Card card : runs) {
+            outputCardToTerminalInColor(card);
+        }
+        for (Card card : books) {
             outputCardToTerminalInColor(card);
         }
 
@@ -86,7 +97,7 @@ public class Main {
         }
     }
 
-    public static void draw(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void draw(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -120,14 +131,14 @@ public class Main {
                 newDeck.drawFromDiscardPile(hand);
                 break;
         }
-        outputGameStatus(hand, newDeck, books, runs);
+        outputGameStatus(cpuHand, hand, newDeck, books, runs);
     }
 
-    public static void meld(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void meld(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("MELD:\nWould you like to meld any runs or books?");
         LinkedList<Card> meldList = new LinkedList<Card>();
         while (true) {
-            outputGameStatus(hand, newDeck, books, runs);
+            outputGameStatus(cpuHand, hand, newDeck, books, runs);
             int indexOfCardToMeld = selectCard(hand);
             meldList.add(hand.get(indexOfCardToMeld));
 //            int indexOfCardToMeld = selectCard(hand);
@@ -137,18 +148,25 @@ public class Main {
                 outputCardToTerminalInColor(hand.get(indexOfCardToMeld));
                 break;
             }
+            System.out.println("CURRENT MELD: " );
+            for (Card card : meldList) {
+                outputCardToTerminalInColor(card);
+                if (card != meldList.getLast()) {
+                    System.out.print(", ");
+                }
+            }
         }
 
 
         // Output action
         System.out.print("\nMelded \n");
-        outputGameStatus(hand, newDeck, books, runs);
+        outputGameStatus(cpuHand, hand, newDeck, books, runs);
 
         // For confirmation. DELETE when game is final
 //        outputGameStatus(hand, newDeck);
     }
 
-    public static void discard(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void discard(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
         int indexOfCardToDiscard = selectCard(hand);
 
@@ -160,7 +178,7 @@ public class Main {
         newDeck.discardCard(hand.remove(indexOfCardToDiscard));
 
         // For confirmation. DELETE when game is final
-        outputGameStatus(hand, newDeck, books, runs);
+        outputGameStatus(cpuHand, hand, newDeck, books, runs);
     }
 
     public static int selectCard(LinkedList<Card> hand) {
