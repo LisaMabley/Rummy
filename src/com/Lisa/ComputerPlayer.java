@@ -6,6 +6,11 @@ import java.util.LinkedList;
 
 public class ComputerPlayer extends Player {
 
+    // Constructor
+    public ComputerPlayer(String name) {
+        this.nickname = name;
+    }
+
     private boolean possibleMelds(Card card) {
         // Check for possible melds in computer player's hand with any given card
 
@@ -26,13 +31,13 @@ public class ComputerPlayer extends Player {
         return possibleMelds;
     }
 
-    public void aiDraw(Deck deck) {
+    public void computerDraw(Deck deck) {
         // Evaluates options and chooses which pile to draw from
 
         Card discardOption = deck.getDiscardPile().getGroup().peek();
         boolean discardOptionProvidesPossibleMelds = possibleMelds(discardOption);
 
-        // Execute AIs choice
+        // Execute computer player's choice
         if (discardOptionProvidesPossibleMelds) {
             deck.drawFromDiscardPile(hand);
             System.out.println("Your cunning opponent is drawing from the discard pile.");
@@ -43,7 +48,8 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    public void aiDiscard(Deck deck) {
+    @Override
+    public Card makeDiscardChoice(Deck deck) {
         // Evaluates computer player's options and chooses which card to discard
 
         LinkedList<Card> discardPossibilities = new LinkedList<Card>();
@@ -95,9 +101,6 @@ public class ComputerPlayer extends Player {
             }
         }
 
-        System.out.print("Your cunning opponent has discarded ");
-        cardToDiscard.outputCardToTerminalInColor();
-        hand.getGroup().remove(cardToDiscard);
-        deck.discardCard(this, cardToDiscard);
+        return cardToDiscard;
     }
 }

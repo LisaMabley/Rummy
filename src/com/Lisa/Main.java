@@ -11,35 +11,27 @@ public class Main {
         // Initialize deck
         Deck newDeck = new Deck();
 
-        Book humanBook = new Book();
-        Book computerBook = new Book();
-
-        Run humanRun = new Run();
-        Run computerRun = new Run();
+//        Doesn't this just create a new instance of each class?
+//        Don't we want a LinkedList?
+//        Book humanBook = new Book();
+//        Book computerBook = new Book();
+//
+//        Run humanRun = new Run();
+//        Run computerRun = new Run();
 
         // Initialize hands
-        Player humanPlayer = new Player();
-        Player computerAiPlayer = new Player();
+        HumanPlayer humanPlayer = new HumanPlayer("You");
+        ComputerPlayer computerPlayer = new ComputerPlayer("Your cunning opponent");
 
         // Opening deal
         newDeck.dealCards(10, humanPlayer.getHandGroup());
-        newDeck.dealCards(10, computerAiPlayer.getHandGroup());
+        newDeck.dealCards(10, computerPlayer.getHandGroup());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        outputGameStatus(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        newDeck.outputGameStatus(humanPlayer, computerPlayer);
         draw(humanPlayer, newDeck);
         meld(humanPlayer, newDeck);
-        discard(humanPlayer, newDeck);
-
-//        outputGameStatus(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-//        draw(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-//        meld(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-//        discard(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-
-        // While whatever startRound()
-        // When whatever calculateScore()
-        // Display score
-        // Ask if player wants to play again
+        newDeck.discard(humanPlayer);
     }
 
 //    public static void startRound() {
@@ -49,41 +41,8 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(CardGroup handGroup, Deck newDeck,
-                                        LinkedList<Card> books, LinkedList<Card> runs) {
-
-        LinkedList<Card> handCards = handGroup.getGroup();
-
-        // Output player cards
-        System.out.println("\nYOUR HAND:");
-        for (Card card : handCards) {
-            card.outputCardToTerminalInColor();
-            ;
-            if (card != handCards.getLast()) {
-                System.out.print(", ");
-            }
-        }
-
-        System.out.println("\n\nMELD PILE:");
-        for (Card card : runs) {
-            card.outputCardToTerminalInColor();
-            ;
-        }
-        for (Card card : books) {
-            card.outputCardToTerminalInColor();
-        }
-
-        // Display top card in discard pile
-        System.out.println("\n\nDISCARD PILE:");
-        if (newDeck.getDiscardPile().getGroup().isEmpty()) {
-            newDeck.dealCards(1, newDeck.getDiscardPile());
-        }
-
-        newDeck.getDiscardPile().getGroup().peek().outputCardToTerminalInColor();
-    }
-
     public static void draw(Player player, Deck newDeck) {
-        System.out.println("DRAW:");
+        System.out.println("\nDRAW:");
         int drawFromPile = 0;
 
         // Get valid response from user
@@ -118,7 +77,7 @@ public class Main {
         }
     }
 
-    public static void meld(Player player, Deck newDeck) {
+    public static void meld(HumanPlayer player, Deck newDeck) {
         System.out.println("MELD:\nWould you like to meld any runs or books?");
         LinkedList<Card> handCards = player.getHand();
 
@@ -145,18 +104,6 @@ public class Main {
 
         // Output action
         System.out.print("\nMelded \n");
-    }
-
-    public static void discard(Player player, Deck newDeck) {
-        System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        Card cardToDiscard = player.selectCardFromPlayerHand();
-
-        // Output action
-        System.out.print("\nDiscarded ");
-        cardToDiscard.outputCardToTerminalInColor();
-
-        //  Discard selected card
-        newDeck.discardCard(player, cardToDiscard);
     }
 }
 
