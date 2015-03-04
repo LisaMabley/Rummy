@@ -62,7 +62,7 @@ public class HumanPlayer extends Player {
 
             try {
                 cardIndex = scanner.nextInt();
-                cardIndex --;
+                cardIndex--;
 
             } catch (InputMismatchException ime) {
                 // User did not input an integer
@@ -82,41 +82,37 @@ public class HumanPlayer extends Player {
 
     public CardGroup makeMeldChoice(Deck newDeck) {
         CardGroup emptyGroup = new CardGroup();
-        scanner = new Scanner(System.in);
-        System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
-                "1. Meld cards\n2. Pass");
         CardGroup possibleMeld = new CardGroup();
+        Run possibleRun = new Run();
+        Book possibleBook = new Book();
 
-        if (scanner.nextInt() == 1) {
+
+        System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
+                "Press 1 to meld cards, any other key to pass.");
+
             while (true) {
-                System.out.println("\nYOUR HAND:");
-                for (Card card : this.getHand()) {
-                    card.outputCardToTerminalInColor();
-                    if (card != this.getHand().getLast()) {
-                        System.out.print(", ");
-                    }
-                }
-                System.out.println("\n");
-                Card cardToMeld = this.selectCardFromPlayerHand();
-                possibleMeld.addCardAndSort(cardToMeld);
-                System.out.println("CURRENT MELD: ");
-                for (Card card : possibleMeld.getGroup()) {
-                    card.outputCardToTerminalInColor();
-                    if (card != possibleMeld.getGroup().getLast()) {
-                        System.out.print(", ");
-                    }
-                }
-                System.out.println("\nAny more cards to meld?\n1. Add more\n2. Done");
 
-                if (scanner.nextInt() == 2) {
-                    cardToMeld.outputCardToTerminalInColor();
-                    break;
+                scanner = new Scanner(System.in);
+                int humanChoice = scanner.nextInt();
+
+                if (humanChoice == 1) {
+                    System.out.println("\nYOUR HAND:");
+                    this.hand.outputGroupOnOneLine();
+                    Card cardToMeld = this.selectCardFromPlayerHand();
+                    possibleMeld.addCardAndSort(cardToMeld);
+
+                    System.out.println("CURRENT MELD: ");
+                    possibleMeld.outputGroupOnOneLine();
+                    System.out.println("\nAny more cards to meld?\n1. Add more\n2. Done");
+
+                } else if (humanChoice == 2) {
+                    return possibleMeld;
+
+                } else {
+                    return emptyGroup;
                 }
             }
-            return possibleMeld;
         }
-        return emptyGroup;
-    }
 
     public void outputGameStatus(Deck newDeck) {
 
@@ -124,7 +120,6 @@ public class HumanPlayer extends Player {
         System.out.println("\nYOUR HAND:");
         for (Card card : this.getHand()) {
             card.outputCardToTerminalInColor();
-            ;
             if (card != this.getHand().getLast()) {
                 System.out.print(", ");
             }
@@ -132,16 +127,16 @@ public class HumanPlayer extends Player {
 
         System.out.println("\n\nYOUR MELDS:");
         System.out.println("Runs");
-        for (Run run : this.getRuns()) {
-            for (Card card : run.getGroup()) {
+        for (int x = 0; x < this.getRuns().size(); x++) {
+            for (Card card : this.getRuns().get(x).getGroup()) {
                 card.outputCardToTerminalInColor();
             }
             System.out.println("\n");
         }
 
         System.out.println("Books");
-        for (Book book : this.getBooks()) {
-            for (Card card : book.getGroup()) {
+        for (int x = 0; x < this.getBooks().size(); x++) {
+            for (Card card : this.getBooks().get(x).getGroup()) {
                 card.outputCardToTerminalInColor();
             }
             System.out.println("\n");

@@ -4,7 +4,4 @@ package com.Lisa;
 
 public class Run extends CardGroup {
     private CardGroup meldPile = new CardGroup();
-
-
-
 }

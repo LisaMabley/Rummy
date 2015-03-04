@@ -31,6 +31,16 @@ public class CardGroup {
         }
     }
 
+    public void outputGroupOnOneLine() {
+        for (Card card : this.getGroup()) {
+            card.outputCardToTerminalInColor();
+            if (card != this.getGroup().getLast()) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("\n");
+    }
+
     // Getter
     public LinkedList<Card> getGroup() {
         return this.group;
