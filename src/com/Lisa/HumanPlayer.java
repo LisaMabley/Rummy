@@ -81,6 +81,7 @@ public class HumanPlayer extends Player {
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
+        CardGroup emptyGroup = new CardGroup();
         Scanner s = new Scanner(System.in);
         System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
                 "1. Meld cards\n2. Pass");
@@ -113,7 +114,7 @@ public class HumanPlayer extends Player {
             return possibleMeld;
 
         }
-        return null;
+        return emptyGroup;
     }
 
     public void outputGameStatus(Deck newDeck) {
