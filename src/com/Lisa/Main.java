@@ -29,7 +29,7 @@ public class Main {
         outputGameStatus(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
         draw(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
         meld(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        discard(humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        discard(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -44,51 +44,37 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
-    public static void outputGameStatus(CardGroup handGroup, Deck newDeck) {
-    public static void outputGameStatus(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void outputGameStatus(CardGroup handGroup, Deck newDeck,
+                                        LinkedList<Card> books, LinkedList<Card> runs) {
 
         LinkedList<Card> handCards = handGroup.getGroup();
 
         // Output player cards
         System.out.println("\nYOUR HAND:");
         for (Card card : handCards) {
-            outputCardToTerminalInColor(card);
+            card.outputCardToTerminalInColor();;
             if (card != handCards.getLast()) {
                 System.out.print(", ");
             }
         }
+
         System.out.println("\n\nMELD PILE:");
         for (Card card : runs) {
-            outputCardToTerminalInColor(card);
+            card.outputCardToTerminalInColor();;
         }
-
 
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
         if (newDeck.getDiscardPile().getGroup().isEmpty()) {
             newDeck.dealCards(1, newDeck.getDiscardPile());
         }
-        outputCardToTerminalInColor(newDeck.getDiscardPile().getGroup().peek());
+        newDeck.getDiscardPile().getGroup().peek().outputCardToTerminalInColor();
 
         // Display all runs and books on table
         System.out.println("\n");
     }
 
-    public static void outputCardToTerminalInColor(Card card) {
-
-        // Set colors for terminal output
-        String ANSI_red = "\u001B[31m";
-        String ANSI_reset_color = "\u001B[0m";
-
-        if (card.getSuit() > 9828) {
-            System.out.print(ANSI_red + card.getName() + ANSI_reset_color);
-        } else {
-            System.out.print(card.getName());
-        }
-    }
-
-    public static void draw(CardGroup hand, Deck newDeck) {
-    public static void draw(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void draw(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -125,22 +111,23 @@ public class Main {
         outputGameStatus(hand, newDeck, books, runs);
     }
 
-    public static void meld(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void meld(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("MELD:\nWould you like to meld any runs or books?");
-        LinkedList<Card> meldList = new LinkedList<Card>();
+        LinkedList<Card> handCards = hand.getGroup();
+
         while (true) {
+            LinkedList<Card> meldList = new LinkedList<Card>();
             outputGameStatus(hand, newDeck, books, runs);
-            int indexOfCardToMeld = selectCard(hand);
-            meldList.add(hand.get(indexOfCardToMeld));
+            int indexOfCardToMeld = selectCard(handCards);
+            meldList.add(handCards.get(indexOfCardToMeld));
 //            int indexOfCardToMeld = selectCard(hand);
             System.out.println("Any more? Enter 0 if you're done");
 //            meldList.add(hand.get(indexOfCardToMeld));
             if (indexOfCardToMeld == 0) {
-                outputCardToTerminalInColor(hand.get(indexOfCardToMeld));
+                handCards.get(indexOfCardToMeld).outputCardToTerminalInColor();
                 break;
             }
         }
-
 
         // Output action
         System.out.print("\nMelded \n");
@@ -150,14 +137,13 @@ public class Main {
 //        outputGameStatus(hand, newDeck);
     }
 
-    public static void discard(LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
-    public static void discard(CardGroup hand, Deck newDeck) {
+    public static void discard(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
         int indexOfCardToDiscard = selectCard(hand.getGroup());
 
         // Output action
         System.out.print("\nDiscarded ");
-        outputCardToTerminalInColor(hand.getGroup().get(indexOfCardToDiscard));
+        hand.getGroup().get(indexOfCardToDiscard).outputCardToTerminalInColor();
 
         //  Discard selected card
         newDeck.discardCard(hand.getGroup().remove(indexOfCardToDiscard));

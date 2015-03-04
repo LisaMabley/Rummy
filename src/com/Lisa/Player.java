@@ -13,6 +13,10 @@ public class Player {
         return hand.getGroup();
     }
 
+    public CardGroup getHandGroup() {
+        return hand;
+    }
+
     public LinkedList<Card> getRuns() {
         return runs.getGroup();
     }
@@ -20,5 +24,4 @@ public class Player {
     public LinkedList<Card> getBooks() {
         return books.getGroup();
     }
-    // This is a change
 }
