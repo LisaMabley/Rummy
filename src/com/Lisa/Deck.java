@@ -35,6 +35,11 @@ public class Deck {
         return discardPile;
     }
 
+    public LinkedList<Card> getDiscardPileCards() {
+
+        return discardPile.getGroup();
+    }
+
     public void dealCards(int numCards, CardGroup group) {
 
         Random randomNumberGenerator = new Random();
@@ -53,7 +58,8 @@ public class Deck {
         hand.getGroup().add(this.getDiscardPile().getGroup().pop());
     }
 
-    public void discardCard(Card card) {
-        this.getDiscardPile().getGroup().push(card);
+    public void discardCard(Player player, Card card) {
+        player.getHand().remove(card);
+        this.getDiscardPileCards().push(card);
     }
 }

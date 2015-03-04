@@ -44,7 +44,7 @@ public class ComputerPlayer extends Player {
     }
 
     public void aiDiscard(Deck deck) {
-        // Evaluates options and chooses which card to discard
+        // Evaluates computer player's options and chooses which card to discard
 
         LinkedList<Card> discardPossibilities = new LinkedList<Card>();
         discardPossibilities.addAll(hand.getGroup());

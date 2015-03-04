@@ -9,7 +9,7 @@ public class Player {
     protected CardGroup runs = new CardGroup();
     protected CardGroup books = new CardGroup();
 
-    public static int selectCardFromPlayerHand() {
+    public Card selectCardFromPlayerHand() {
         // Returns a positive int indicating which card user wishes to select from their hand
 
         int cardIndex = -1;
@@ -28,13 +28,15 @@ public class Player {
                 continue;
             }
 
-            if (cardIndex < 0 || cardIndex > this.hand.size()) {
+            if (cardIndex < 0 || cardIndex > this.getHand().size()) {
                 // User input an invalid integer
                 continue;
             }
             break;
         }
-        return cardIndex;
+        Card selectedCard = this.getHand().get(cardIndex);
+
+        return selectedCard;
     }
 
     // Getters
