@@ -23,21 +23,31 @@ public class Deck {
                 this.stock.addCard(newcard);
             }
         }
+
+        // Assign meld partners
+        for (Card cardToCompare : this.stock.getGroup()) {
+
+            for (Card otherCardInHand : this.stock.getGroup()) {
+                int difference = Math.abs(cardToCompare.getValueId() - otherCardInHand.getValueId());
+
+                if (cardToCompare.getSuit() == otherCardInHand.getSuit() && difference == 1) {
+                    // If the discard pile option increases chances of a Run
+                    cardToCompare.addRunPartner(otherCardInHand);
+                    cardToCompare.addAllMeldsPartner(otherCardInHand);
+
+                } else if ((cardToCompare.getValueId() == otherCardInHand.getValueId()) && (cardToCompare.getSuit() != otherCardInHand.getSuit())) {
+                    // If the discard pile option increases chances of a Book
+                    cardToCompare.addBookPartner(otherCardInHand);
+                    cardToCompare.addAllMeldsPartner(otherCardInHand);
+                }
+            }
+        }
     }
 
     public LinkedList<Card> getStockPile() {
 
         return stock.getGroup();
     }
-
-//    public CardGroup getDiscardPile() { UNUSED
-//
-//        if (discardPile.getGroup().isEmpty()) {
-//            dealCards(1, discardPile);
-//        }
-//
-//        return discardPile;
-//    }
 
     public LinkedList<Card> getDiscardPileCards() {
 
