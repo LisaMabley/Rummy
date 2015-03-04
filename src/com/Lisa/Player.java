@@ -12,6 +12,7 @@ public abstract class Player {
 
     public abstract Card makeDiscardChoice(Deck deck);
     public abstract int makeDrawChoice(Deck deck);
+    public abstract CardGroup makeMeldChoice(Deck deck);
     public abstract void outputGameStatus(Deck deck);
 
     // Getters

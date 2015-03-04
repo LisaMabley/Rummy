@@ -19,57 +19,34 @@ public class Main {
 //        Run humanRun = new Run();
 //        Run computerRun = new Run();
 
-        // Initialize hands
+        // Initialize players
         HumanPlayer humanPlayer = new HumanPlayer("You");
         ComputerPlayer computerPlayer = new ComputerPlayer("Your cunning opponent");
+        Player[] players = {humanPlayer, computerPlayer};
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHandGroup());
-        newDeck.dealCards(10, computerPlayer.getHandGroup());
+        openingDeal(players, newDeck);
 
-        humanPlayer.outputGameStatus(newDeck);
-        newDeck.draw(humanPlayer);
-//        meld(humanPlayer, newDeck);
-        newDeck.discard(humanPlayer);
-        newDeck.draw(computerPlayer);
-        newDeck.discard(computerPlayer);
+        // Game play
+        takeTurns(players, newDeck);
     }
 
-//    public static void startRound() {
-//        // check if discard pile is empty
-//        // interactWithHuman()
-//        // aiStrategize()
-//        // check if any player's hand is empty (they have won)
-//    }
+    public static void openingDeal(Player[] players, Deck newDeck) {
+        for (Player player : players) {
+            newDeck.dealCards(10, player.getHandGroup());
+        }
+    }
 
-//    public static void meld(HumanPlayer player, Deck newDeck) {
-//        System.out.println("MELD:\nWould you like to meld any runs or books?");
-//        LinkedList<Card> handCards = player.getHand();
-//
-//        LinkedList<Card> meldList = new LinkedList<Card>();
-//        while (true) {
-////            outputGameStatus(hand, newDeck, books, runs);
-//            Card cardToMeld = player.selectCardFromPlayerHand();
-//            meldList.add(cardToMeld);
-//            System.out.println("Any more? Enter 0 if you're done");
-//            Scanner scanner = new Scanner(System.in);
-//            if (scanner.nextInt() == 0) {
-//                cardToMeld.outputCardToTerminalInColor();
-//                break;
-//            }
-//            scanner.close();
-//            System.out.println("CURRENT MELD: ");
-//            for (Card card : meldList) {
-//                card.outputCardToTerminalInColor();
-//                if (card != meldList.getLast()) {
-//                    System.out.print(", ");
-//                }
-//            }
-//        }
-//
-//        // Output action
-//        System.out.print("\nMelded \n");
-//    }
+    public static void takeTurns(Player[] players, Deck newDeck) {
+        while (true) {
+            for (Player activePlayer : players) {
+                activePlayer.outputGameStatus(newDeck);
+                newDeck.draw(activePlayer);
+                newDeck.meld(activePlayer);
+                newDeck.discard(activePlayer);
+            }
+        }
+    }
 }
 
 //    public static void calculateScore() {

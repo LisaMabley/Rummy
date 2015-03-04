@@ -104,6 +104,11 @@ public class ComputerPlayer extends Player {
         }
     }
 
+    public CardGroup makeMeldChoice(Deck newDeck) {
+        CardGroup meldList = new CardGroup();
+        return meldList;
+    }
+
     public void outputGameStatus(Deck deck) {
         // Output computer player's cards
         // TODO REMOVE WHEN GAME IS FINAL

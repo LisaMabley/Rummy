@@ -1,11 +1,11 @@
 package com.Lisa;
 
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-/**
- * Created by lisa on 3/3/15.
- */
+// Created by lisa on 3/3/15.
+
 public class HumanPlayer extends Player {
 
     Scanner scanner;
@@ -78,6 +78,33 @@ public class HumanPlayer extends Player {
         Card selectedCard = this.getHand().get(cardIndex);
 
         return selectedCard;
+    }
+
+    public CardGroup makeMeldChoice(Deck newDeck) {
+        System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
+                "Please use your number keypad to enter which card, or 0 to pass.");
+
+        CardGroup meldList = new CardGroup();
+
+//        while (true) {
+//            Card cardToMeld = this.selectCardFromPlayerHand();
+//            meldList.add(cardToMeld);
+//            System.out.println("Any more? Enter 0 if you're done");
+//            Scanner scanner = new Scanner(System.in);
+//            if (scanner.nextInt() == 0) {
+//                cardToMeld.outputCardToTerminalInColor();
+//                break;
+//            }
+//            scanner.close();
+//            System.out.println("CURRENT MELD: ");
+//            for (Card card : meldList) {
+//                card.outputCardToTerminalInColor();
+//                if (card != meldList.getLast()) {
+//                    System.out.print(", ");
+//                }
+//            }
+//        }
+        return meldList;
     }
 
     public void outputGameStatus(Deck newDeck) {

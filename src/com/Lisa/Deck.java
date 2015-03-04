@@ -95,4 +95,18 @@ public class Deck {
         System.out.println(player.nickname + " drew " + cardDrawn.getName() + " from " + pileDrawnFrom);
         player.outputGameStatus(this);
     }
+
+    public void meld(Player player) {
+
+        CardGroup newMeld = player.makeMeldChoice(this);
+
+        // Output action
+        System.out.print("\n" + player.nickname + " melded ");
+        for (Card card : newMeld.getGroup()) {
+            card.outputCardToTerminalInColor();
+            if (card != newMeld.getGroup().getLast()) {
+                System.out.print(", ");
+            }
+        }
+    }
 }
