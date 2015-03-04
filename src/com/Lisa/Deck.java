@@ -93,11 +93,15 @@ public class Deck {
 
         // Output action
         System.out.print("\n" + player.nickname + " melded ");
+
         for (Card card : newMeld.getGroup()) {
             card.outputCardToTerminalInColor();
+            newMeld.addCard(card);
             if (card != newMeld.getGroup().getLast()) {
                 System.out.print(", ");
             }
+//            System.out.println(newMeld.getGroup());
         }
+        System.out.println(newMeld.getGroup());
     }
 }
