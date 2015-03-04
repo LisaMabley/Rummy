@@ -81,30 +81,39 @@ public class HumanPlayer extends Player {
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
+        Scanner s = new Scanner(System.in);
         System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
-                "Please use your number keypad to enter which card, or 0 to pass.");
+                "1. Meld cards\n2. Pass");
+        CardGroup possibleMeld = new CardGroup();
+        if (s.nextInt() == 1) {
+            while (true) {
+                System.out.println("\nYOUR HAND:");
+                for (Card card : this.getHand()) {
+                    card.outputCardToTerminalInColor();
+                    if (card != this.getHand().getLast()) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.println("\n");
+                Card cardToMeld = this.selectCardFromPlayerHand();
+                possibleMeld.addCardAndSort(cardToMeld);
+                System.out.println("CURRENT MELD: ");
+                for (Card card : possibleMeld.getGroup()) {
+                    card.outputCardToTerminalInColor();
+                    if (card != possibleMeld.getGroup().getLast()) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.println("\nAny more cards to meld?\n1. Add more\n2. Done");
+                if (s.nextInt() == 2) {
+                    cardToMeld.outputCardToTerminalInColor();
+                    break;
+                }
+            }
+            return possibleMeld;
 
-        CardGroup meldList = new CardGroup();
-
-//        while (true) {
-//            Card cardToMeld = this.selectCardFromPlayerHand();
-//            meldList.add(cardToMeld);
-//            System.out.println("Any more? Enter 0 if you're done");
-//            Scanner scanner = new Scanner(System.in);
-//            if (scanner.nextInt() == 0) {
-//                cardToMeld.outputCardToTerminalInColor();
-//                break;
-//            }
-//            scanner.close();
-//            System.out.println("CURRENT MELD: ");
-//            for (Card card : meldList) {
-//                card.outputCardToTerminalInColor();
-//                if (card != meldList.getLast()) {
-//                    System.out.print(", ");
-//                }
-//            }
-//        }
-        return meldList;
+        }
+        return null;
     }
 
     public void outputGameStatus(Deck newDeck) {
