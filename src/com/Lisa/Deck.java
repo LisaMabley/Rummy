@@ -9,17 +9,16 @@ public class Deck {
     private CardGroup stock = new CardGroup();
     private CardGroup discardPile = new CardGroup();
 
-    public static int[] suits = { 9824, 9827, 9829, 9830 };
+    public static char[] suits = { 9824, 9827, 9829, 9830 };
 
     public Deck() {
         // Generate cards
-        for (int x = 1; x < 5; x++) {
-            int suit = x;
+        for (char x = 0; x < suits.length; x++) {
             int value = 0;
 
             for (int y = 1; y < 14; y++) {
                 value = y;
-                Card newcard = new Card(suit, value);
+                Card newcard = new Card(suits[x], value);
                 this.stock.addCard(newcard);
             }
         }

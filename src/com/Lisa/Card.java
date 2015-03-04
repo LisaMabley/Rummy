@@ -6,13 +6,12 @@ public class Card implements Comparable<Card> {
 
     private String name;
     private char suit;
-    private int suitId;
     private int valueId;
 
     private boolean canDiscardThisTurn;
 
-    public Card(int suit, int value) {
-        this.suitId = suit;
+    public Card(char suit, int value) {
+        this.suit = suit;
         this.valueId = value;
         this.name = cardString(suit, value);
         this.canDiscardThisTurn = true;
@@ -36,21 +35,6 @@ public class Card implements Comparable<Card> {
 
         } else if (valueId == 13) {
             stringName = "K";
-        }
-
-        switch (suitId) {
-            case 1:
-                this.suit = 9829;
-                break;
-            case 2:
-                this.suit = 9830;
-                break;
-            case 3:
-                this.suit = 9824;
-                break;
-            case 4:
-                this.suit = 9827;
-                break;
         }
 
         stringName += Character.toString(this.suit);
