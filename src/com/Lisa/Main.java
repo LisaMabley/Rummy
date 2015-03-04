@@ -31,6 +31,11 @@ public class Main {
         meld(humanPlayer, newDeck);
         discard(humanPlayer, newDeck);
 
+//        outputGameStatus(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+//        draw(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+//        meld(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+//        discard(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+
         // While whatever startRound()
         // When whatever calculateScore()
         // Display score
@@ -61,6 +66,9 @@ public class Main {
         System.out.println("\n\nMELD PILE:");
         for (Card card : runs) {
             card.outputCardToTerminalInColor();;
+        }
+        for (Card card : books) {
+            card.outputCardToTerminalInColor();
         }
 
         // Display top card in discard pile
@@ -100,29 +108,41 @@ public class Main {
         // Draw card from selected pile
         switch (drawFromPile) {
             case 1:
-                newDeck.drawFromStockPile(player.getHand());
+                newDeck.drawFromStockPile(hand);
                 break;
             case 2:
-                newDeck.drawFromDiscardPile(player.getHand());
+                newDeck.drawFromDiscardPile(hand);
                 break;
         }
     }
 
     public static void meld(Player player, Deck newDeck) {
+    public static void meld(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("MELD:\nWould you like to meld any runs or books?");
         LinkedList<Card> handCards = player.getHand();
 
+        LinkedList<Card> meldList = new LinkedList<Card>();
         while (true) {
             LinkedList<Card> meldList = new LinkedList<Card>();
             outputGameStatus(hand, newDeck, books, runs);
             int indexOfCardToMeld = player.selectCardFromPlayerHand();
             meldList.add(handCards.get(indexOfCardToMeld));
+            outputGameStatus(cpuHand, hand, newDeck, books, runs);
+            int indexOfCardToMeld = selectCard(hand);
+            meldList.add(hand.get(indexOfCardToMeld));
 //            int indexOfCardToMeld = selectCard(hand);
             System.out.println("Any more? Enter 0 if you're done");
 //            meldList.add(hand.get(indexOfCardToMeld));
             if (indexOfCardToMeld == 0) {
                 handCards.get(indexOfCardToMeld).outputCardToTerminalInColor();
                 break;
+            }
+            System.out.println("CURRENT MELD: " );
+            for (Card card : meldList) {
+                outputCardToTerminalInColor(card);
+                if (card != meldList.getLast()) {
+                    System.out.print(", ");
+                }
             }
         }
 
