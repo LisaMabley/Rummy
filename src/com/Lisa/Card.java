@@ -10,10 +10,6 @@ public class Card implements Comparable<Card> {
     private char suit;
     private int valueId;
 
-    private LinkedList<Card> runPartners = new LinkedList<Card>();
-    private LinkedList<Card> bookPartners = new LinkedList<Card>();
-    private LinkedList<Card> allMeldPartners = new LinkedList<Card>();
-
     private boolean canDiscardThisTurn;
 
     public Card(char suit, int value) {
@@ -78,46 +74,6 @@ public class Card implements Comparable<Card> {
         } else {
             System.out.print(this.getName());
         }
-    }
-
-    public LinkedList<Card> getRunPartners() {
-        return runPartners;
-    }
-
-    public LinkedList<Card> getBookPartners() {
-        return bookPartners;
-    }
-
-    public LinkedList<Card> getAllMeldPartners() {
-        return allMeldPartners;
-    }
-
-    public boolean isRunPartner(Card card) {
-        if (this.runPartners.contains(card)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isBookPartner(Card card) {
-        if (this.bookPartners.contains(card)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void addRunPartner(Card card) {
-        this.runPartners.add(card);
-    }
-
-    public void addBookPartner(Card card) {
-        this.bookPartners.add(card);
-    }
-
-    public void addAllMeldsPartner(Card card) {
-        this.allMeldPartners.add(card);
     }
 
     // Getters and setters
