@@ -27,9 +27,9 @@ public class Main {
         newDeck.dealCards(1, newDeck.getDiscardPile());
         
         outputGameStatus(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        draw(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        meld(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
-        discard(humanPlayer.getHandGroup(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
+        draw(humanPlayer, newDeck);
+        meld(humanPlayer, newDeck);
+        discard(humanPlayer, newDeck);
 
         // While whatever startRound()
         // When whatever calculateScore()
@@ -68,13 +68,11 @@ public class Main {
         if (newDeck.getDiscardPile().getGroup().isEmpty()) {
             newDeck.dealCards(1, newDeck.getDiscardPile());
         }
-        newDeck.getDiscardPile().getGroup().peek().outputCardToTerminalInColor();
 
-        // Display all runs and books on table
-        System.out.println("\n");
+        newDeck.getDiscardPile().getGroup().peek().outputCardToTerminalInColor();
     }
 
-    public static void draw(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void draw(Player player, Deck newDeck) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -102,23 +100,22 @@ public class Main {
         // Draw card from selected pile
         switch (drawFromPile) {
             case 1:
-                newDeck.drawFromStockPile(hand);
+                newDeck.drawFromStockPile(player.getHand());
                 break;
             case 2:
-                newDeck.drawFromDiscardPile(hand);
+                newDeck.drawFromDiscardPile(player.getHand());
                 break;
         }
-        outputGameStatus(hand, newDeck, books, runs);
     }
 
-    public static void meld(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void meld(Player player, Deck newDeck) {
         System.out.println("MELD:\nWould you like to meld any runs or books?");
-        LinkedList<Card> handCards = hand.getGroup();
+        LinkedList<Card> handCards = player.getHand();
 
         while (true) {
             LinkedList<Card> meldList = new LinkedList<Card>();
             outputGameStatus(hand, newDeck, books, runs);
-            int indexOfCardToMeld = selectCard(handCards);
+            int indexOfCardToMeld = player.selectCardFromPlayerHand();
             meldList.add(handCards.get(indexOfCardToMeld));
 //            int indexOfCardToMeld = selectCard(hand);
             System.out.println("Any more? Enter 0 if you're done");
@@ -131,55 +128,19 @@ public class Main {
 
         // Output action
         System.out.print("\nMelded \n");
-        outputGameStatus(hand, newDeck, books, runs);
-
-        // For confirmation. DELETE when game is final
-//        outputGameStatus(hand, newDeck);
     }
 
-    public static void discard(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void discard(Player player, Deck newDeck) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        int indexOfCardToDiscard = selectCard(hand.getGroup());
+        int indexOfCardToDiscard = player.selectCardFromPlayerHand();
 
         // Output action
         System.out.print("\nDiscarded ");
-        hand.getGroup().get(indexOfCardToDiscard).outputCardToTerminalInColor();
+        player.getHand(indexOfCardToDiscard).outputCardToTerminalInColor();
 
         //  Discard selected card
-        newDeck.discardCard(hand.getGroup().remove(indexOfCardToDiscard));
-
-        // For confirmation. DELETE when game is final
-        outputGameStatus(hand, newDeck, books, runs);
+        newDeck.discardCard(player.getHand().remove(indexOfCardToDiscard));
     }
-
-    public static int selectCard(LinkedList<Card> hand) {
-        // Returns a positive int indicating which card user wishes to select from their hand
-
-        int cardIndex = -1;
-
-        // Get valid response from user
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please use your number keypad to enter which card, as counted from the left.");
-
-            try {
-                cardIndex = scanner.nextInt();
-                cardIndex --;
-
-            } catch (InputMismatchException ime) {
-                // User did not input an integer
-                continue;
-            }
-
-            if (cardIndex < 0 || cardIndex > hand.size()) {
-                // User input an invalid integer
-                continue;
-            }
-            break;
-        }
-        return cardIndex;
-    }
-}
 
 //    public static void calculateScore() {
 //        // TODO
