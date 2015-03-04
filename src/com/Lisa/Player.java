@@ -11,8 +11,10 @@ public abstract class Player {
     protected String nickname = new String();
 
     public abstract Card makeDiscardChoice(Deck deck);
+    public abstract int makeDrawChoice(Deck deck);
+    public abstract void outputGameStatus(Deck deck);
 
-// Getters
+    // Getters
     public LinkedList<Card> getHand() {
         return hand.getGroup();
     }

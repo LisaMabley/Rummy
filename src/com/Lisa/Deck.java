@@ -10,6 +10,7 @@ public class Deck {
     private CardGroup discardPile = new CardGroup();
 
     public static char[] suits = { 9824, 9827, 9829, 9830 };
+    Random randomNumberGenerator;
 
     public Deck() {
         // Generate cards
@@ -29,14 +30,14 @@ public class Deck {
         return stock.getGroup();
     }
 
-    public CardGroup getDiscardPile() {
-
-        if (discardPile.getGroup().isEmpty()) {
-            dealCards(1, discardPile);
-        }
-
-        return discardPile;
-    }
+//    public CardGroup getDiscardPile() { UNUSED
+//
+//        if (discardPile.getGroup().isEmpty()) {
+//            dealCards(1, discardPile);
+//        }
+//
+//        return discardPile;
+//    }
 
     public LinkedList<Card> getDiscardPileCards() {
 
@@ -49,20 +50,12 @@ public class Deck {
 
     public void dealCards(int numCards, CardGroup group) {
 
-        Random randomNumberGenerator = new Random();
+        randomNumberGenerator = new Random();
 
         for (int x = 0; x < numCards; x ++) {
             int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
             group.addCardAndSort(this.getStockPile().remove(cardIndex));
         }
-    }
-
-    public void drawFromStockPile(CardGroup hand) {
-        dealCards(1, hand);
-    }
-
-    public void drawFromDiscardPile(CardGroup hand) {
-        hand.getGroup().add(this.getDiscardPile().getGroup().pop());
     }
 
     public void discard(Player player) {
@@ -74,5 +67,32 @@ public class Deck {
         // Output action
         System.out.print("\n" + player.nickname + " discarded ");
         cardToDiscard.outputCardToTerminalInColor();
+        System.out.println("\n");
+    }
+
+    public void draw(Player player) {
+
+        int drawChoice = player.makeDrawChoice(this);
+        Card cardDrawn;
+        String pileDrawnFrom = "";
+
+        if (drawChoice == 1) {
+            // Draw from stock pile
+            randomNumberGenerator = new Random();
+            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
+            cardDrawn = this.getStockPile().remove(cardIndex);
+            pileDrawnFrom = "the stock pile";
+
+        } else {
+            // Draw from discard pile
+            cardDrawn = this.getDiscardPileCards().pop();
+            pileDrawnFrom = "the discard pile";
+        }
+
+        player.getHandGroup().addCardAndSort(cardDrawn);
+
+        // Output result
+        System.out.println(player.nickname + " drew " + cardDrawn.getName() + " from " + pileDrawnFrom);
+        player.outputGameStatus(this);
     }
 }

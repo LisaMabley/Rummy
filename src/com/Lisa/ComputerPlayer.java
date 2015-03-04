@@ -31,23 +31,6 @@ public class ComputerPlayer extends Player {
         return possibleMelds;
     }
 
-    public void computerDraw(Deck deck) {
-        // Evaluates options and chooses which pile to draw from
-
-        Card discardOption = deck.getDiscardPile().getGroup().peek();
-        boolean discardOptionProvidesPossibleMelds = possibleMelds(discardOption);
-
-        // Execute computer player's choice
-        if (discardOptionProvidesPossibleMelds) {
-            deck.drawFromDiscardPile(hand);
-            System.out.println("Your cunning opponent is drawing from the discard pile.");
-
-        } else {
-            deck.drawFromStockPile(hand);
-            System.out.println("Your cunning opponent is drawing from the stock pile.");
-        }
-    }
-
     @Override
     public Card makeDiscardChoice(Deck deck) {
         // Evaluates computer player's options and chooses which card to discard
@@ -102,5 +85,46 @@ public class ComputerPlayer extends Player {
         }
 
         return cardToDiscard;
+    }
+
+    public int makeDrawChoice(Deck newDeck) {
+        // Evaluates options and chooses which pile to draw from
+
+        Card discardOption = newDeck.getDiscardPileCards().peek();
+        boolean discardOptionProvidesPossibleMelds = possibleMelds(discardOption);
+
+        // Return computer player's choice
+        if (!discardOptionProvidesPossibleMelds) {
+            // Draw from stock pile
+            return 1;
+
+        } else {
+            // Draw from discard pile
+            return 2;
+        }
+    }
+
+    public void outputGameStatus(Deck deck) {
+        // Output computer player's cards
+        // TODO REMOVE WHEN GAME IS FINAL
+        System.out.println("\nYOUR OPPONENT'S HAND:");
+        for (Card card : this.getHand()) {
+            card.outputCardToTerminalInColor();
+            ;
+            if (card != this.getHand().getLast()) {
+                System.out.print(", ");
+            }
+        }
+
+        System.out.println("\n\nYOUR OPPONENT'S MELDS:");
+        System.out.println("Runs");
+        for (Card card : this.getRuns()) {
+            card.outputCardToTerminalInColor();
+        }
+
+        System.out.println("Books");
+        for (Card card : this.getBooks()) {
+            card.outputCardToTerminalInColor();
+        }
     }
 }

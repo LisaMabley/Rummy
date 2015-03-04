@@ -8,6 +8,8 @@ import java.util.Scanner;
  */
 public class HumanPlayer extends Player {
 
+    Scanner scanner;
+
     // Constructor
     public HumanPlayer(String name) {
         this.nickname = name;
@@ -15,9 +17,37 @@ public class HumanPlayer extends Player {
 
     @Override
     public Card makeDiscardChoice(Deck deck) {
-        System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
+        System.out.println("\nDISCARD:\nWhich card would you like to discard to end your turn?");
         Card cardToDiscard = this.selectCardFromPlayerHand();
         return cardToDiscard;
+    }
+
+    public int makeDrawChoice(Deck newDeck) {
+
+        System.out.println("\nDRAW:");
+        int drawChoice = 0;
+
+        // Get valid response from user
+        while (true) {
+            System.out.println("Press 1 to draw from the stock pile, or 2 to draw from the discard pile.");
+
+            try {
+                scanner = new Scanner(System.in);
+                drawChoice = scanner.nextInt();
+
+            } catch (InputMismatchException ime) {
+                // User did not input an integer
+                continue;
+            }
+
+            if (drawChoice != 1 && drawChoice != 2) {
+                // User input an invalid integer
+                continue;
+            }
+
+            break;
+        }
+        return drawChoice;
     }
 
     public Card selectCardFromPlayerHand() {
@@ -27,7 +57,7 @@ public class HumanPlayer extends Player {
 
         // Get valid response from user
         while (true) {
-            Scanner scanner = new Scanner(System.in);
+            scanner = new Scanner(System.in);
             System.out.println("Please use your number keypad to enter which card, as counted from the left.");
 
             try {
@@ -50,7 +80,7 @@ public class HumanPlayer extends Player {
         return selectedCard;
     }
 
-    public void outputGameStatus(Deck newDeck, ComputerPlayer computer) {
+    public void outputGameStatus(Deck newDeck) {
 
         // Output human player cards
         System.out.println("\nYOUR HAND:");
@@ -77,27 +107,5 @@ public class HumanPlayer extends Player {
 
         newDeck.getDiscardPileCards().peek().outputCardToTerminalInColor();
         System.out.println("");
-
-        // Output computer player's cards
-        // TODO REMOVE WHEN GAME IS FINAL
-        System.out.println("\nYOUR OPPONENT'S HAND:");
-        for (Card card : computer.getHand()) {
-            card.outputCardToTerminalInColor();
-            ;
-            if (card != computer.getHand().getLast()) {
-                System.out.print(", ");
-            }
-        }
-
-        System.out.println("\n\nYOUR OPPONENT'S MELDS:");
-        System.out.println("Runs");
-        for (Card card : computer.getRuns()) {
-            card.outputCardToTerminalInColor();
-        }
-
-        System.out.println("Books");
-        for (Card card : computer.getBooks()) {
-            card.outputCardToTerminalInColor();
-        }
     }
 }
