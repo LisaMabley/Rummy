@@ -11,14 +11,6 @@ public class Main {
         // Initialize deck
         Deck newDeck = new Deck();
 
-//        JESSE Doesn't this just create a new instance of each class?
-//        Don't we want a LinkedList?
-//        Book humanBook = new Book();
-//        Book computerBook = new Book();
-//
-//        Run humanRun = new Run();
-//        Run computerRun = new Run();
-
         // Initialize players
         HumanPlayer humanPlayer = new HumanPlayer("You");
         ComputerPlayer computerPlayer = new ComputerPlayer("Your cunning opponent");
@@ -38,7 +30,7 @@ public class Main {
     }
 
     public static void takeTurns(Player[] players, Deck newDeck) {
-        while (true) {
+        while (!newDeck.getStockPile().isEmpty()) {
             for (Player activePlayer : players) {
                 activePlayer.outputGameStatus(newDeck);
                 newDeck.draw(activePlayer);

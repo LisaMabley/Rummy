@@ -6,8 +6,8 @@ import java.util.*;
 public abstract class Player {
 
     protected CardGroup hand = new CardGroup();
-    protected CardGroup runs = new CardGroup();
-    protected CardGroup books = new CardGroup();
+    protected LinkedList<Run> runs = new LinkedList<Run>();
+    protected LinkedList<Book> books = new LinkedList<Book>();
     protected String nickname = new String();
 
     public abstract Card makeDiscardChoice(Deck deck);
@@ -24,11 +24,11 @@ public abstract class Player {
         return hand;
     }
 
-    public LinkedList<Card> getRuns() {
-        return runs.getGroup();
+    public LinkedList<Run> getRuns() {
+        return this.runs;
     }
 
-    public LinkedList<Card> getBooks() {
-        return books.getGroup();
+    public LinkedList<Book> getBooks() {
+        return books;
     }
 }

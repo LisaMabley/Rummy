@@ -9,7 +9,7 @@ public class Deck {
     private CardGroup stock = new CardGroup();
     private CardGroup discardPile = new CardGroup();
 
-    public static char[] suits = { 9824, 9827, 9829, 9830 };
+    public static char[] suits = {9824, 9827, 9829, 9830};
     Random randomNumberGenerator;
 
     public Deck() {
@@ -43,7 +43,7 @@ public class Deck {
 
         randomNumberGenerator = new Random();
 
-        for (int x = 0; x < numCards; x ++) {
+        for (int x = 0; x < numCards; x++) {
             int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
             group.addCardAndSort(this.getStockPile().remove(cardIndex));
         }
@@ -83,25 +83,28 @@ public class Deck {
         player.getHandGroup().addCardAndSort(cardDrawn);
 
         // Output result
-        System.out.println(player.nickname + " drew " + cardDrawn.getName() + " from " + pileDrawnFrom);
+        System.out.print(player.nickname + " drew ");
+        cardDrawn.outputCardToTerminalInColor();
+        System.out.println(" from " + pileDrawnFrom);
         player.outputGameStatus(this);
     }
 
     public void meld(Player player) {
 
-        CardGroup newMeld = player.makeMeldChoice(this);
+        CardGroup meld = player.makeMeldChoice(this);
 
-        // Output action
-        System.out.print("\n" + player.nickname + " melded ");
+        if (meld.getGroup() == null) {
+            System.out.print("\n" + player.nickname + " declined to meld.");
 
-        for (Card card : newMeld.getGroup()) {
-            card.outputCardToTerminalInColor();
-            newMeld.addCard(card);
-            if (card != newMeld.getGroup().getLast()) {
-                System.out.print(", ");
+        } else {
+            // Output action
+            System.out.print("\n" + player.nickname + " melded ");
+            for (Card card : meld.getGroup()) {
+                card.outputCardToTerminalInColor();
+                if (card != meld.getGroup().getLast()) {
+                    System.out.print(", ");
+                }
             }
-//            System.out.println(newMeld.getGroup());
         }
-        System.out.println(newMeld.getGroup());
     }
 }

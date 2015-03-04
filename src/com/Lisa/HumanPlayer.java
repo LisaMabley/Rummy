@@ -24,7 +24,7 @@ public class HumanPlayer extends Player {
 
     public int makeDrawChoice(Deck newDeck) {
 
-        System.out.println("\nDRAW:");
+        System.out.println("DRAW:");
         int drawChoice = 0;
 
         // Get valid response from user
@@ -82,11 +82,12 @@ public class HumanPlayer extends Player {
 
     public CardGroup makeMeldChoice(Deck newDeck) {
         CardGroup emptyGroup = new CardGroup();
-        Scanner s = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
                 "1. Meld cards\n2. Pass");
         CardGroup possibleMeld = new CardGroup();
-        if (s.nextInt() == 1) {
+
+        if (scanner.nextInt() == 1) {
             while (true) {
                 System.out.println("\nYOUR HAND:");
                 for (Card card : this.getHand()) {
@@ -106,13 +107,13 @@ public class HumanPlayer extends Player {
                     }
                 }
                 System.out.println("\nAny more cards to meld?\n1. Add more\n2. Done");
-                if (s.nextInt() == 2) {
+
+                if (scanner.nextInt() == 2) {
                     cardToMeld.outputCardToTerminalInColor();
                     break;
                 }
             }
             return possibleMeld;
-
         }
         return emptyGroup;
     }
@@ -131,18 +132,25 @@ public class HumanPlayer extends Player {
 
         System.out.println("\n\nYOUR MELDS:");
         System.out.println("Runs");
-        for (Card card : this.getRuns()) {
-            card.outputCardToTerminalInColor();
+        for (Run run : this.getRuns()) {
+            for (Card card : run.getGroup()) {
+                card.outputCardToTerminalInColor();
+            }
+            System.out.println("\n");
         }
+
         System.out.println("Books");
-        for (Card card : this.getBooks()) {
-            card.outputCardToTerminalInColor();
+        for (Book book : this.getBooks()) {
+            for (Card card : book.getGroup()) {
+                card.outputCardToTerminalInColor();
+            }
+            System.out.println("\n");
         }
 
         // Display top card in discard pile
         System.out.println("\nDISCARD PILE:");
 
         newDeck.getDiscardPileCards().peek().outputCardToTerminalInColor();
-        System.out.println("");
+        System.out.println("\n");
     }
 }

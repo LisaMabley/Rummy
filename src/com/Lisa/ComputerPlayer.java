@@ -104,8 +104,53 @@ public class ComputerPlayer extends Player {
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
-        CardGroup meldList = new CardGroup();
-        return meldList;
+        CardGroup emptyGroup = new CardGroup();
+        Run newRun = new Run();
+
+        // Look for runs
+        for (Card cardToCompare : this.getHand()) {
+            if (cardToCompare != this.getHand().getLast()) {
+                int x = this.getHand().indexOf(cardToCompare);
+                x ++;
+                while ((this.getHand().get(x).getValueId() - this.getHand().get(x-1).getValueId() == 1) &&
+                        (this.getHand().get(x).getSuit() == this.getHand().get(x-1).getSuit())) {
+                    newRun.addCard(this.getHand().get(x));
+                    x ++;
+                }
+            }
+
+            if (newRun.getGroup().size() >= 2) {
+                newRun.addCardAndSort(cardToCompare);
+                this.runs.add(newRun);
+                return newRun;
+
+            } else {
+                newRun.getGroup().clear();
+            }
+        }
+
+        // Look for books
+        int numCardsForBook = 0;
+        Book newBook = new Book();
+
+        for (Card cardToCompare : this.getHand()) {
+            for (Card otherCardInHand : this.getHand()) {
+                if ((cardToCompare.getValueId() == otherCardInHand.getValueId()) && (cardToCompare.getSuit() != otherCardInHand.getSuit())) {
+                    newBook.addCard(otherCardInHand);
+                    numCardsForBook ++;
+                }
+                if (numCardsForBook >= 2) {
+                    // We have a book!
+                    newBook.addCardAndSort(cardToCompare);
+                    this.books.add(newBook);
+                    return newBook;
+                }
+            }
+            numCardsForBook = 0;
+            newBook.getGroup().clear();
+        }
+
+        return emptyGroup;
     }
 
     public void outputGameStatus(Deck deck) {
@@ -122,13 +167,19 @@ public class ComputerPlayer extends Player {
 
         System.out.println("\n\nYOUR OPPONENT'S MELDS:");
         System.out.println("Runs");
-        for (Card card : this.getRuns()) {
-            card.outputCardToTerminalInColor();
+        for (int x = 0; x < this.getRuns().size(); x++) {
+            for (Card card : this.getRuns().get(x).getGroup()) {
+                card.outputCardToTerminalInColor();
+            }
+            System.out.println("\n");
         }
 
         System.out.println("Books");
-        for (Card card : this.getBooks()) {
-            card.outputCardToTerminalInColor();
+        for (int x = 0; x < this.getBooks().size(); x++) {
+            for (Card card : this.getBooks().get(x).getGroup()) {
+                card.outputCardToTerminalInColor();
+            }
+            System.out.println("\n");
         }
     }
 }
