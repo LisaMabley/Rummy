@@ -1,7 +1,5 @@
 package com.Lisa;
 
-import sun.awt.image.ImageWatched;
-
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -24,8 +22,8 @@ public class Main {
         Player computerAiPlayer = new Player();
 
         // Opening deal
-        newDeck.dealCards(10, humanPlayer.getHand());
-        newDeck.dealCards(10, computerAiPlayer.getHand());
+        newDeck.dealCards(10, humanPlayer.getHandGroup());
+        newDeck.dealCards(10, computerAiPlayer.getHandGroup());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
         outputGameStatus(computerAiPlayer.getHand(), humanPlayer.getHand(), newDeck, humanPlayer.getBooks(), humanPlayer.getRuns());
@@ -46,6 +44,8 @@ public class Main {
 //        // check if any player's hand is empty (they have won)
 //    }
 
+    public static void outputGameStatus(CardGroup handGroup, Deck newDeck,
+                                        LinkedList<Card> books, LinkedList<Card> runs) {
     public static void outputGameStatus(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         // Output computer cards for test
         System.out.println("\nCPU HAND:");
@@ -56,14 +56,17 @@ public class Main {
             }
         }
 
+        LinkedList<Card> handCards = handGroup.getGroup();
+
         // Output player cards
         System.out.println("\nYOUR HAND:");
-        for (Card card : hand) {
-            outputCardToTerminalInColor(card);
-            if (card != hand.getLast()) {
+        for (Card card : handCards) {
+            card.outputCardToTerminalInColor();;
+            if (card != handCards.getLast()) {
                 System.out.print(", ");
             }
         }
+
         System.out.println("\n\nMELD PILE:");
         for (Card card : runs) {
             outputCardToTerminalInColor(card);
@@ -72,32 +75,18 @@ public class Main {
             outputCardToTerminalInColor(card);
         }
 
-
         // Display top card in discard pile
         System.out.println("\n\nDISCARD PILE:");
-        if (newDeck.getDiscardPile().isEmpty()) {
+        if (newDeck.getDiscardPile().getGroup().isEmpty()) {
             newDeck.dealCards(1, newDeck.getDiscardPile());
         }
-        outputCardToTerminalInColor(newDeck.getDiscardPile().peek());
+        newDeck.getDiscardPile().getGroup().peek().outputCardToTerminalInColor();
 
         // Display all runs and books on table
         System.out.println("\n");
     }
 
-    public static void outputCardToTerminalInColor(Card card) {
-
-        // Set colors for terminal output
-        String ANSI_red = "\u001B[31m";
-        String ANSI_reset_color = "\u001B[0m";
-
-        if (card.getSuit() > 9828) {
-            System.out.print(ANSI_red + card.getName() + ANSI_reset_color);
-        } else {
-            System.out.print(card.getName());
-        }
-    }
-
-    public static void draw(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
+    public static void draw(CardGroup hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DRAW:");
         int drawFromPile = 0;
 
@@ -145,7 +134,7 @@ public class Main {
             System.out.println("Any more? Enter 0 if you're done");
 //            meldList.add(hand.get(indexOfCardToMeld));
             if (indexOfCardToMeld == 0) {
-                outputCardToTerminalInColor(hand.get(indexOfCardToMeld));
+                handCards.get(indexOfCardToMeld).outputCardToTerminalInColor();
                 break;
             }
             System.out.println("CURRENT MELD: " );
@@ -157,7 +146,6 @@ public class Main {
             }
         }
 
-
         // Output action
         System.out.print("\nMelded \n");
         outputGameStatus(cpuHand, hand, newDeck, books, runs);
@@ -168,14 +156,14 @@ public class Main {
 
     public static void discard(LinkedList<Card> cpuHand, LinkedList<Card> hand, Deck newDeck, LinkedList<Card> books, LinkedList<Card> runs) {
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
-        int indexOfCardToDiscard = selectCard(hand);
+        int indexOfCardToDiscard = selectCard(hand.getGroup());
 
         // Output action
         System.out.print("\nDiscarded ");
-        outputCardToTerminalInColor(hand.get(indexOfCardToDiscard));
+        hand.getGroup().get(indexOfCardToDiscard).outputCardToTerminalInColor();
 
         //  Discard selected card
-        newDeck.discardCard(hand.remove(indexOfCardToDiscard));
+        newDeck.discardCard(hand.getGroup().remove(indexOfCardToDiscard));
 
         // For confirmation. DELETE when game is final
         outputGameStatus(cpuHand, hand, newDeck, books, runs);

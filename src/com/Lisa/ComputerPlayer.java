@@ -29,16 +29,16 @@ public class ComputerPlayer extends Player {
     public void aiDraw(Deck deck) {
         // Evaluates options and chooses which pile to draw from
 
-        Card discardOption = deck.getDiscardPile().peek();
+        Card discardOption = deck.getDiscardPile().getGroup().peek();
         boolean discardOptionProvidesPossibleMelds = possibleMelds(discardOption);
 
         // Execute AIs choice
         if (discardOptionProvidesPossibleMelds) {
-            deck.drawFromDiscardPile(hand.getGroup());
+            deck.drawFromDiscardPile(hand);
             System.out.println("Your cunning opponent is drawing from the discard pile.");
 
         } else {
-            deck.drawFromStockPile(hand.getGroup());
+            deck.drawFromStockPile(hand);
             System.out.println("Your cunning opponent is drawing from the stock pile.");
         }
     }
@@ -94,8 +94,9 @@ public class ComputerPlayer extends Player {
                 }
             }
         }
+
         System.out.print("Your cunning opponent has discarded ");
-        Main.outputCardToTerminalInColor(cardToDiscard);
+        cardToDiscard.outputCardToTerminalInColor();
         hand.getGroup().remove(cardToDiscard);
         deck.discardCard(cardToDiscard);
     }

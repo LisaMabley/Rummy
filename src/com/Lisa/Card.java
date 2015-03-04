@@ -89,4 +89,17 @@ public class Card implements Comparable<Card> {
             this.canDiscardThisTurn = true;
         }
     }
+
+    public void outputCardToTerminalInColor() {
+
+        // Set colors for terminal output
+        String ANSI_red = "\u001B[31m";
+        String ANSI_reset_color = "\u001B[0m";
+
+        if (this.getSuit() > 9828) {
+            System.out.print(ANSI_red + this.getName() + ANSI_reset_color);
+        } else {
+            System.out.print(this.getName());
+        }
+    }
 }
