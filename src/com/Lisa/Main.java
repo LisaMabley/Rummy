@@ -28,7 +28,7 @@ public class Main {
         newDeck.dealCards(10, computerPlayer.getHandGroup());
         newDeck.dealCards(1, newDeck.getDiscardPile());
 
-        newDeck.outputGameStatus(humanPlayer, computerPlayer);
+        humanPlayer.outputGameStatus(newDeck, computerPlayer);
         draw(humanPlayer, newDeck);
         meld(humanPlayer, newDeck);
         newDeck.discard(humanPlayer);

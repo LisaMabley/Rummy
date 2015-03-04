@@ -49,4 +49,55 @@ public class HumanPlayer extends Player {
 
         return selectedCard;
     }
+
+    public void outputGameStatus(Deck newDeck, ComputerPlayer computer) {
+
+        // Output human player cards
+        System.out.println("\nYOUR HAND:");
+        for (Card card : this.getHand()) {
+            card.outputCardToTerminalInColor();
+            ;
+            if (card != this.getHand().getLast()) {
+                System.out.print(", ");
+            }
+        }
+
+        System.out.println("\n\nYOUR MELDS:");
+        System.out.println("Runs");
+        for (Card card : this.getRuns()) {
+            card.outputCardToTerminalInColor();
+        }
+        System.out.println("Books");
+        for (Card card : this.getBooks()) {
+            card.outputCardToTerminalInColor();
+        }
+
+        // Display top card in discard pile
+        System.out.println("\nDISCARD PILE:");
+
+        newDeck.getDiscardPileCards().peek().outputCardToTerminalInColor();
+        System.out.println("");
+
+        // Output computer player's cards
+        // TODO REMOVE WHEN GAME IS FINAL
+        System.out.println("\nYOUR OPPONENT'S HAND:");
+        for (Card card : computer.getHand()) {
+            card.outputCardToTerminalInColor();
+            ;
+            if (card != computer.getHand().getLast()) {
+                System.out.print(", ");
+            }
+        }
+
+        System.out.println("\n\nYOUR OPPONENT'S MELDS:");
+        System.out.println("Runs");
+        for (Card card : computer.getRuns()) {
+            card.outputCardToTerminalInColor();
+        }
+
+        System.out.println("Books");
+        for (Card card : computer.getBooks()) {
+            card.outputCardToTerminalInColor();
+        }
+    }
 }
