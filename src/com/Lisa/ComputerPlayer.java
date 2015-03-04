@@ -98,6 +98,6 @@ public class ComputerPlayer extends Player {
         System.out.print("Your cunning opponent has discarded ");
         cardToDiscard.outputCardToTerminalInColor();
         hand.getGroup().remove(cardToDiscard);
-        deck.discardCard(cardToDiscard);
+        deck.discardCard(this, cardToDiscard);
     }
 }
