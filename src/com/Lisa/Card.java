@@ -2,6 +2,8 @@ package com.Lisa;
 
 // Created by lisa on 2/18/15.
 
+import java.util.LinkedList;
+
 public class Card implements Comparable<Card> {
 
     private String name;
@@ -53,19 +55,6 @@ public class Card implements Comparable<Card> {
         }
     }
 
-    // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public char getSuit() { return suit; }
-
-    public int getValueId() { return valueId; }
-
-    public boolean canDiscardThisTurn() {
-        return canDiscardThisTurn;
-    }
-
     public void changeCanDiscardThisTurn() {
         if (this.canDiscardThisTurn) {
             this.canDiscardThisTurn = false;
@@ -85,5 +74,18 @@ public class Card implements Comparable<Card> {
         } else {
             System.out.print(this.getName());
         }
+    }
+
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+
+    public char getSuit() { return suit; }
+
+    public int getValueId() { return valueId; }
+
+    public boolean canDiscardThisTurn() {
+        return canDiscardThisTurn;
     }
 }

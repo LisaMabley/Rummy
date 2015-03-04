@@ -30,15 +30,6 @@ public class Deck {
         return stock.getGroup();
     }
 
-//    public CardGroup getDiscardPile() { UNUSED
-//
-//        if (discardPile.getGroup().isEmpty()) {
-//            dealCards(1, discardPile);
-//        }
-//
-//        return discardPile;
-//    }
-
     public LinkedList<Card> getDiscardPileCards() {
 
         if (discardPile.getGroup().isEmpty()) {

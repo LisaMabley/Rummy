@@ -83,7 +83,6 @@ public class ComputerPlayer extends Player {
                 }
             }
         }
-
         return cardToDiscard;
     }
 
@@ -133,3 +132,4 @@ public class ComputerPlayer extends Player {
         }
     }
 }
+
