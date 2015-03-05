@@ -12,17 +12,18 @@ public class CardGroup {
     public void addCard(Card card) { this.group.add(card); }
 
     public void addCardAndSort(Card card) {
+        // Add card to given group and sort group
 
         this.group.add(card);
-
-        // Adapted from http://www.programcreek.com/2013/01/sort-linkedlist-of-user-defined-objects-in-java/
 
         LinkedList<Card> unsortedCardGroup = new LinkedList<Card>();
         unsortedCardGroup.addAll(this.group);
         Collections.sort(unsortedCardGroup);
+        // First sort in value order
         this.group.clear();
 
         for (int suit : Deck.suits) {
+            // Then pull out cards in order, suit by suit
             for (Card unsortedCard : unsortedCardGroup) {
                 if (unsortedCard.getSuit() == suit) {
                     this.group.add(unsortedCard);
@@ -32,6 +33,7 @@ public class CardGroup {
     }
 
     public void outputGroupOnOneLine() {
+        // Outputs any given CardGroup in color on one line
         for (Card card : this.getGroup()) {
             card.outputCardToTerminalInColor();
             if (card != this.getGroup().getLast()) {
@@ -39,6 +41,50 @@ public class CardGroup {
             }
         }
         System.out.println("\n");
+    }
+
+    public boolean isValidRun() {
+        // Determines if a given CardGroup is a valid run
+        if (this.getGroup().size() < 3) {
+            // Smaller than 3 cards = not valid
+            return false;
+        }
+
+        char suit = this.getGroup().getFirst().getSuit();
+        int valueId = this.getGroup().getFirst().getValueId();
+
+        for (Card card : this.getGroup()) {
+            // All cards in group not the same suit = not valid
+            if (card.getSuit() != suit) {
+                return false;
+            }
+
+            // Cards do not proceed in value order = not valid
+            if (card.getValueId() != valueId) {
+                return false;
+            }
+            valueId ++;
+        }
+        return true;
+    }
+
+    public boolean isValidBook() {
+        // Determined if a given CardGroup is a valid book
+        if (this.getGroup().size() < 3) {
+            // Smaller than 3 cards = not valid
+            return false;
+        }
+
+        char suit = this.getGroup().getFirst().getSuit();
+        int valueId = this.getGroup().getFirst().getValueId();
+
+        for (Card card : this.getGroup()) {
+            // Two cards the same suit OR two cards with different values = not valid
+            if (card.getSuit() == suit || card.getValueId() != valueId) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Getter

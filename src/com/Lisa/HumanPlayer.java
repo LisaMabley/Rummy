@@ -83,19 +83,16 @@ public class HumanPlayer extends Player {
     public CardGroup makeMeldChoice(Deck newDeck) {
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
-        Run possibleRun = new Run();
-        Book possibleBook = new Book();
 
-
-        System.out.println("\nMELD:\nWould you like to meld a run or book?\n" +
-                "Press 1 to meld cards, any other key to pass.");
+        System.out.println("MELD:\nWould you like to meld a run or book?\n" +
+                "Press 1 to pass, 2 to meld cards.");
 
             while (true) {
 
                 scanner = new Scanner(System.in);
                 int humanChoice = scanner.nextInt();
 
-                if (humanChoice == 1) {
+                if (humanChoice == 2) {
                     System.out.println("\nYOUR HAND:");
                     this.hand.outputGroupOnOneLine();
                     Card cardToMeld = this.selectCardFromPlayerHand();
@@ -103,10 +100,19 @@ public class HumanPlayer extends Player {
 
                     System.out.println("CURRENT MELD: ");
                     possibleMeld.outputGroupOnOneLine();
-                    System.out.println("\nAny more cards to meld?\n1. Add more\n2. Done");
+                    System.out.println("\nAny more cards to meld?\n2. Add more\n3. Done");
 
-                } else if (humanChoice == 2) {
-                    return possibleMeld;
+                } else if (humanChoice == 3) {
+                    if (possibleMeld.isValidRun()) {
+                        Run newRun = new Run(possibleMeld);
+                        this.runs.add(newRun);
+                        return newRun;
+
+                    } else if (possibleMeld.isValidBook()) {
+                        Book newBook = new Book(possibleMeld);
+                        this.books.add(newBook);
+                        return newBook;
+                    }
 
                 } else {
                     return emptyGroup;
@@ -118,27 +124,18 @@ public class HumanPlayer extends Player {
 
         // Output human player cards
         System.out.println("\nYOUR HAND:");
-        for (Card card : this.getHand()) {
-            card.outputCardToTerminalInColor();
-            if (card != this.getHand().getLast()) {
-                System.out.print(", ");
-            }
-        }
+        this.hand.outputGroupOnOneLine();
 
-        System.out.println("\n\nYOUR MELDS:");
+        System.out.println("YOUR MELDS:");
         System.out.println("Runs");
         for (int x = 0; x < this.getRuns().size(); x++) {
-            for (Card card : this.getRuns().get(x).getGroup()) {
-                card.outputCardToTerminalInColor();
-            }
+            this.getRuns().get(x).outputGroupOnOneLine();
             System.out.println("\n");
         }
 
         System.out.println("Books");
         for (int x = 0; x < this.getBooks().size(); x++) {
-            for (Card card : this.getBooks().get(x).getGroup()) {
-                card.outputCardToTerminalInColor();
-            }
+            this.getBooks().get(x).outputGroupOnOneLine();
             System.out.println("\n");
         }
 

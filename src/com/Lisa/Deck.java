@@ -93,18 +93,13 @@ public class Deck {
 
         CardGroup meld = player.makeMeldChoice(this);
 
-        if (meld.getGroup() == null) {
-            System.out.print("\n" + player.nickname + " declined to meld.");
+        if (meld.getGroup().isEmpty()) {
+            System.out.print("\n" + player.nickname + " declined to meld.\n");
 
         } else {
             // Output action
             System.out.print("\n" + player.nickname + " melded ");
-            for (Card card : meld.getGroup()) {
-                card.outputCardToTerminalInColor();
-                if (card != meld.getGroup().getLast()) {
-                    System.out.print(", ");
-                }
-            }
+            meld.outputGroupOnOneLine();
         }
     }
 }
