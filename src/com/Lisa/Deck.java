@@ -83,9 +83,9 @@ public class Deck {
         player.getHandGroup().addCardAndSort(cardDrawn);
 
         // Output result
-        System.out.print(player.nickname + " drew ");
+        System.out.print("\n" + player.nickname + " drew ");
         cardDrawn.outputCardToTerminalInColor();
-        System.out.println(" from " + pileDrawnFrom);
+        System.out.println(" from " + pileDrawnFrom + ".\n");
         player.outputGameStatus(this);
     }
 
@@ -94,7 +94,7 @@ public class Deck {
         CardGroup meld = player.makeMeldChoice(this);
 
         if (meld.getGroup().isEmpty()) {
-            System.out.print("\n" + player.nickname + " declined to meld.\n");
+            System.out.println("\n" + player.nickname + " declined to meld.\n");
 
         } else {
             // Output action
@@ -102,4 +102,8 @@ public class Deck {
             meld.outputGroupOnOneLine();
         }
     }
+
+    // TODO add lay off method, along with choice methods for both players
+
+    // TODO add scoring methods
 }

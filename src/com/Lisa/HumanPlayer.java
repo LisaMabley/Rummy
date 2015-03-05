@@ -17,7 +17,9 @@ public class HumanPlayer extends Player {
 
     @Override
     public Card makeDiscardChoice(Deck deck) {
-        System.out.println("\nDISCARD:\nWhich card would you like to discard to end your turn?");
+        System.out.println("YOUR HAND:");
+        this.hand.outputGroupOnOneLine();
+        System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
         Card cardToDiscard = this.selectCardFromPlayerHand();
         return cardToDiscard;
     }
@@ -104,11 +106,13 @@ public class HumanPlayer extends Player {
 
                 } else if (humanChoice == 3) {
                     if (possibleMeld.isValidRun()) {
+//                        System.out.println("VALID RUN");
                         Run newRun = new Run(possibleMeld);
                         this.runs.add(newRun);
                         return newRun;
 
                     } else if (possibleMeld.isValidBook()) {
+//                        System.out.println("VALID BOOK");
                         Book newBook = new Book(possibleMeld);
                         this.books.add(newBook);
                         return newBook;

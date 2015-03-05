@@ -52,6 +52,8 @@ public class ComputerPlayer extends Player {
             }
         }
 
+        // If all have been eliminated, then none is more likely to meld than others
+        // Add all back to list for consideration, to be evaluated another way
         if (discardPossibilities.isEmpty()) {
             discardPossibilities.addAll(hand.getGroup());
             if (cardDrawnFromDiscardPileThisTurn == true) {
@@ -104,6 +106,7 @@ public class ComputerPlayer extends Player {
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
+        // Makes computer player's meld choice
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
 
@@ -164,7 +167,7 @@ public class ComputerPlayer extends Player {
     public void outputGameStatus(Deck deck) {
         // Output computer player's cards
         // TODO REMOVE WHEN GAME IS FINAL
-        System.out.println("\nYOUR OPPONENT'S HAND:");
+        System.out.println("YOUR OPPONENT'S HAND:");
         for (Card card : this.getHand()) {
             card.outputCardToTerminalInColor();
             if (card != this.getHand().getLast()) {

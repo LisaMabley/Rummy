@@ -38,9 +38,6 @@ public class Main {
                 newDeck.discard(activePlayer);
             }
         }
+        // TODO how does game end?
     }
 }
-
-//    public static void calculateScore() {
-//        // TODO
-//    }
