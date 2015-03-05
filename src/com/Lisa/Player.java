@@ -15,6 +15,14 @@ public abstract class Player {
     public abstract CardGroup makeMeldChoice(Deck deck);
     public abstract void outputGameStatus(Deck deck);
 
+    public void endTurn() {
+        for (Card card : this.getHand()) {
+            if (!card.canDiscardThisTurn()) {
+                card.changeCanDiscardThisTurn();
+            }
+        }
+    }
+
     // Getters
     public LinkedList<Card> getHand() {
         return hand.getGroup();

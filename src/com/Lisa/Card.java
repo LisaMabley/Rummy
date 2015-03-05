@@ -11,7 +11,6 @@ public class Card implements Comparable<Card> {
     private int valueId;
 
     private boolean canDiscardThisTurn;
-    // TODO this isn't working
 
     public Card(char suit, int value) {
         this.suit = suit;

@@ -36,6 +36,7 @@ public class Main {
                 newDeck.draw(activePlayer);
                 newDeck.meld(activePlayer);
                 newDeck.discard(activePlayer);
+                activePlayer.endTurn();
             }
         }
         // TODO how does game end?

@@ -1,7 +1,6 @@
 package com.Lisa;
 
 import java.util.InputMismatchException;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 // Created by lisa on 3/3/15.
@@ -107,15 +106,19 @@ public class HumanPlayer extends Player {
 
                 } else if (humanChoice == 3) {
                     if (possibleMeld.isValidRun()) {
-//                        System.out.println("VALID RUN");
                         Run newRun = new Run(possibleMeld);
                         this.runs.add(newRun);
+                        for (Card card : possibleMeld.getGroup()) {
+                            this.hand.getGroup().remove(card);
+                        }
                         return newRun;
 
                     } else if (possibleMeld.isValidBook()) {
-//                        System.out.println("VALID BOOK");
                         Book newBook = new Book(possibleMeld);
                         this.books.add(newBook);
+                        for (Card card : possibleMeld.getGroup()) {
+                            this.hand.getGroup().remove(card);
+                        }
                         return newBook;
                     }
 
@@ -135,13 +138,11 @@ public class HumanPlayer extends Player {
         System.out.println("Runs");
         for (int x = 0; x < this.getRuns().size(); x++) {
             this.getRuns().get(x).outputGroupOnOneLine();
-            System.out.println("\n");
         }
 
         System.out.println("Books");
         for (int x = 0; x < this.getBooks().size(); x++) {
             this.getBooks().get(x).outputGroupOnOneLine();
-            System.out.println("\n");
         }
 
         // Display top card in discard pile

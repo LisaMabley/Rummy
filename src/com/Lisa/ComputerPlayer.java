@@ -53,7 +53,7 @@ public class ComputerPlayer extends Player {
         int smallestValue = 14; // Start with highest card value
 
         // TODO if discard possibilities contains all suits, take card from smallest suit
-        // This block find smallest suit in hand, variable is unused
+        // This block finds smallest suit in hand, variable is unused
         for (int suit : Deck.suits) {
             int cardsOfThisSuitInHand = 0;
             for (Card card : hand.getGroup()) {
@@ -95,6 +95,8 @@ public class ComputerPlayer extends Player {
 
     public CardGroup makeMeldChoice(Deck newDeck) {
         // Makes computer player's meld choice
+        // TODO find why this sometimes throws index out of bounds exception and fix
+
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
 
@@ -154,30 +156,20 @@ public class ComputerPlayer extends Player {
 
     public void outputGameStatus(Deck deck) {
         // Output computer player's cards
-        // TODO REMOVE WHEN GAME IS FINAL
+        // TODO remove when game is final
         System.out.println("YOUR OPPONENT'S HAND:");
-        for (Card card : this.getHand()) {
-            card.outputCardToTerminalInColor();
-            if (card != this.getHand().getLast()) {
-                System.out.print(", ");
-            }
-        }
+        this.hand.outputGroupOnOneLine();
 
         System.out.println("\n\nYOUR OPPONENT'S MELDS:");
         System.out.println("Runs");
         for (int x = 0; x < this.getRuns().size(); x++) {
             this.getRuns().get(x).outputGroupOnOneLine();
-            for (Card card : this.getRuns().get(x).getGroup()) {
-                card.outputCardToTerminalInColor();
-            }
         }
 
+        // TODO found a bug where this prints Runs here and above
         System.out.println("Books");
         for (int x = 0; x < this.getBooks().size(); x++) {
-            for (Card card : this.getBooks().get(x).getGroup()) {
-                card.outputCardToTerminalInColor();
-            }
-            System.out.println("\n");
+            this.getBooks().get(x).outputGroupOnOneLine();
         }
     }
 }
