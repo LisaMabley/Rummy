@@ -50,8 +50,17 @@ public class Deck {
     }
 
     public void discard(Player player) {
+        Card cardToDiscard;
 
-        Card cardToDiscard = player.makeDiscardChoice(this);
+        while (true) {
+            cardToDiscard = player.makeDiscardChoice(this);
+            if (cardToDiscard.canDiscardThisTurn()) {
+                break;
+            } else {
+                System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
+            }
+        }
+
         player.getHand().remove(cardToDiscard);
         this.getDiscardPileCards().push(cardToDiscard);
 

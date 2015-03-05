@@ -77,6 +77,31 @@ public class Card implements Comparable<Card> {
         }
     }
 
+    public boolean isRunPartner(Card card) {
+        // Compare card to another card and return true
+        // if they have the same suit and have consecutive values
+
+        int difference = Math.abs(this.getValueId() - card.getValueId());
+        if (this.getSuit() == card.getSuit() && difference == 1) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isBookPartner(Card card) {
+        // Compare card to another card and return true
+        // if they are different suits and have the same value
+
+        if (this.getValueId() == card.getValueId() && this.getSuit() != card.getSuit()) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
     // Getters and setters
     public String getName() {
         return name;

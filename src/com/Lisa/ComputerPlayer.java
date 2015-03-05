@@ -11,53 +11,39 @@ public class ComputerPlayer extends Player {
         this.nickname = name;
     }
 
-    private boolean possibleMelds(Card card) {
-        // Check for possible melds in computer player's hand with any given card
-
-        boolean possibleMelds = false;
-
-        for (Card cardInHand : hand.getGroup()) {
-            int difference = Math.abs(cardInHand.getValueId() - card.getValueId());
-
-            if (cardInHand.getSuit() == card.getSuit() && difference == 1) {
-                // If the discard pile option increases chances of a Run
-                possibleMelds = true;
-            } else if (cardInHand.getValueId() == card.getValueId()) {
-                // If the discard pile option increases chances of a Book
-                possibleMelds = true;
-            }
-        }
-
-        return possibleMelds;
-    }
-
     @Override
     public Card makeDiscardChoice(Deck deck) {
         // Evaluates computer player's options and chooses which card to discard
 
+        Card cardToDiscard = this.getHand().getFirst();
+        boolean allCardsHavePossibleMelds = false;
         LinkedList<Card> discardPossibilities = new LinkedList<Card>();
-        discardPossibilities.addAll(hand.getGroup());
-        Card cardToDiscard = discardPossibilities.peek();
-        boolean cardDrawnFromDiscardPileThisTurn = false;
-        Card cardFromDiscard = hand.getGroup().getFirst();
 
-        // Remove cards with possible melds from consideration
-        for (Card card : hand.getGroup()) {
-            if (!card.canDiscardThisTurn()) {
-                cardDrawnFromDiscardPileThisTurn = true;
-                cardFromDiscard = card;
-                discardPossibilities.remove(card);
-            } else if (possibleMelds(card)) {
-                discardPossibilities.remove(card);
+        while (true) {
+            // Add all cards from hand to list of possible discards
+            discardPossibilities.addAll(this.getHand());
+
+            for (Card cardToCompare : this.getHand()) {
+                // Remove any card that has been picked up from discard pile this turn
+                if (!cardToCompare.canDiscardThisTurn()) {
+                    discardPossibilities.remove(cardToCompare);
+                }
+
+                if (!allCardsHavePossibleMelds) {
+                    for (Card otherCardInHand : this.getHand()) {
+                        // Remove cards with run or book possibilities within player's hand
+                        if (cardToCompare.isRunPartner(otherCardInHand) || cardToCompare.isBookPartner(otherCardInHand)) {
+                            discardPossibilities.remove(cardToCompare);
+                        }
+                    }
+                }
             }
-        }
 
-        // If all have been eliminated, then none is more likely to meld than others
-        // Add all back to list for consideration, to be evaluated another way
-        if (discardPossibilities.isEmpty()) {
-            discardPossibilities.addAll(hand.getGroup());
-            if (cardDrawnFromDiscardPileThisTurn == true) {
-                discardPossibilities.remove(cardFromDiscard);
+            if (discardPossibilities.isEmpty()) {
+                allCardsHavePossibleMelds = true;
+
+            } else {
+                break;
             }
         }
 
@@ -66,6 +52,8 @@ public class ComputerPlayer extends Player {
         int smallestSuit = 0;
         int smallestValue = 14; // Start with highest card value
 
+        // TODO if discard possibilities contains all suits, take card from smallest suit
+        // This block find smallest suit in hand, variable is unused
         for (int suit : Deck.suits) {
             int cardsOfThisSuitInHand = 0;
             for (Card card : hand.getGroup()) {
@@ -79,8 +67,8 @@ public class ComputerPlayer extends Player {
             }
 
             for (Card card : discardPossibilities) {
-                if ((card.getSuit() == smallestSuit) && (card.getValueId() < smallestValue)) {
-                    // Card is smallest value of smallest suit in hand
+                if ((card.getValueId() < smallestValue)) {
+                    // Card is smallest value
                     cardToDiscard = card;
                 }
             }
@@ -92,17 +80,17 @@ public class ComputerPlayer extends Player {
         // Evaluates options and chooses which pile to draw from
 
         Card discardOption = newDeck.getDiscardPileCards().peek();
-        boolean discardOptionProvidesPossibleMelds = possibleMelds(discardOption);
 
-        // Return computer player's choice
-        if (!discardOptionProvidesPossibleMelds) {
-            // Draw from stock pile
-            return 1;
-
-        } else {
-            // Draw from discard pile
-            return 2;
+        for (Card card : this.getHand()) {
+            if (discardOption.isRunPartner(card) || discardOption.isBookPartner(card)) {
+                // If card from discard pile provides possible run or book options
+                // Draw from discard pile
+                return 2;
+            }
         }
+
+        // If not, draw from stock pile
+        return 1;
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
