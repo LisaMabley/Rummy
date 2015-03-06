@@ -31,7 +31,7 @@ public class HumanPlayer extends Player {
 
         // Get valid response from user
         while (true) {
-            System.out.println("Press 1 to draw from the stock pile, or 2 to draw from the discard pile.");
+            System.out.println("Draw one card from the:\n1. Deck\n2. Discard pile");
 
             try {
                 scanner = new Scanner(System.in);
@@ -84,18 +84,21 @@ public class HumanPlayer extends Player {
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
+        //TODO: Take Computer Player Code to Sort etc
+
+
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
-
+        this.hand.outputGroupOnOneLine();
         System.out.println("MELD:\nWould you like to meld a run or book?\n" +
-                "Press 1 to pass, 2 to meld cards.");
+                "1. Meld cards\n2. Pass");
 
             while (true) {
 
                 scanner = new Scanner(System.in);
                 int humanChoice = scanner.nextInt();
 
-                if (humanChoice == 2) {
+                if (humanChoice == 1) {
                     System.out.println("\nYOUR HAND:");
                     this.hand.outputGroupOnOneLine();
                     Card cardToMeld = this.selectCardFromPlayerHand();
@@ -103,8 +106,13 @@ public class HumanPlayer extends Player {
 
                     System.out.println("CURRENT MELD: ");
                     possibleMeld.outputGroupOnOneLine();
-                    System.out.println("\nAny more cards to meld?\n2. Add more\n3. Done");
+                    System.out.println("\nAny more cards to meld?\n1. Add more\n2. Cancel\n3. Done");
 
+
+
+                } else if (humanChoice == 2) {
+                    System.out.println("No melds created");
+                    return emptyGroup;
                 } else if (humanChoice == 3) {
                     if (possibleMeld.isValidRun()) {
                         Run newRun = new Run(possibleMeld);
@@ -126,6 +134,8 @@ public class HumanPlayer extends Player {
                         possibleMeld.getGroup().clear();
                         continue;
                     }
+                    System.out.println("Not a valid meld");
+                    return emptyGroup;
 
                 } else {
                     return emptyGroup;
