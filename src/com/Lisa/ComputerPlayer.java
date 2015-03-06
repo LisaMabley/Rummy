@@ -52,8 +52,10 @@ public class ComputerPlayer extends Player {
         int smallestSuit = 0;
         int smallestValue = 14; // Start with highest card value
 
-        // TODO if discard possibilities contains all suits, take card from smallest suit
+        // TODO fine tune discard choice
+        // What if there are only 2 cards in hand?
         // This block finds smallest suit in hand, variable is unused
+        // if discard possibilities contains all suits, take card from smallest suit
         for (int suit : Deck.suits) {
             int cardsOfThisSuitInHand = 0;
             for (Card card : hand.getGroup()) {
@@ -101,6 +103,16 @@ public class ComputerPlayer extends Player {
         CardGroup possibleMeld = new CardGroup();
 
         // Look for runs
+        for (int x = 0; x < this.getHand().size(); x ++) {
+            Card cardToCompare = this.getHand().get(x);
+            for (int y = 1; y < (this.getHand().size() - 1); y ++) {
+                Card otherCardInHand = this.getHand().get(y);
+                if (cardToCompare.isRunPartner(otherCardInHand)) {
+                    possibleMeld.addCard(cardToCompare);
+
+                }
+            }
+        }
         for (Card cardToCompare : this.getHand()) {
             if (cardToCompare != this.getHand().getLast()) {
                 int x = this.getHand().indexOf(cardToCompare);

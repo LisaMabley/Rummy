@@ -40,7 +40,7 @@ public class CardGroup {
                 System.out.print(", ");
             }
         }
-        System.out.println("\n");
+        System.out.print("\n");
     }
 
     public boolean isValidRun() {
@@ -69,18 +69,18 @@ public class CardGroup {
     }
 
     public boolean isValidBook() {
-        // Determined if a given CardGroup is a valid book
+        // Determines if a given CardGroup is a valid book
         if (this.getGroup().size() < 3) {
             // Smaller than 3 cards = not valid
             return false;
         }
 
-        char suit = this.getGroup().getFirst().getSuit();
-        int valueId = this.getGroup().getFirst().getValueId();
+        Card cardToCompare = this.getGroup().getFirst();
 
-        for (Card card : this.getGroup()) {
+        for (int x = 1; x < (this.getGroup().size() - 1); x ++) {
             // Two cards the same suit OR two cards with different values = not valid
-            if (card.getSuit() == suit || card.getValueId() != valueId) {
+            Card otherCardInGroup = this.getGroup().get(x);
+            if (cardToCompare.getSuit() == otherCardInGroup.getSuit() || cardToCompare.getValueId() != otherCardInGroup.getValueId()) {
                 return false;
             }
         }

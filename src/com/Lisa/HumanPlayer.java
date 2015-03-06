@@ -16,6 +16,7 @@ public class HumanPlayer extends Player {
 
     @Override
     public Card makeDiscardChoice(Deck deck) {
+
         System.out.println("YOUR HAND:");
         this.hand.outputGroupOnOneLine();
         System.out.println("DISCARD:\nWhich card would you like to discard to end your turn?");
@@ -57,7 +58,7 @@ public class HumanPlayer extends Player {
         int cardIndex = -1;
 
         // Get valid response from user
-        // TODO causes output error when 1 is selected
+        // TODO causes Index Out of Bounds error when 1 is selected
         while (true) {
             scanner = new Scanner(System.in);
             System.out.println("Please use your number keypad to enter which card, as counted from the left.");
@@ -120,6 +121,10 @@ public class HumanPlayer extends Player {
                             this.hand.getGroup().remove(card);
                         }
                         return newBook;
+                    } else {
+                        System.out.println("That is not a valid meld.");
+                        possibleMeld.getGroup().clear();
+                        continue;
                     }
 
                 } else {
