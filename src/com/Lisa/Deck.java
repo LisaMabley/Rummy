@@ -15,7 +15,7 @@ public class Deck {
     public Deck() {
         // Generate cards
         for (char x = 0; x < suits.length; x++) {
-            int value = 0;
+            int value;
 
             for (int y = 1; y < 14; y++) {
                 value = y;

@@ -2,6 +2,7 @@ package com.Lisa;
 
 // Created by lisa on 3/1/15.
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class ComputerPlayer extends Player {
@@ -97,43 +98,46 @@ public class ComputerPlayer extends Player {
 
     public CardGroup makeMeldChoice(Deck newDeck) {
         // Makes computer player's meld choice
-        // TODO find why this sometimes throws index out of bounds exception and fix
+        // TODO test thoroughly to be sure index out of bounds exceptions are really fixed
 
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
 
         // Look for runs
-        for (int x = 0; x < this.getHand().size(); x ++) {
-            Card cardToCompare = this.getHand().get(x);
-            for (int y = 1; y < (this.getHand().size() - 1); y ++) {
-                Card otherCardInHand = this.getHand().get(y);
-                if (cardToCompare.isRunPartner(otherCardInHand)) {
-                    possibleMeld.addCard(cardToCompare);
+        // Would be nice to make sure this picked longest run, if more than one in hand
+        // This just picks the first one it comes across
+        int handSize = this.getHand().size();
 
-                }
-            }
-        }
-        for (Card cardToCompare : this.getHand()) {
-            if (cardToCompare != this.getHand().getLast()) {
-                int x = this.getHand().indexOf(cardToCompare);
+        for (int x = 0; x < handSize - 2; x ++) {
+            Card cardToCompare = this.getHand().get(x);
+            Card nextCardInHand = this.getHand().get(x + 1);
+
+            while (cardToCompare.isRunPartner(nextCardInHand)) {
+                possibleMeld.addCard(cardToCompare);
                 x ++;
-                while ((this.getHand().get(x).getValueId() - this.getHand().get(x-1).getValueId() == 1) &&
-                        (this.getHand().get(x).getSuit() == this.getHand().get(x-1).getSuit())) {
-                    possibleMeld.addCard(this.getHand().get(x));
-                    x ++;
+                cardToCompare = this.getHand().get(x);
+
+                if (cardToCompare == this.getHand().getLast()) {
+                    break;
+
+                } else {
+                    nextCardInHand = this.getHand().get(x + 1);
                 }
             }
 
             if (possibleMeld.getGroup().size() >= 2) {
                 // We have a run!
                 possibleMeld.addCardAndSort(cardToCompare);
-                for (Card card : possibleMeld.getGroup()) {
-                    this.hand.getGroup().remove(card);
-                }
 
-                Run newRun = new Run(possibleMeld);
-                this.runs.add(newRun);
-                return newRun;
+                if (possibleMeld.isValidRun()) {
+                    for (Card card : possibleMeld.getGroup()) {
+                        this.hand.getGroup().remove(card);
+                    }
+
+                    Run newRun = new Run(possibleMeld);
+                    this.runs.add(newRun);
+                    return newRun;
+                }
 
             } else {
                 possibleMeld.getGroup().clear();
@@ -141,28 +145,43 @@ public class ComputerPlayer extends Player {
         }
 
         // Look for books
-        int numCardsForBook = 0;
+        Collections.sort(this.getHand());
 
-        for (Card cardToCompare : this.getHand()) {
-            for (Card otherCardInHand : this.getHand()) {
-                if ((cardToCompare.getValueId() == otherCardInHand.getValueId()) && (cardToCompare.getSuit() != otherCardInHand.getSuit())) {
-                    possibleMeld.addCard(otherCardInHand);
-                    numCardsForBook ++;
+        for (int x = 0; x < handSize - 2; x ++) {
+            Card cardToCompare = this.getHand().get(x);
+            Card nextCardInHand = this.getHand().get(x + 1);
+
+            while (cardToCompare.isBookPartner(nextCardInHand)) {
+                possibleMeld.addCard(cardToCompare);
+                x++;
+                cardToCompare = this.getHand().get(x);
+
+                if (cardToCompare == this.getHand().getLast()) {
+                    break;
+
+                } else {
+                    nextCardInHand = this.getHand().get(x + 1);
                 }
-                if (numCardsForBook >= 2) {
-                    // We have a book!
-                    possibleMeld.addCardAndSort(cardToCompare);
+            }
+
+            if (possibleMeld.getGroup().size() >= 2) {
+                // We have a book!
+                possibleMeld.addCardAndSort(cardToCompare);
+                if (possibleMeld.isValidBook()) {
                     for (Card card : possibleMeld.getGroup()) {
                         this.hand.getGroup().remove(card);
                     }
+
                     Book newBook = new Book(possibleMeld);
                     this.books.add(newBook);
                     return newBook;
                 }
+
+            } else {
+                possibleMeld.getGroup().clear();
             }
-            numCardsForBook = 0;
-            possibleMeld.getGroup().clear();
         }
+
         return emptyGroup;
     }
 

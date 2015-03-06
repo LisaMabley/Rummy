@@ -111,7 +111,7 @@ public class HumanPlayer extends Player {
 
 
                 } else if (humanChoice == 2) {
-                    System.out.println("No melds created");
+//                    System.out.println("No melds created"); JESSE: Not necessary because meld method in Deck outputs this
                     return emptyGroup;
                 } else if (humanChoice == 3) {
                     if (possibleMeld.isValidRun()) {
@@ -134,10 +134,12 @@ public class HumanPlayer extends Player {
                         possibleMeld.getGroup().clear();
                         continue;
                     }
-                    System.out.println("Not a valid meld");
-                    return emptyGroup;
+//                    System.out.println("Not a valid meld"); JESSE: Repeated from above
+//                    return emptyGroup;
 
                 } else {
+                    // Consider: if they enter a higher number than 3, maybe they made a mistake
+                    // and were trying to choose a card from their hand? Should we check?
                     return emptyGroup;
                 }
             }

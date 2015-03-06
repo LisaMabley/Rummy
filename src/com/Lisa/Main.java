@@ -1,9 +1,5 @@
 package com.Lisa;
 
-import java.util.InputMismatchException;
-import java.util.LinkedList;
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -19,6 +15,35 @@ public class Main {
         // Opening deal
         openingDeal(players, newDeck);
 
+//        // FOR TESTING & DEBUGGING
+//        char suit = 9824;
+//
+//        for (int x = 4; x < 5; x ++) {
+//            Card card = new Card(suit, x);
+//            computerPlayer.hand.addCard(card);
+//            }
+//
+//        suit = 9829;
+//
+//        for (int x = 5; x < 6; x ++) {
+//            Card card = new Card(suit, x);
+//            computerPlayer.hand.addCard(card);
+//        }
+//
+//        suit = 9830;
+//
+//        for (int x = 5; x < 7; x ++) {
+//            Card card = new Card(suit, x);
+//            computerPlayer.hand.addCard(card);
+//        }
+//
+//        suit = 9827;
+//
+//        for (int x = 4; x < 6; x ++) {
+//            Card card = new Card(suit, x);
+//            computerPlayer.hand.addCard(card);
+//        }
+
         // Game play
         takeTurns(players, newDeck);
     }
@@ -30,7 +55,7 @@ public class Main {
     }
 
     public static void takeTurns(Player[] players, Deck newDeck) {
-        while (!newDeck.getStockPile().isEmpty()) {
+        while (!newDeck.getStockPile().isEmpty()) { // For now
             for (Player activePlayer : players) {
                 activePlayer.outputGameStatus(newDeck);
                 newDeck.draw(activePlayer);
