@@ -116,7 +116,7 @@ public class HumanPlayer extends Player {
                 } else if (humanChoice == 3) {
                     if (possibleMeld.isValidRun()) {
                         Run newRun = new Run(possibleMeld);
-                        this.runs.add(newRun);
+                        newDeck.melds.add(newRun);
                         for (Card card : possibleMeld.getGroup()) {
                             this.hand.getGroup().remove(card);
                         }
@@ -124,7 +124,7 @@ public class HumanPlayer extends Player {
 
                     } else if (possibleMeld.isValidBook()) {
                         Book newBook = new Book(possibleMeld);
-                        this.books.add(newBook);
+                        newDeck.melds.add(newBook);
                         for (Card card : possibleMeld.getGroup()) {
                             this.hand.getGroup().remove(card);
                         }
@@ -151,15 +151,9 @@ public class HumanPlayer extends Player {
         System.out.println("\nYOUR HAND:");
         this.hand.outputGroupOnOneLine();
 
-        System.out.println("YOUR MELDS:");
-        System.out.println("Runs");
-        for (int x = 0; x < this.getRuns().size(); x++) {
+        System.out.println("MELDS:");
+        for (int x = 0; x < this.().size(); x++) {
             this.getRuns().get(x).outputGroupOnOneLine();
-        }
-
-        System.out.println("Books");
-        for (int x = 0; x < this.getBooks().size(); x++) {
-            this.getBooks().get(x).outputGroupOnOneLine();
         }
 
         // Display top card in discard pile

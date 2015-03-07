@@ -8,6 +8,7 @@ public class Deck {
 
     private CardGroup stock = new CardGroup();
     private CardGroup discardPile = new CardGroup();
+    protected LinkedList<CardGroup> melds = new LinkedList<CardGroup>();
 
     public static char[] suits = {9824, 9827, 9829, 9830};
     Random randomNumberGenerator;
@@ -23,20 +24,6 @@ public class Deck {
                 this.stock.addCard(newcard);
             }
         }
-    }
-
-    public LinkedList<Card> getStockPile() {
-
-        return stock.getGroup();
-    }
-
-    public LinkedList<Card> getDiscardPileCards() {
-
-        if (discardPile.getGroup().isEmpty()) {
-            dealCards(1, discardPile);
-        }
-
-        return discardPile.getGroup();
     }
 
     public void dealCards(int numCards, CardGroup group) {
@@ -111,6 +98,25 @@ public class Deck {
             System.out.print("\n" + player.nickname + " melded ");
             meld.outputGroupOnOneLine();
         }
+    }
+
+    // Getters
+    public LinkedList<Card> getStockPile() {
+
+        return stock.getGroup();
+    }
+
+    public LinkedList<Card> getDiscardPileCards() {
+
+        if (discardPile.getGroup().isEmpty()) {
+            dealCards(1, discardPile);
+        }
+
+        return discardPile.getGroup();
+    }
+
+    public LinkedList<CardGroup> getMelds() {
+        return melds;
     }
 
     // TODO add lay off method, along with choice methods for both players
