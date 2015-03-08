@@ -87,6 +87,18 @@ public class CardGroup {
         return true;
     }
 
+    public boolean isValidLayOffWith(Card meldAddition) {
+        // Determines if a given card is a valid addition to existing meld
+
+        if (this.getGroup().getFirst().isRunPartner(meldAddition) || this.getGroup().getFirst().isBookPartner(meldAddition) ||
+                this.getGroup().getLast().isBookPartner(meldAddition) || this.getGroup().getLast().isBookPartner(meldAddition)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
     // Getter
     public LinkedList<Card> getGroup() {
         return this.group;

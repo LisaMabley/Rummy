@@ -36,28 +36,9 @@ public class Deck {
         }
     }
 
-    public void discard(Player player) {
-        Card cardToDiscard;
-
-        while (true) {
-            cardToDiscard = player.makeDiscardChoice(this);
-            if (cardToDiscard.canDiscardThisTurn()) {
-                break;
-            } else {
-                System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
-            }
-        }
-
-        player.getHand().remove(cardToDiscard);
-        this.getDiscardPileCards().push(cardToDiscard);
-
-        // Output action
-        System.out.print("\n" + player.nickname + " discarded ");
-        cardToDiscard.outputCardToTerminalInColor();
-        System.out.println("\n");
-    }
-
     public void draw(Player player) {
+        player.outputHand();
+        outputTopCardInDiscards();
 
         int drawChoice = player.makeDrawChoice(this);
         Card cardDrawn;
@@ -82,12 +63,10 @@ public class Deck {
         // Output result
         System.out.print("\n" + player.nickname + " drew ");
         cardDrawn.outputCardToTerminalInColor();
-        System.out.println(" from " + pileDrawnFrom + ".\n");
-        player.outputGameStatus(this);
+        System.out.println(" from " + pileDrawnFrom + ".");
     }
 
     public void meld(Player player) {
-
         CardGroup meld = player.makeMeldChoice(this);
 
         if (meld.getGroup().isEmpty()) {
@@ -100,14 +79,55 @@ public class Deck {
         }
     }
 
+    public void layOff(Player player) {
+        player.makeLayOffChoice(this);
+    }
+
+    public void discard(Player player) {
+        Card cardToDiscard;
+
+        while (true) {
+            cardToDiscard = player.makeDiscardChoice(this);
+            if (cardToDiscard.canDiscardThisTurn()) {
+                break;
+            } else {
+                System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
+            }
+        }
+
+        player.getHand().remove(cardToDiscard);
+        this.getDiscardPileCards().push(cardToDiscard);
+
+        // Output action
+        System.out.print("\n" + player.nickname + " discarded ");
+        cardToDiscard.outputCardToTerminalInColor();
+        System.out.println("\n");
+    }
+
+    // Outputters
+    public void outputMelds() {
+        System.out.println("All melds on the table: \n");
+        for (int x = 0; x < melds.size(); x++) {
+            System.out.print((x+1) + ". ");
+            melds.get(x).outputGroupOnOneLine();
+        }
+    }
+
+    public void outputTopCardInDiscards() {
+        System.out.println("\nTop card in the discard pile: ");
+        if (this.getDiscardPileCards().isEmpty()) {
+            dealCards(1, discardPile);
+        }
+
+        discardPile.getGroup().peek().outputCardToTerminalInColor();
+    }
+
     // Getters
     public LinkedList<Card> getStockPile() {
-
         return stock.getGroup();
     }
 
     public LinkedList<Card> getDiscardPileCards() {
-
         if (discardPile.getGroup().isEmpty()) {
             dealCards(1, discardPile);
         }
@@ -118,8 +138,6 @@ public class Deck {
     public LinkedList<CardGroup> getMelds() {
         return melds;
     }
-
-    // TODO add lay off method, along with choice methods for both players
 
     // TODO add scoring methods
 }

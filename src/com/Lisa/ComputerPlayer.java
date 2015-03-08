@@ -96,7 +96,7 @@ public class ComputerPlayer extends Player {
         return 1;
     }
 
-    public CardGroup makeMeldChoice(Deck newDeck) {
+    public CardGroup makeMeldChoice(Deck deck) {
         // Makes computer player's meld choice
         // TODO test thoroughly to be sure index out of bounds exceptions are really fixed
 
@@ -135,7 +135,7 @@ public class ComputerPlayer extends Player {
                     }
 
                     Run newRun = new Run(possibleMeld);
-                    this.runs.add(newRun);
+                    deck.melds.add(newRun);
                     return newRun;
                 }
 
@@ -173,7 +173,7 @@ public class ComputerPlayer extends Player {
                     }
 
                     Book newBook = new Book(possibleMeld);
-                    this.books.add(newBook);
+                    deck.melds.add(newBook);
                     return newBook;
                 }
 
@@ -185,23 +185,14 @@ public class ComputerPlayer extends Player {
         return emptyGroup;
     }
 
-    public void outputGameStatus(Deck deck) {
-        // Output computer player's cards
-        // TODO remove when game is final
-        System.out.println("YOUR OPPONENT'S HAND:");
+    public void makeLayOffChoice(Deck deck) {
+        System.out.println("I don't want to lay off and you can't make me.");
+    }
+
+    public void outputHand() {
+        // Output human player cards
+        System.out.println("\nYOUR OPPONENT'S HAND:");
         this.hand.outputGroupOnOneLine();
-
-        System.out.println("\n\nYOUR OPPONENT'S MELDS:");
-        System.out.println("Runs");
-        for (int x = 0; x < this.getRuns().size(); x++) {
-            this.getRuns().get(x).outputGroupOnOneLine();
-        }
-
-        // TODO found a bug where this prints Runs here and above
-        System.out.println("Books");
-        for (int x = 0; x < this.getBooks().size(); x++) {
-            this.getBooks().get(x).outputGroupOnOneLine();
-        }
     }
 }
 

@@ -8,10 +8,11 @@ public abstract class Player {
     protected CardGroup hand = new CardGroup();
     protected String nickname = new String();
 
-    public abstract Card makeDiscardChoice(Deck deck);
     public abstract int makeDrawChoice(Deck deck);
     public abstract CardGroup makeMeldChoice(Deck deck);
-    public abstract void outputGameStatus(Deck deck);
+    public abstract void makeLayOffChoice(Deck deck);
+    public abstract Card makeDiscardChoice(Deck deck);
+    public abstract void outputHand();
 
     public void endTurn() {
         for (Card card : this.getHand()) {

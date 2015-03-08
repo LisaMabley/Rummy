@@ -57,9 +57,9 @@ public class Main {
     public static void takeTurns(Player[] players, Deck newDeck) {
         while (!newDeck.getStockPile().isEmpty()) { // For now
             for (Player activePlayer : players) {
-                activePlayer.outputGameStatus(newDeck);
                 newDeck.draw(activePlayer);
                 newDeck.meld(activePlayer);
+                newDeck.layOff(activePlayer);
                 newDeck.discard(activePlayer);
                 activePlayer.endTurn();
             }
