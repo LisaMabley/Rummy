@@ -67,20 +67,33 @@ public class Deck {
     }
 
     public void meld(Player player) {
-        CardGroup meld = player.makeMeldChoice(this);
+        if (player.getHand().size() >= 3) {
+            // Skip this step if player doesn't have enough cards to meld
+            CardGroup meld = player.makeMeldChoice(this);
 
-        if (meld.getGroup().isEmpty()) {
-            System.out.println("\n" + player.nickname + " declined to meld.\n");
+            if (meld.getGroup().isEmpty()) {
+                System.out.println("\n" + player.nickname + " declined to meld.\n");
 
-        } else {
-            // Output action
-            System.out.print("\n" + player.nickname + " melded ");
-            meld.outputGroupOnOneLine();
+            } else {
+                // Output action
+                System.out.print("\n" + player.nickname + " melded ");
+                meld.outputGroupOnOneLine();
+            }
+
+            if (player.hand.groupIsEmpty()) {
+                // Player has gone out
+                System.out.println(player.nickname + " went out.");
+            }
         }
     }
 
     public void layOff(Player player) {
         player.makeLayOffChoice(this);
+
+        if (player.hand.groupIsEmpty()) {
+            // Player has gone out
+            System.out.println(player.nickname + " went out.");
+        }
     }
 
     public void discard(Player player) {
@@ -102,11 +115,16 @@ public class Deck {
         System.out.print("\n" + player.nickname + " discarded ");
         cardToDiscard.outputCardToTerminalInColor();
         System.out.println("\n");
+
+        if (player.hand.groupIsEmpty()) {
+            // Player has gone out
+            System.out.println(player.nickname + " went out.");
+        }
     }
 
     // Outputters
     public void outputMelds() {
-        System.out.println("All melds on the table: \n");
+        System.out.println("All melds on the table:");
         for (int x = 0; x < melds.size(); x++) {
             System.out.print((x+1) + ". ");
             melds.get(x).outputGroupOnOneLine();

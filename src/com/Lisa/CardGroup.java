@@ -99,6 +99,26 @@ public class CardGroup {
         }
     }
 
+    public boolean groupIsEmpty() {
+        if (this.getGroup().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getRoundScore() {
+        int points = 0;
+        for (Card card : this.group) {
+            int cardValue = card.getValueId();
+            if (cardValue > 10) {
+                cardValue = 10;
+            }
+            points += card.getValueId();
+        }
+        return points;
+    }
+
     // Getter
     public LinkedList<Card> getGroup() {
         return this.group;

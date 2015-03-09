@@ -76,7 +76,7 @@ public class HumanPlayer extends Player {
         System.out.println("");
         System.out.println("LAY OFF CARDS:\nWould you like to lay off cards, adding to existing runs or books?\n");
         deck.outputMelds();
-        int humanChoice = getValidInt(1, 2, "1. Lay off cards\n2. Pass");
+        int humanChoice = getValidInt(1, 2, "\n1. Lay off cards\n2. Pass");
 
         while (true) {
 
@@ -101,6 +101,7 @@ public class HumanPlayer extends Player {
                 humanChoice = getValidInt(1, 2, "\nAny more cards to lay off?\n1. Lay off more cards\n2. Done");
 
             } else {
+                deck.outputMelds();
                 break;
             }
         }

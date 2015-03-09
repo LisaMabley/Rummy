@@ -13,57 +13,74 @@ public class Main {
         Player[] players = {humanPlayer, computerPlayer};
 
         // Opening deal
-        openingDeal(players, newDeck);
+//        openingDeal(players, newDeck);
 
-//        // FOR TESTING & DEBUGGING
-//        char suit = 9824;
-//
-//        for (int x = 4; x < 5; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//            }
-//
-//        suit = 9829;
-//
-//        for (int x = 5; x < 6; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-//
-//        suit = 9830;
-//
-//        for (int x = 5; x < 7; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-//
-//        suit = 9827;
-//
-//        for (int x = 4; x < 6; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
+        // FOR TESTING & DEBUGGING
+        char suit = 9824;
+
+        for (int x = 4; x < 8; x ++) {
+            Card card = new Card(suit, x);
+            humanPlayer.hand.addCard(card);
+            }
+
+        suit = 9829;
+
+        for (int x = 10; x < 12; x ++) {
+            Card card = new Card(suit, x);
+            computerPlayer.hand.addCard(card);
+        }
+
+        suit = 9830;
+
+        for (int x = 2; x < 4; x ++) {
+            Card card = new Card(suit, x);
+            computerPlayer.hand.addCard(card);
+        }
+
+        suit = 9827;
+
+        for (int x = 4; x < 6; x ++) {
+            Card card = new Card(suit, x);
+            computerPlayer.hand.addCard(card);
+        }
 
         // Game play
         takeTurns(players, newDeck);
     }
 
-    public static void openingDeal(Player[] players, Deck newDeck) {
-        for (Player player : players) {
-            newDeck.dealCards(10, player.getHandGroup());
-        }
-    }
+//    public static void openingDeal(Player[] players, Deck newDeck) {
+//        for (Player player : players) {
+//            newDeck.dealCards(10, player.getHandGroup());
+//        }
+//    }
 
     public static void takeTurns(Player[] players, Deck newDeck) {
-        while (!newDeck.getStockPile().isEmpty()) { // For now
+        Player inactivePlayer = players[1];
+
+        while (true) {
             for (Player activePlayer : players) {
                 newDeck.draw(activePlayer);
-                newDeck.meld(activePlayer);
-                newDeck.layOff(activePlayer);
-                newDeck.discard(activePlayer);
+                if (!activePlayer.hand.groupIsEmpty()) {
+                    newDeck.meld(activePlayer);
+                }
+                if (!activePlayer.hand.groupIsEmpty()) {
+                    newDeck.layOff(activePlayer);
+                }
+                if (!activePlayer.hand.groupIsEmpty()) {
+                    newDeck.discard(activePlayer);
+                }
                 activePlayer.endTurn();
+
+                if (activePlayer.hand.groupIsEmpty()) {
+                    activePlayer.roundWon(inactivePlayer.roundLost());
+                    inactivePlayer = activePlayer;
+                    break;
+                }
+                inactivePlayer = activePlayer;
+            }
+            if (inactivePlayer.hand.groupIsEmpty()) {
+                break;
             }
         }
-        // TODO how does game end?
     }
 }

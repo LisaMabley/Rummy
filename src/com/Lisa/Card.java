@@ -2,8 +2,6 @@ package com.Lisa;
 
 // Created by lisa on 2/18/15.
 
-import java.util.LinkedList;
-
 public class Card implements Comparable<Card> {
 
     private String name;
@@ -43,7 +41,6 @@ public class Card implements Comparable<Card> {
         return stringName;
     }
 
-    @Override
     public int compareTo(Card card) {
         int comparedValue = card.valueId;
         if (this.valueId > comparedValue) {

@@ -7,6 +7,7 @@ public abstract class Player {
 
     protected CardGroup hand = new CardGroup();
     protected String nickname = new String();
+    protected int score = 0;
 
     public abstract int makeDrawChoice(Deck deck);
     public abstract CardGroup makeMeldChoice(Deck deck);
@@ -20,6 +21,15 @@ public abstract class Player {
                 card.changeCanDiscardThisTurn();
             }
         }
+    }
+
+    public int roundLost() {
+        return this.hand.getRoundScore();
+    }
+
+    public void roundWon(int roundPoints) {
+        System.out.println(this.nickname + " won this round, for " + roundPoints + " points.");
+        this.score += roundPoints;
     }
 
     // Getters
