@@ -27,6 +27,8 @@ public class Deck {
     }
 
     public void dealCards(int numCards, CardGroup group) {
+        // Add given number of cards to given group
+        // (usually a player's hand, sometimes the discard pile)
 
         randomNumberGenerator = new Random();
 
@@ -37,6 +39,7 @@ public class Deck {
     }
 
     public void draw(Player player) {
+        // Executes draw and outputs result
         player.outputHand();
         outputTopCardInDiscards();
 
@@ -48,6 +51,7 @@ public class Deck {
             // Draw from stock pile
             randomNumberGenerator = new Random();
             int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
+            cardIndex --; // Prevent off-by-1 errors if last number is selected
             cardDrawn = this.getStockPile().remove(cardIndex);
             pileDrawnFrom = "the stock pile";
 
@@ -67,15 +71,16 @@ public class Deck {
     }
 
     public void meld(Player player) {
+        // Executes meld and outputs result
         if (player.getHand().size() >= 3) {
             // Skip this step if player doesn't have enough cards to meld
             CardGroup meld = player.makeMeldChoice(this);
 
+            // Output action
             if (meld.getGroup().isEmpty()) {
                 System.out.println("\n" + player.nickname + " declined to meld.\n");
 
             } else {
-                // Output action
                 System.out.print("\n" + player.nickname + " melded ");
                 meld.outputGroupOnOneLine();
             }
@@ -88,6 +93,7 @@ public class Deck {
     }
 
     public void layOff(Player player) {
+        // Executes lay off
         player.makeLayOffChoice(this);
 
         if (player.hand.groupIsEmpty()) {
@@ -97,8 +103,11 @@ public class Deck {
     }
 
     public void discard(Player player) {
+        // Executes discard action
         Card cardToDiscard;
 
+        // Only allows cards to be discarded that have not
+        // been drawn from the discard pile this turn
         while (true) {
             cardToDiscard = player.makeDiscardChoice(this);
             if (cardToDiscard.canDiscardThisTurn()) {
@@ -156,6 +165,4 @@ public class Deck {
     public LinkedList<CardGroup> getMelds() {
         return melds;
     }
-
-    // TODO add scoring methods
 }

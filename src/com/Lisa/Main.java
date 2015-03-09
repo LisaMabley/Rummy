@@ -21,10 +21,10 @@ public class Main {
         // FOR TESTING & DEBUGGING
 //        char suit = 9824;
 //
-//        for (int x = 4; x < 8; x ++) {
+//        for (int x = 10; x < 12; x ++) {
 //            Card card = new Card(suit, x);
-//            humanPlayer.hand.addCard(card);
-//            }
+//            computerPlayer.hand.addCard(card);
+//        }
 //
 //        suit = 9829;
 //
@@ -40,6 +40,11 @@ public class Main {
 //            computerPlayer.hand.addCard(card);
 //        }
 //
+//        for (int x = 5; x < 9; x ++) {
+//            Card card = new Card(suit, x);
+//            humanPlayer.hand.addCard(card);
+//        }
+//
 //        suit = 9827;
 //
 //        for (int x = 4; x < 6; x ++) {
@@ -52,12 +57,14 @@ public class Main {
     }
 
     public static void openingDeal(Player[] players, Deck newDeck) {
+        // Deal 10 cards to each player
         for (Player player : players) {
             newDeck.dealCards(10, player.getHandGroup());
         }
     }
 
     public static void takeTurns(Player[] players, Deck newDeck) {
+        // Players take turns until one of them lays down all cards in their hand
         Player inactivePlayer = players[1];
 
         while (true) {

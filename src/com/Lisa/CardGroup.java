@@ -13,7 +13,6 @@ public class CardGroup {
 
     public void addCardAndSort(Card card) {
         // Add card to given group and sort group
-
         this.group.add(card);
 
         LinkedList<Card> unsortedCardGroup = new LinkedList<Card>();
@@ -89,9 +88,8 @@ public class CardGroup {
 
     public boolean isValidLayOffWith(Card meldAddition) {
         // Determines if a given card is a valid addition to existing meld
-
         if (this.getGroup().getFirst().isRunPartner(meldAddition) || this.getGroup().getFirst().isBookPartner(meldAddition) ||
-                this.getGroup().getLast().isBookPartner(meldAddition) || this.getGroup().getLast().isBookPartner(meldAddition)) {
+                this.getGroup().getLast().isRunPartner(meldAddition) || this.getGroup().getLast().isBookPartner(meldAddition)) {
             return true;
 
         } else {
@@ -100,6 +98,8 @@ public class CardGroup {
     }
 
     public boolean groupIsEmpty() {
+        // Used to determine if any player's hand is empty
+        // Thus round has been won
         if (this.getGroup().isEmpty()) {
             return true;
         } else {
@@ -108,6 +108,8 @@ public class CardGroup {
     }
 
     public int getRoundScore() {
+        // Determines points for round by adding up values
+        // of cards in losing player's hand (face cards worth 10)
         int points = 0;
         for (Card card : this.group) {
             int cardValue = card.getValueId();

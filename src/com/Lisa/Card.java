@@ -8,8 +8,10 @@ public class Card implements Comparable<Card> {
     private char suit;
     private int valueId;
 
+    // If card was picked up from discard pile, this is true
     private boolean canDiscardThisTurn;
 
+    // Constructor
     public Card(char suit, int value) {
         this.suit = suit;
         this.valueId = value;
@@ -17,6 +19,7 @@ public class Card implements Comparable<Card> {
         this.canDiscardThisTurn = true;
     }
 
+    // Generate card name variable when card objects are initialized
     private String cardString(int suitId, int valueId){
 
         String stringName = "";
@@ -42,6 +45,7 @@ public class Card implements Comparable<Card> {
     }
 
     public int compareTo(Card card) {
+        // Compare by valueID variable
         int comparedValue = card.valueId;
         if (this.valueId > comparedValue) {
             return 1;
@@ -53,6 +57,7 @@ public class Card implements Comparable<Card> {
     }
 
     public void changeCanDiscardThisTurn() {
+        // At the end of player's turn, all cards set to true
         if (this.canDiscardThisTurn) {
             this.canDiscardThisTurn = false;
         } else {
@@ -61,8 +66,8 @@ public class Card implements Comparable<Card> {
     }
 
     public void outputCardToTerminalInColor() {
-
-        // Set colors for terminal output
+        // Set colors and output to terminal
+        // Hearts and diamonds in red, other suits black
         String ANSI_red = "\u001B[31m";
         String ANSI_reset_color = "\u001B[0m";
 

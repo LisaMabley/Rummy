@@ -15,12 +15,13 @@ public class HumanPlayer extends Player {
     }
 
     public int makeDrawChoice(Deck newDeck) {
+        // Interacts with human player and returns their draw choice
         System.out.println("\n\nDRAW");
         return getValidInt(1, 2, "Draw one card from the:\n1. Deck\n2. Discard pile");
     }
 
     public CardGroup makeMeldChoice(Deck newDeck) {
-
+        // Interacts with human player and returns their meld choice
         outputHand();
         System.out.println("\nMELD:\nWould you like to meld a run or book?\n");
         CardGroup emptyGroup = new CardGroup();
@@ -72,6 +73,7 @@ public class HumanPlayer extends Player {
     }
 
     public void makeLayOffChoice(Deck deck) {
+        // Interacts with human player and returns their lay off choice
         outputHand();
         System.out.println("");
         System.out.println("LAY OFF CARDS:\nWould you like to lay off cards, adding to existing runs or books?\n");
@@ -98,17 +100,17 @@ public class HumanPlayer extends Player {
                     System.out.println("That is not a valid combination.");
                 }
 
+                deck.melds.get(indexOfSelectedMeld).outputGroupOnOneLine();
                 humanChoice = getValidInt(1, 2, "\nAny more cards to lay off?\n1. Lay off more cards\n2. Done");
 
             } else {
-                deck.outputMelds();
                 break;
             }
         }
     }
 
     public Card makeDiscardChoice(Deck deck) {
-
+        // Interacts with human player and returns their discard choice
         System.out.println("\nDISCARD");
         outputHand();
         int humanCardSelection = getValidInt(1, this.getHand().size(), "Which card would you like to discard to end your turn?");
@@ -116,17 +118,16 @@ public class HumanPlayer extends Player {
         return cardToDiscard;
     }
 
-    private int setWinThreshold() {
+    public int setWinThreshold() {
+        // Interacts with human player and returns their choice of win threshold
         int winThreshold = getValidInt(1, 10000, "How many points would you like to play up to?");
         return winThreshold;
     }
 
     public int getValidInt(int minValue, int maxValue, String prompt) {
-        // Displays prompt and returns valid int
-
+        // Displays prompt and returns valid positive int
         int playerChoice;
 
-        // Get valid response from user
         while (true) {
             scanner = new Scanner(System.in);
             System.out.println(prompt);
