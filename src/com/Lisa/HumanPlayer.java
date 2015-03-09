@@ -116,6 +116,11 @@ public class HumanPlayer extends Player {
         return cardToDiscard;
     }
 
+    private int setWinThreshold() {
+        int winThreshold = getValidInt(1, 10000, "How many points would you like to play up to?");
+        return winThreshold;
+    }
+
     public int getValidInt(int minValue, int maxValue, String prompt) {
         // Displays prompt and returns valid int
 
