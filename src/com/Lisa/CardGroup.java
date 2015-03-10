@@ -87,24 +87,8 @@ public class CardGroup {
     }
 
     public boolean isValidLayOffWith(Card meldAddition) {
-        // Determines if a given card is a valid addition to existing meld
-        if (this.getGroup().getFirst().isRunPartner(meldAddition) || this.getGroup().getFirst().isBookPartner(meldAddition) ||
-                this.getGroup().getLast().isRunPartner(meldAddition) || this.getGroup().getLast().isBookPartner(meldAddition)) {
-            return true;
-
-        } else {
-            return false;
-        }
-    }
-
-    public boolean groupIsEmpty() {
-        // Used to determine if any player's hand is empty
-        // Thus round has been won
-        if (this.getGroup().isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
+        // Subclass methods override this, should never be called
+        return false;
     }
 
     public int getRoundScore() {
@@ -122,7 +106,5 @@ public class CardGroup {
     }
 
     // Getter
-    public LinkedList<Card> getGroup() {
-        return this.group;
-    }
+    public LinkedList<Card> getGroup() { return this.group; }
 }

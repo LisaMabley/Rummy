@@ -51,6 +51,7 @@ public class HumanPlayer extends Player {
                     for (Card card : possibleMeld.getGroup()) {
                         this.hand.getGroup().remove(card);
                     }
+                    this.isHandEmpty();
                     return newRun;
 
                 } else if (possibleMeld.isValidBook()) {
@@ -59,6 +60,7 @@ public class HumanPlayer extends Player {
                     for (Card card : possibleMeld.getGroup()) {
                         this.hand.getGroup().remove(card);
                     }
+                    this.isHandEmpty();
                     return newBook;
 
                 } else {
@@ -104,6 +106,7 @@ public class HumanPlayer extends Player {
                 humanChoice = getValidInt(1, 2, "\nAny more cards to lay off?\n1. Lay off more cards\n2. Done");
 
             } else {
+                this.isHandEmpty();
                 break;
             }
         }
@@ -115,6 +118,7 @@ public class HumanPlayer extends Player {
         outputHand();
         int humanCardSelection = getValidInt(1, this.getHand().size(), "Which card would you like to discard to end your turn?");
         Card cardToDiscard = this.getHand().get((humanCardSelection - 1));
+        this.isHandEmpty();
         return cardToDiscard;
     }
 
@@ -122,6 +126,17 @@ public class HumanPlayer extends Player {
         // Interacts with human player and returns their choice of win threshold
         int winThreshold = getValidInt(1, 10000, "How many points would you like to play up to?");
         return winThreshold;
+    }
+
+    public boolean playAgain() {
+        // Returns true if human player indicates they'd like to play again
+        System.out.println("Would you like to play again?\nPress Y for yes, and other key to stop.");
+        if (scanner.next().equalsIgnoreCase("Y")) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
     public int getValidInt(int minValue, int maxValue, String prompt) {
@@ -153,5 +168,11 @@ public class HumanPlayer extends Player {
         // Output human player cards
         System.out.println("\nYOUR HAND:");
         this.hand.outputGroupOnOneLine();
+    }
+
+    private void isHandEmpty() {
+        if (this.getHand().size() == 1) {
+            this.handIsEmpty = true;
+        }
     }
 }

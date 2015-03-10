@@ -4,6 +4,9 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Welcome human player
+        System.out.println("LET'S PLAY RUMMY");
+
         // Initialize deck
         Deck newDeck = new Deck();
 
@@ -14,9 +17,6 @@ public class Main {
 
         // Set threshold to win
         int winThreshold = humanPlayer.setWinThreshold();
-
-        // Opening deal
-        openingDeal(players, newDeck);
 
         // FOR TESTING & DEBUGGING
 //        char suit = 9824;
@@ -52,45 +52,74 @@ public class Main {
 //            computerPlayer.hand.addCard(card);
 //        }
 
-        // Game play
-        takeTurns(players, newDeck);
+        boolean playAgain = true;
+        while (playAgain) {
+            // Deal 10 cards to each player
+            dealRound(players, newDeck);
+
+            while (humanPlayer.getScore() < winThreshold && computerPlayer.getScore() < winThreshold) {
+
+                // Players take turns until one of them lays down all cards in their hand
+                Player inactivePlayer = players[1];
+
+                while (!humanPlayer.handIsEmpty) {
+                    for (Player activePlayer : players) {
+                        newDeck.draw(activePlayer);
+                        if (!activePlayer.handIsEmpty) {
+                            newDeck.meld(activePlayer);
+                        }
+                        if (!activePlayer.handIsEmpty) {
+                            newDeck.layOff(activePlayer);
+                        }
+                        if (!activePlayer.handIsEmpty) {
+                            newDeck.discard(activePlayer);
+                        }
+                        activePlayer.endTurn();
+
+                        if (activePlayer.handIsEmpty) {
+                            activePlayer.roundWon(inactivePlayer.roundLost());
+                            inactivePlayer = activePlayer;
+                            break;
+                        }
+                        inactivePlayer = activePlayer;
+                    }
+
+                    if (inactivePlayer.handIsEmpty) {
+                        if (inactivePlayer.getScore() >= winThreshold) {
+                            // Player has won game
+                            System.out.println(inactivePlayer.getNickname() + " won the game!");
+                            break;
+
+                        } else {
+                            // Player has won round
+                            resetHandsForNewRound(players);
+                            break;
+                        }
+                    }
+                }
+            }
+            System.out.println("\nWould you like to play again?");
+            resetScoresForNewGame(players);
+            playAgain = humanPlayer.playAgain();
+        }
     }
 
-    public static void openingDeal(Player[] players, Deck newDeck) {
+    public static void dealRound(Player[] players, Deck newDeck) {
         // Deal 10 cards to each player
         for (Player player : players) {
             newDeck.dealCards(10, player.getHandGroup());
         }
     }
 
-    public static void takeTurns(Player[] players, Deck newDeck) {
-        // Players take turns until one of them lays down all cards in their hand
-        Player inactivePlayer = players[1];
+    public static void resetHandsForNewRound(Player[] players) {
+        for (Player player : players) {
+            player.getHand().clear();
+        }
+    }
 
-        while (true) {
-            for (Player activePlayer : players) {
-                newDeck.draw(activePlayer);
-                if (!activePlayer.hand.groupIsEmpty()) {
-                    newDeck.meld(activePlayer);
-                }
-                if (!activePlayer.hand.groupIsEmpty()) {
-                    newDeck.layOff(activePlayer);
-                }
-                if (!activePlayer.hand.groupIsEmpty()) {
-                    newDeck.discard(activePlayer);
-                }
-                activePlayer.endTurn();
-
-                if (activePlayer.hand.groupIsEmpty()) {
-                    activePlayer.roundWon(inactivePlayer.roundLost());
-                    inactivePlayer = activePlayer;
-                    break;
-                }
-                inactivePlayer = activePlayer;
-            }
-            if (inactivePlayer.hand.groupIsEmpty()) {
-                break;
-            }
+    public static void resetScoresForNewGame(Player[] players) {
+        for (Player player : players) {
+            player.setScore(0);
         }
     }
 }

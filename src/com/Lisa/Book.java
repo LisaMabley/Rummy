@@ -11,4 +11,16 @@ public class Book extends CardGroup {
             this.group.add(card);
         }
     }
+
+    @Override
+    public boolean isValidLayOffWith(Card meldAddition) {
+        // Determines if a given card is a valid addition to existing book
+        if (this.getGroup().getFirst().isBookPartner(meldAddition) ||
+                        this.getGroup().getLast().isBookPartner(meldAddition)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

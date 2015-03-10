@@ -10,4 +10,16 @@ public class Run extends CardGroup {
             this.group.add(card);
         }
     }
+
+    @Override
+    public boolean isValidLayOffWith(Card meldAddition) {
+        // Determines if a given card is a valid addition to existing run
+        if (this.getGroup().getFirst().isRunPartner(meldAddition) ||
+        this.getGroup().getLast().isRunPartner(meldAddition)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

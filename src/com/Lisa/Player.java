@@ -8,6 +8,7 @@ public abstract class Player {
     protected CardGroup hand = new CardGroup();
     protected String nickname = new String();
     protected int score = 0;
+    protected boolean handIsEmpty = false;
 
     public abstract int makeDrawChoice(Deck deck);
     public abstract CardGroup makeMeldChoice(Deck deck);
@@ -33,11 +34,16 @@ public abstract class Player {
     }
 
     // Getters
-    public LinkedList<Card> getHand() {
-        return hand.getGroup();
-    }
-
+    public LinkedList<Card> getHand() { return hand.getGroup(); }
     public CardGroup getHandGroup() {
         return hand;
+    }
+    public String getNickname() { return nickname; }
+    public int getScore() { return score; }
+    private boolean isHandEmpty() { return handIsEmpty; }
+
+    // Setter
+    public void setScore(int score) {
+        this.score = score;
     }
 }

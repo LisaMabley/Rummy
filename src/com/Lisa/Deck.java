@@ -50,8 +50,8 @@ public class Deck {
         if (drawChoice == 1) {
             // Draw from stock pile
             randomNumberGenerator = new Random();
-            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
-            cardIndex --; // Prevent off-by-1 errors if last number is selected
+            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size() + 1);
+            cardIndex --;
             cardDrawn = this.getStockPile().remove(cardIndex);
             pileDrawnFrom = "the stock pile";
 
@@ -85,7 +85,7 @@ public class Deck {
                 meld.outputGroupOnOneLine();
             }
 
-            if (player.hand.groupIsEmpty()) {
+            if (player.handIsEmpty) {
                 // Player has gone out
                 System.out.println(player.nickname + " went out.");
             }
@@ -96,7 +96,7 @@ public class Deck {
         // Executes lay off
         player.makeLayOffChoice(this);
 
-        if (player.hand.groupIsEmpty()) {
+        if (player.handIsEmpty) {
             // Player has gone out
             System.out.println(player.nickname + " went out.");
         }
@@ -125,7 +125,7 @@ public class Deck {
         cardToDiscard.outputCardToTerminalInColor();
         System.out.println("\n");
 
-        if (player.hand.groupIsEmpty()) {
+        if (player.handIsEmpty) {
             // Player has gone out
             System.out.println(player.nickname + " went out.");
         }
@@ -153,6 +153,9 @@ public class Deck {
     public LinkedList<Card> getStockPile() {
         return stock.getGroup();
     }
+    public LinkedList<CardGroup> getMelds() {
+        return melds;
+    }
 
     public LinkedList<Card> getDiscardPileCards() {
         if (discardPile.getGroup().isEmpty()) {
@@ -160,9 +163,5 @@ public class Deck {
         }
 
         return discardPile.getGroup();
-    }
-
-    public LinkedList<CardGroup> getMelds() {
-        return melds;
     }
 }

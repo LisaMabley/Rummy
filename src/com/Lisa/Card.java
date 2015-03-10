@@ -103,15 +103,12 @@ public class Card implements Comparable<Card> {
         }
     }
 
-    // Getters and setters
+    // Getters
     public String getName() {
         return name;
     }
-
     public char getSuit() { return suit; }
-
     public int getValueId() { return valueId; }
-
     public boolean canDiscardThisTurn() {
         return canDiscardThisTurn;
     }
