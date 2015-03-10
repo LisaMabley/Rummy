@@ -116,10 +116,20 @@ public class HumanPlayer extends Player {
         // Interacts with human player and returns their discard choice
         System.out.println("\nDISCARD");
         outputHand();
-        int humanCardSelection = getValidInt(1, this.getHand().size(), "Which card would you like to discard to end your turn?");
-        Card cardToDiscard = this.getHand().get((humanCardSelection - 1));
-        this.isHandEmpty();
-        return cardToDiscard;
+        int humanCardSelection;
+        Card cardToDiscard;
+
+        while (true) {
+            // TODO will not allow last card in hand to be discarded
+            humanCardSelection = getValidInt(0, this.getHand().size() + 1, "Which card would you like to discard to end your turn?");
+            cardToDiscard = this.getHand().get((humanCardSelection - 1));
+            if (cardToDiscard.canDiscardThisTurn()) {
+                this.getHand().remove(cardToDiscard);
+                deck.getDiscardPileCards().push(cardToDiscard);
+                this.isHandEmpty();
+                return cardToDiscard;
+            }
+        }
     }
 
     public int setWinThreshold() {
@@ -171,7 +181,7 @@ public class HumanPlayer extends Player {
     }
 
     private void isHandEmpty() {
-        if (this.getHand().size() == 1) {
+        if (this.getHand().size() == 0) {
             this.handIsEmpty = true;
         }
     }

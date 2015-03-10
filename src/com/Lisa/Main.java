@@ -15,10 +15,11 @@ public class Main {
         ComputerPlayer computerPlayer = new ComputerPlayer("Your cunning opponent");
         Player[] players = {humanPlayer, computerPlayer};
 
-        // Set threshold to win
-        int winThreshold = humanPlayer.setWinThreshold();
+        // Initialize threshold to win
+        int winThreshold;
 
         // FOR TESTING & DEBUGGING
+//        humanPlayer.setScore(30);
 //        char suit = 9824;
 //
 //        for (int x = 10; x < 12; x ++) {
@@ -53,15 +54,20 @@ public class Main {
 //        }
 
         boolean playAgain = true;
-        while (playAgain) {
-            // Deal 10 cards to each player
-            dealRound(players, newDeck);
 
+        while (playAgain) {
+            // Reset win threshold for each new game
+            winThreshold = humanPlayer.setWinThreshold();
+
+            // If no player has reached win threshold, deal another round
             while (humanPlayer.getScore() < winThreshold && computerPlayer.getScore() < winThreshold) {
 
-                // Players take turns until one of them lays down all cards in their hand
+                // Deal 10 cards to each player
+                dealRound(players, newDeck);
+
                 Player inactivePlayer = players[1];
 
+                // Players take turns until one of them lays down all cards in their hand
                 while (!humanPlayer.handIsEmpty) {
                     for (Player activePlayer : players) {
                         newDeck.draw(activePlayer);
@@ -77,6 +83,7 @@ public class Main {
                         activePlayer.endTurn();
 
                         if (activePlayer.handIsEmpty) {
+                            // If active player's hand is empty, they won the round
                             activePlayer.roundWon(inactivePlayer.roundLost());
                             inactivePlayer = activePlayer;
                             break;
@@ -85,6 +92,8 @@ public class Main {
                     }
 
                     if (inactivePlayer.handIsEmpty) {
+                        // If their hand is empty and they passed the
+                        // win threshold, they won the game
                         if (inactivePlayer.getScore() >= winThreshold) {
                             // Player has won game
                             System.out.println(inactivePlayer.getNickname() + " won the game!");
@@ -92,14 +101,14 @@ public class Main {
 
                         } else {
                             // Player has won round
-                            resetHandsForNewRound(players);
+                            resetForNewRound(newDeck, players);
                             break;
                         }
                     }
                 }
             }
             System.out.println("\nWould you like to play again?");
-            resetScoresForNewGame(players);
+            resetScoresForNewGame(newDeck, players);
             playAgain = humanPlayer.playAgain();
         }
     }
@@ -111,13 +120,17 @@ public class Main {
         }
     }
 
-    public static void resetHandsForNewRound(Player[] players) {
+    public static void resetForNewRound(Deck deck, Player[] players) {
+        // Empty players' hands, clear all melds from table, and put discard pile back into deck
+        deck.resetDeckForNewRound();
         for (Player player : players) {
-            player.getHand().clear();
+            player.resetHandForNewRound();
         }
     }
 
-    public static void resetScoresForNewGame(Player[] players) {
+    public static void resetScoresForNewGame(Deck deck, Player[] players) {
+        // Same as new round, but also clears players' scores
+        resetForNewRound(deck, players);
         for (Player player : players) {
             player.setScore(0);
         }

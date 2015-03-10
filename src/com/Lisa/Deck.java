@@ -26,15 +26,26 @@ public class Deck {
         }
     }
 
+    private Card getRandomCardFromDeck() {
+        if (this.getStockPile().size() == 0) {
+            this.getStockPile().addAll(getDiscardPileCards());
+            getDiscardPileCards().clear();
+        }
+
+        randomNumberGenerator = new Random();
+        int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
+        Card randomCard = this.getStockPile().remove(cardIndex);
+        return randomCard;
+    }
+
     public void dealCards(int numCards, CardGroup group) {
         // Add given number of cards to given group
         // (usually a player's hand, sometimes the discard pile)
 
-        randomNumberGenerator = new Random();
-
+        Card randomCard;
         for (int x = 0; x < numCards; x++) {
-            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size());
-            group.addCardAndSort(this.getStockPile().remove(cardIndex));
+            randomCard = getRandomCardFromDeck();
+            group.addCardAndSort(randomCard);
         }
     }
 
@@ -49,10 +60,7 @@ public class Deck {
 
         if (drawChoice == 1) {
             // Draw from stock pile
-            randomNumberGenerator = new Random();
-            int cardIndex = randomNumberGenerator.nextInt(this.getStockPile().size() + 1);
-            cardIndex --;
-            cardDrawn = this.getStockPile().remove(cardIndex);
+            cardDrawn = getRandomCardFromDeck();
             pileDrawnFrom = "the stock pile";
 
         } else {
@@ -104,21 +112,17 @@ public class Deck {
 
     public void discard(Player player) {
         // Executes discard action
-        Card cardToDiscard;
+        Card cardToDiscard = player.makeDiscardChoice(this);
 
         // Only allows cards to be discarded that have not
         // been drawn from the discard pile this turn
         while (true) {
-            cardToDiscard = player.makeDiscardChoice(this);
             if (cardToDiscard.canDiscardThisTurn()) {
                 break;
             } else {
                 System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
             }
         }
-
-        player.getHand().remove(cardToDiscard);
-        this.getDiscardPileCards().push(cardToDiscard);
 
         // Output action
         System.out.print("\n" + player.nickname + " discarded ");
@@ -128,6 +132,14 @@ public class Deck {
         if (player.handIsEmpty) {
             // Player has gone out
             System.out.println(player.nickname + " went out.");
+        }
+    }
+
+    public void resetDeckForNewRound() {
+        this.getStockPile().addAll(discardPile.getGroup());
+        for (int x = 0; x < melds.size(); x++) {
+            for (Card card : melds.get(x).getGroup())
+            this.getStockPile().add(card);
         }
     }
 

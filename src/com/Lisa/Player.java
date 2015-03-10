@@ -33,6 +33,11 @@ public abstract class Player {
         this.score += roundPoints;
     }
 
+    public void resetHandForNewRound() {
+        this.getHand().clear();
+        this.handIsEmpty = false;
+    }
+
     // Getters
     public LinkedList<Card> getHand() { return hand.getGroup(); }
     public CardGroup getHandGroup() {

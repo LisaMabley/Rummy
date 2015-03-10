@@ -190,6 +190,8 @@ public class ComputerPlayer extends Player {
                 }
             }
         }
+        this.getHand().remove(cardToDiscard);
+        deck.getDiscardPileCards().push(cardToDiscard);
         return cardToDiscard;
     }
 }
