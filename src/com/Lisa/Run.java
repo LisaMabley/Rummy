@@ -22,4 +22,16 @@ public class Run extends CardGroup {
             return false;
         }
     }
+
+    @Override
+    public boolean canAddToMeld(Card card) {
+        Card first = this.getGroup().getFirst();
+        Card last = this.getGroup().getLast();
+        if (card.isRunPartner(first) || card.isRunPartner(last)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }

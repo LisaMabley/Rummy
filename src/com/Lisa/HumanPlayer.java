@@ -24,8 +24,8 @@ public class HumanPlayer extends Player {
         // Interacts with human player and returns their meld choice
         outputHand();
         System.out.println("\nMELD:\nWould you like to meld a run or book?\n");
-        CardGroup emptyGroup = new CardGroup();
-        CardGroup possibleMeld = new CardGroup();
+        CardGroup emptyGroup = new CardGroup(); // Null object returned if no meld is created
+        CardGroup possibleMeld = new CardGroup(); // Build meld in this list
         int humanChoice = getValidInt(1, 2, "1. Meld cards\n2. Pass");
 
         while (true) {
@@ -77,8 +77,7 @@ public class HumanPlayer extends Player {
     public void makeLayOffChoice(Deck deck) {
         // Interacts with human player and returns their lay off choice
         outputHand();
-        System.out.println("");
-        System.out.println("LAY OFF CARDS:\nWould you like to lay off cards, adding to existing runs or books?\n");
+        System.out.println("\nLAY OFF CARDS:\nWould you like to lay off cards, adding to existing runs or books?\n");
         deck.outputMelds();
         int humanChoice = getValidInt(1, 2, "\n1. Lay off cards\n2. Pass");
 
@@ -120,7 +119,6 @@ public class HumanPlayer extends Player {
         Card cardToDiscard;
 
         while (true) {
-            // TODO will not allow last card in hand to be discarded
             humanCardSelection = getValidInt(0, this.getHand().size() + 1, "Which card would you like to discard to end your turn?");
             cardToDiscard = this.getHand().get((humanCardSelection - 1));
             if (cardToDiscard.canDiscardThisTurn()) {
@@ -128,6 +126,10 @@ public class HumanPlayer extends Player {
                 deck.getDiscardPileCards().push(cardToDiscard);
                 this.isHandEmpty();
                 return cardToDiscard;
+            } else {
+                // Only allows cards to be discarded that have not
+                // been drawn from the discard pile this turn
+                System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
             }
         }
     }
@@ -178,11 +180,5 @@ public class HumanPlayer extends Player {
         // Output human player cards
         System.out.println("\nYOUR HAND:");
         this.hand.outputGroupOnOneLine();
-    }
-
-    private void isHandEmpty() {
-        if (this.getHand().size() == 0) {
-            this.handIsEmpty = true;
-        }
     }
 }

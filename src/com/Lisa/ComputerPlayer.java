@@ -18,9 +18,15 @@ public class ComputerPlayer extends Player {
         Card discardOption = newDeck.getDiscardPileCards().peek();
 
         for (Card card : this.getHand()) {
-            if (discardOption.isRunPartner(card) || discardOption.isBookPartner(card)) {
+            if (discardOption.isMeldPartner(card)) {
                 // If card from discard pile provides possible run or book options
-                // Draw from discard pile
+                // with other cards in hand, draw from discard pile
+                return 2;
+            }
+
+            // If card from discard pile provides possible lay off options
+            // with melds already on the table, draw from discard pile
+            if (discardOption.canAddToAnyMeldOnTable(newDeck)) {
                 return 2;
             }
         }

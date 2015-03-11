@@ -103,6 +103,33 @@ public class Card implements Comparable<Card> {
         }
     }
 
+    public boolean isMeldPartner(Card card) {
+        // Compare card to another card and return true
+        // if they could meld in a book or run
+
+        // Can card meld into a book?
+        int difference = Math.abs(this.getValueId() - card.getValueId());
+        if (this.getSuit() == card.getSuit() && difference == 1) {
+            return true;
+        }
+
+        // Can card meld into a book?
+        if (this.getValueId() == card.getValueId() && this.getSuit() != card.getSuit()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean canAddToAnyMeldOnTable(Deck deck) {
+        for (int x = 0; x < deck.getMelds().size(); x++) {
+            if (deck.getMelds().get(x).canAddToMeld(this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Getters
     public String getName() {
         return name;

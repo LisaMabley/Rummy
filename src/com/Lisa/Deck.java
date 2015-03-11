@@ -49,6 +49,7 @@ public class Deck {
         }
     }
 
+    // Player actions for each round
     public void draw(Player player) {
         // Executes draw and outputs result
         player.outputHand();
@@ -114,16 +115,6 @@ public class Deck {
         // Executes discard action
         Card cardToDiscard = player.makeDiscardChoice(this);
 
-        // Only allows cards to be discarded that have not
-        // been drawn from the discard pile this turn
-        while (true) {
-            if (cardToDiscard.canDiscardThisTurn()) {
-                break;
-            } else {
-                System.out.println("You cannot discard a card you just drew from the discard pile this turn.\nPlease choose a different card.");
-            }
-        }
-
         // Output action
         System.out.print("\n" + player.nickname + " discarded ");
         cardToDiscard.outputCardToTerminalInColor();
@@ -135,12 +126,15 @@ public class Deck {
         }
     }
 
+    // Resetter
     public void resetDeckForNewRound() {
         this.getStockPile().addAll(discardPile.getGroup());
         for (int x = 0; x < melds.size(); x++) {
-            for (Card card : melds.get(x).getGroup())
-            this.getStockPile().add(card);
+            for (Card card : melds.get(x).getGroup()) {
+                this.getStockPile().add(card);
+            }
         }
+        this.melds.clear();
     }
 
     // Outputters

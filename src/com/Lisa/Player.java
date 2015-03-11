@@ -17,6 +17,7 @@ public abstract class Player {
     public abstract void outputHand();
 
     public void endTurn() {
+        // Resets any card picked up from discard pile this turn
         for (Card card : this.getHand()) {
             if (!card.canDiscardThisTurn()) {
                 card.changeCanDiscardThisTurn();
@@ -24,16 +25,27 @@ public abstract class Player {
         }
     }
 
+    protected void isHandEmpty() {
+        // Returns true if player's hand is empty
+        if (this.getHand().size() == 0) {
+            this.handIsEmpty = true;
+        }
+    }
+
     public int roundLost() {
+        // Returns point value for all cards remaining in losing player's hand
         return this.hand.getRoundScore();
     }
 
     public void roundWon(int roundPoints) {
+        // Outputs winning player and transfers points to them
         System.out.println(this.nickname + " won this round, for " + roundPoints + " points.");
+        System.out.println(this.nickname + ": " + this.score);
         this.score += roundPoints;
     }
 
     public void resetHandForNewRound() {
+        // Clear hand and reset emptyhand flag
         this.getHand().clear();
         this.handIsEmpty = false;
     }
@@ -45,7 +57,6 @@ public abstract class Player {
     }
     public String getNickname() { return nickname; }
     public int getScore() { return score; }
-    private boolean isHandEmpty() { return handIsEmpty; }
 
     // Setter
     public void setScore(int score) {

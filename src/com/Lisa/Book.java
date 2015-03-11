@@ -23,4 +23,16 @@ public class Book extends CardGroup {
             return false;
         }
     }
+
+    @Override
+    public boolean canAddToMeld(Card card) {
+        Card first = this.getGroup().getFirst();
+        Card last = this.getGroup().getLast();
+        if (card.isBookPartner(first) || card.isBookPartner(last)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 }
