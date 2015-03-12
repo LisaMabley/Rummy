@@ -67,7 +67,7 @@ public class Deck {
         } else {
             // Draw from discard pile
             cardDrawn = this.getDiscardPileCards().pop();
-            cardDrawn.changeCanDiscardThisTurn();
+            cardDrawn.cantDiscardThisTurn();
             pileDrawnFrom = "the discard pile";
         }
 

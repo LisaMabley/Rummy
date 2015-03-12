@@ -92,21 +92,21 @@ public class CardGroup {
 
     public boolean isValidLayOffWith(Card meldAddition) {
         // Subclass methods override this, should never be called
-        System.out.println("Something went terribly wrong.");
+        System.out.println("Something went terribly wrong:");
+        System.out.println("CardGroup method isValidLayOffWith called.");
         return false;
     }
 
     public boolean canAddToMeld(Card card) {
         // Subclass methods override this, should never be called
-        System.out.println("Something went terribly wrong.");
+        System.out.println("Something went terribly wrong:");
+        System.out.println("CardGroup method canAddToMeld called.");
         return false;
     }
 
     public void resetCanDiscardVariableForAll() {
         for (Card card : this.getGroup()) {
-            if (!card.canDiscardThisTurn()) {
-                card.changeCanDiscardThisTurn();
-            }
+            card.canDiscard();
         }
     }
 

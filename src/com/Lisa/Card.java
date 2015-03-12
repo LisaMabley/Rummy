@@ -56,13 +56,14 @@ public class Card implements Comparable<Card> {
         }
     }
 
-    public void changeCanDiscardThisTurn() {
-        // At the end of player's turn, all cards set to true
-        if (this.canDiscardThisTurn) {
-            this.canDiscardThisTurn = false;
-        } else {
-            this.canDiscardThisTurn = true;
-        }
+    public void cantDiscardThisTurn() {
+        // Change discard variable to false
+        this.canDiscardThisTurn = false;
+    }
+
+    public void canDiscard() {
+        // Change discard variable to false
+        this.canDiscardThisTurn = true;
     }
 
     public void outputCardToTerminalInColor() {
@@ -107,7 +108,7 @@ public class Card implements Comparable<Card> {
         // Compare card to another card and return true
         // if they could meld in a book or run
 
-        // Can card meld into a book?
+        // Can card meld into a run?
         int difference = Math.abs(this.getValueId() - card.getValueId());
         if (this.getSuit() == card.getSuit() && difference == 1) {
             return true;
@@ -131,13 +132,13 @@ public class Card implements Comparable<Card> {
         return false;
     }
 
-    public boolean canAddToAnyMeldOnTable(Deck deck) {
+    public int canLayoffToTableMeldAtIndex(Deck deck) {
         for (int x = 0; x < deck.getMelds().size(); x++) {
             if (deck.getMelds().get(x).canAddToMeld(this)) {
-                return true;
+                return x;
             }
         }
-        return false;
+        return -1;
     }
 
     // Getters

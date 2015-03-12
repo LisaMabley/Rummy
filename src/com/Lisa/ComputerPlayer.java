@@ -3,7 +3,6 @@ package com.Lisa;
 // Created by lisa on 3/1/15.
 
 import java.util.Collections;
-import java.util.LinkedList;
 
 public class ComputerPlayer extends Player {
 
@@ -18,7 +17,7 @@ public class ComputerPlayer extends Player {
         Card discardOption = newDeck.getDiscardPileCards().peek();
 
         if (discardOption.canMeldWithAnyOtherCardInHand(this.getHandGroup()) ||
-                discardOption.canAddToAnyMeldOnTable(newDeck)) {
+                discardOption.canLayoffToTableMeldAtIndex(newDeck) >=0) {
             // If card from discard pile provides possible run or book options
             // with other cards in hand or melds on table, draw from discard pile
             return 2;
@@ -30,14 +29,11 @@ public class ComputerPlayer extends Player {
 
     public CardGroup makeMeldChoice(Deck deck) {
         // Makes computer player's meld choice
-        // TODO test thoroughly to be sure index out of bounds exceptions are really fixed
 
         CardGroup emptyGroup = new CardGroup();
         CardGroup possibleMeld = new CardGroup();
 
         // Look for runs
-        // Would be nice to make sure this picked longest run, if more than one in hand
-        // This just picks the first one it comes across
         int handSize = this.getHand().size();
 
         for (int x = 0; x < handSize - 2; x ++) {
@@ -68,6 +64,7 @@ public class ComputerPlayer extends Player {
 
                     Run newRun = new Run(possibleMeld);
                     deck.melds.add(newRun);
+                    this.isHandEmpty();
                     return newRun;
                 }
 
@@ -106,6 +103,7 @@ public class ComputerPlayer extends Player {
 
                     Book newBook = new Book(possibleMeld);
                     deck.melds.add(newBook);
+                    this.isHandEmpty();
                     return newBook;
                 }
 
@@ -118,13 +116,17 @@ public class ComputerPlayer extends Player {
 
     public void makeLayOffChoice(Deck deck) {
 
+        int indexOfSelectedMeld = -1;
+
         for (Card card : this.getHand()) {
-            if (card.canAddToAnyMeldOnTable(deck)) {
-                System.out.println("This is a card I could be laying off right now: " + card.getName());
+            indexOfSelectedMeld = card.canLayoffToTableMeldAtIndex(deck);
+            if (indexOfSelectedMeld >= 0) {
+                deck.melds.get(indexOfSelectedMeld).addCardAndSort(card);
+                this.getHand().remove(card);
+                deck.melds.get(indexOfSelectedMeld).outputGroupOnOneLine();
             }
         }
-
-        System.out.println("But I don't want to lay off and you can't make me.");
+        this.isHandEmpty();
     }
 
     public void outputHand() {
@@ -139,12 +141,15 @@ public class ComputerPlayer extends Player {
         Card cardToDiscard = null;
 
         for (Card card : this.getHand()) {
-            if (card.canDiscardThisTurn() && !card.canAddToAnyMeldOnTable(deck) &&
+            // Discard first card that comes up that wasn't drawn from the discard pile this turn,
+            // doesn't have any potential melds in player's hand, or layoff options on table
+            if (card.canDiscardThisTurn() && card.canLayoffToTableMeldAtIndex(deck) == -1 &&
                     !card.canMeldWithAnyOtherCardInHand(this.getHandGroup())) {
                 cardToDiscard = card;
             }
         }
 
+        // If no such card exists, discard first card
         if (cardToDiscard == null) {
             cardToDiscard = this.getHand().getFirst();
         }
