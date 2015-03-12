@@ -18,11 +18,7 @@ public abstract class Player {
 
     public void endTurn() {
         // Resets any card picked up from discard pile this turn
-        for (Card card : this.getHand()) {
-            if (!card.canDiscardThisTurn()) {
-                card.changeCanDiscardThisTurn();
-            }
-        }
+        this.getHandGroup().resetCanDiscardVariableForAll();
     }
 
     protected void isHandEmpty() {
@@ -40,8 +36,8 @@ public abstract class Player {
     public void roundWon(int roundPoints) {
         // Outputs winning player and transfers points to them
         System.out.println(this.nickname + " won this round, for " + roundPoints + " points.");
-        System.out.println(this.nickname + ": " + this.score);
         this.score += roundPoints;
+        System.out.println(this.nickname + ": " + this.score);
     }
 
     public void resetHandForNewRound() {

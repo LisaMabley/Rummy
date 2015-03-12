@@ -44,6 +44,8 @@ public class CardGroup {
 
     public boolean isValidRun() {
         // Determines if a given CardGroup is a valid run
+        // This method cannot belong to the Run class because the
+        // CardGroup cannot become a run until it passes this test
         if (this.getGroup().size() < 3) {
             // Smaller than 3 cards = not valid
             return false;
@@ -68,7 +70,9 @@ public class CardGroup {
     }
 
     public boolean isValidBook() {
-        // Determines if a given CardGroup is a valid book
+        // Determines if a given CardGroup can become a valid book
+        // This method cannot belong to the Book class because the
+        // CardGroup cannot become a book until it passes this test
         if (this.getGroup().size() < 3) {
             // Smaller than 3 cards = not valid
             return false;
@@ -96,6 +100,14 @@ public class CardGroup {
         // Subclass methods override this, should never be called
         System.out.println("Something went terribly wrong.");
         return false;
+    }
+
+    public void resetCanDiscardVariableForAll() {
+        for (Card card : this.getGroup()) {
+            if (!card.canDiscardThisTurn()) {
+                card.changeCanDiscardThisTurn();
+            }
+        }
     }
 
     public int getRoundScore() {

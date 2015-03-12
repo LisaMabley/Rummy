@@ -129,6 +129,8 @@ public class Deck {
     // Resetter
     public void resetDeckForNewRound() {
         this.getStockPile().addAll(discardPile.getGroup());
+        this.stock.resetCanDiscardVariableForAll();
+        this.discardPile.getGroup().clear();
         for (int x = 0; x < melds.size(); x++) {
             for (Card card : melds.get(x).getGroup()) {
                 this.getStockPile().add(card);

@@ -121,6 +121,16 @@ public class Card implements Comparable<Card> {
         return false;
     }
 
+    public boolean canMeldWithAnyOtherCardInHand(CardGroup hand) {
+
+        for (Card card : hand.getGroup()) {
+            if (this.isMeldPartner(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean canAddToAnyMeldOnTable(Deck deck) {
         for (int x = 0; x < deck.getMelds().size(); x++) {
             if (deck.getMelds().get(x).canAddToMeld(this)) {
