@@ -18,41 +18,6 @@ public class Main {
         // Initialize threshold to win
         int winThreshold;
 
-        // FOR TESTING & DEBUGGING
-//        humanPlayer.setScore(30);
-//        char suit = 9824;
-//
-//        for (int x = 10; x < 12; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-//
-//        suit = 9829;
-//
-//        for (int x = 10; x < 12; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-//
-//        suit = 9830;
-//
-//        for (int x = 2; x < 4; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-//
-//        for (int x = 5; x < 9; x ++) {
-//            Card card = new Card(suit, x);
-//            humanPlayer.hand.addCard(card);
-//        }
-//
-//        suit = 9827;
-//
-//        for (int x = 4; x < 6; x ++) {
-//            Card card = new Card(suit, x);
-//            computerPlayer.hand.addCard(card);
-//        }
-
         boolean playAgain = true;
 
         while (playAgain) {

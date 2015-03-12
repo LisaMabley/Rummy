@@ -8,7 +8,7 @@ public class Card implements Comparable<Card> {
     private char suit;
     private int valueId;
 
-    // If card was picked up from discard pile, this is true
+    // If card was picked up from discard pile, this is false
     private boolean canDiscardThisTurn;
 
     // Constructor
@@ -123,6 +123,8 @@ public class Card implements Comparable<Card> {
     }
 
     public boolean canMeldWithAnyOtherCardInHand(CardGroup hand) {
+        // Iterates through hand and returns true if this Card
+        // object has meld possibilities within the hand
 
         for (Card card : hand.getGroup()) {
             if (this.isMeldPartner(card)) {
@@ -133,8 +135,10 @@ public class Card implements Comparable<Card> {
     }
 
     public int canLayoffToTableMeldAtIndex(Deck deck) {
+        // Returns true if this Card object can lay off
+        // to any meld on the table
         for (int x = 0; x < deck.getMelds().size(); x++) {
-            if (deck.getMelds().get(x).canAddToMeld(this)) {
+            if (deck.getMelds().get(x).isValidLayOffFor(this)) {
                 return x;
             }
         }

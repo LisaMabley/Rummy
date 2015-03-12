@@ -93,15 +93,17 @@ public class HumanPlayer extends Player {
                 int indexOfCardToMeld = getValidInt(1, (this.getHand().size() + 1),
                         "Please use your number keypad to enter which card, as counted from the left.");
                 indexOfCardToMeld--;
+                Card cardToLayOff = this.getHand().get(indexOfCardToMeld);
+                CardGroup meldToAddTo = deck.melds.get(indexOfSelectedMeld);
 
-                if (deck.melds.get(indexOfSelectedMeld).isValidLayOffWith(this.getHand().get(indexOfCardToMeld))) {
-                    deck.melds.get(indexOfSelectedMeld).addCardAndSort(this.getHand().get(indexOfCardToMeld));
-                    this.getHand().remove(indexOfCardToMeld);
+                if (meldToAddTo.isValidLayOffFor(cardToLayOff)) {
+                    meldToAddTo.addCardAndSort(cardToLayOff);
+                    this.getHand().remove(cardToLayOff);
                 } else {
                     System.out.println("That is not a valid combination.");
                 }
 
-                deck.melds.get(indexOfSelectedMeld).outputGroupOnOneLine();
+                meldToAddTo.outputGroupOnOneLine();
                 humanChoice = getValidInt(1, 2, "\nAny more cards to lay off?\n1. Lay off more cards\n2. Done");
 
             } else {

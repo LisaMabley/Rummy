@@ -10,6 +10,7 @@ public abstract class Player {
     protected int score = 0;
     protected boolean handIsEmpty = false;
 
+    // Abstract methods to be implemented by subclasses
     public abstract int makeDrawChoice(Deck deck);
     public abstract CardGroup makeMeldChoice(Deck deck);
     public abstract void makeLayOffChoice(Deck deck);

@@ -94,6 +94,7 @@ public class Deck {
                 meld.outputGroupOnOneLine();
             }
 
+            // Don't repeat 3x
             if (player.handIsEmpty) {
                 // Player has gone out
                 System.out.println(player.nickname + " went out.");

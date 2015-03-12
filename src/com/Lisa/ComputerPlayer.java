@@ -3,6 +3,7 @@ package com.Lisa;
 // Created by lisa on 3/1/15.
 
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class ComputerPlayer extends Player {
 
@@ -115,16 +116,22 @@ public class ComputerPlayer extends Player {
     }
 
     public void makeLayOffChoice(Deck deck) {
+        // Evaluates computer player's options and chooses cards to lay off
 
         int indexOfSelectedMeld = -1;
+        LinkedList<Card> cardsLaidOff = new LinkedList<Card>();
 
         for (Card card : this.getHand()) {
             indexOfSelectedMeld = card.canLayoffToTableMeldAtIndex(deck);
             if (indexOfSelectedMeld >= 0) {
                 deck.melds.get(indexOfSelectedMeld).addCardAndSort(card);
-                this.getHand().remove(card);
                 deck.melds.get(indexOfSelectedMeld).outputGroupOnOneLine();
+                cardsLaidOff.add(card);
             }
+        }
+
+        for (Card laidOffCard : cardsLaidOff) {
+            this.getHand().remove(laidOffCard);
         }
         this.isHandEmpty();
     }

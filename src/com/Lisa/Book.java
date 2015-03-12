@@ -6,26 +6,14 @@ public class Book extends CardGroup {
 
     public Book(CardGroup initialMeld) {
         // New book requires cards to be initialized
-
         for (Card card : initialMeld.getGroup()) {
             this.group.add(card);
         }
     }
 
     @Override
-    public boolean isValidLayOffWith(Card meldAddition) {
-        // Determines if a given card is a valid addition to existing book
-        if (this.getGroup().getFirst().isBookPartner(meldAddition) ||
-                        this.getGroup().getLast().isBookPartner(meldAddition)) {
-            return true;
-
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean canAddToMeld(Card card) {
+    public boolean isValidLayOffFor(Card card) {
+        // Returns true if given card can add to this book object
         Card first = this.getGroup().getFirst();
         Card last = this.getGroup().getLast();
         if (card.isBookPartner(first) || card.isBookPartner(last)) {
