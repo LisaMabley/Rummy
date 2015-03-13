@@ -163,8 +163,13 @@ public class ComputerPlayer extends Player {
         }
 
         // If no such card exists, discard first card
+        // that wasn't drawn from the discard pile this turn
         if (cardToDiscard == null) {
-            cardToDiscard = this.getHand().getFirst();
+            for (Card card : this.getHand()) {
+                if (card.canDiscardThisTurn()) {
+                    cardToDiscard = card;
+                }
+            }
         }
 
         this.getHand().remove(cardToDiscard);
