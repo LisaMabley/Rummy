@@ -124,9 +124,15 @@ public class ComputerPlayer extends Player {
         for (Card card : this.getHand()) {
             indexOfSelectedMeld = card.canLayoffToTableMeldAtIndex(deck);
             if (indexOfSelectedMeld >= 0) {
-                deck.melds.get(indexOfSelectedMeld).addCardAndSort(card);
-                deck.melds.get(indexOfSelectedMeld).outputGroupOnOneLine();
+                CardGroup selectedMeld = deck.melds.get(indexOfSelectedMeld);
+                selectedMeld.addCardAndSort(card);
                 cardsLaidOff.add(card);
+
+                // Output action on terminal
+                System.out.print(this.nickname + " added ");
+                card.outputCardToTerminalInColor();
+                System.out.println(" to this " + selectedMeld.getClass() + ": ");
+                selectedMeld.outputGroupOnOneLine();
             }
         }
 
@@ -167,4 +173,3 @@ public class ComputerPlayer extends Player {
         return cardToDiscard;
     }
 }
-

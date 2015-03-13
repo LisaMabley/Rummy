@@ -94,22 +94,14 @@ public class Deck {
                 meld.outputGroupOnOneLine();
             }
 
-            // Don't repeat 3x
-            if (player.handIsEmpty) {
-                // Player has gone out
-                System.out.println(player.nickname + " went out.");
-            }
+            hasPlayerGoneOut(player);
         }
     }
 
     public void layOff(Player player) {
         // Executes lay off
         player.makeLayOffChoice(this);
-
-        if (player.handIsEmpty) {
-            // Player has gone out
-            System.out.println(player.nickname + " went out.");
-        }
+        hasPlayerGoneOut(player);
     }
 
     public void discard(Player player) {
@@ -120,11 +112,7 @@ public class Deck {
         System.out.print("\n" + player.nickname + " discarded ");
         cardToDiscard.outputCardToTerminalInColor();
         System.out.println("\n");
-
-        if (player.handIsEmpty) {
-            // Player has gone out
-            System.out.println(player.nickname + " went out.");
-        }
+        hasPlayerGoneOut(player);
     }
 
     // Resetter
@@ -156,6 +144,13 @@ public class Deck {
         }
 
         discardPile.getGroup().peek().outputCardToTerminalInColor();
+    }
+
+    private void hasPlayerGoneOut(Player player) {
+        if (player.handIsEmpty) {
+            // Player has gone out
+            System.out.println(player.nickname + " went out.");
+        }
     }
 
     // Getters
