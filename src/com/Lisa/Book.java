@@ -4,11 +4,18 @@ package com.Lisa;
 
 public class Book extends CardGroup {
 
+    public static String meldName = "Book";
+
     public Book(CardGroup initialMeld) {
         // New book requires cards to be initialized
         for (Card card : initialMeld.getGroup()) {
             this.group.add(card);
         }
+    }
+
+    // Getter
+    public String getMeldName() {
+        return meldName;
     }
 
     @Override

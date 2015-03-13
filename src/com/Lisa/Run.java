@@ -4,11 +4,18 @@ package com.Lisa;
 
 public class Run extends CardGroup {
 
+    public static String meldName = "Run";
+
     public Run(CardGroup initialMeld) {
 
         for (Card card : initialMeld.getGroup()) {
             this.group.add(card);
         }
+    }
+
+    // Getter
+    public String getMeldName() {
+        return meldName;
     }
 
     @Override

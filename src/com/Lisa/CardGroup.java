@@ -8,6 +8,8 @@ import java.util.Collections;
 public class CardGroup {
 
     protected LinkedList<Card> group = new LinkedList<Card>();
+    protected static String meldName = "";
+
 
     public void addCard(Card card) { this.group.add(card); }
 
@@ -119,6 +121,10 @@ public class CardGroup {
         return points;
     }
 
-    // Getter
+    // Getters
     public LinkedList<Card> getGroup() { return this.group; }
+
+    public String getMeldName() {
+        return this.meldName;
+    }
 }

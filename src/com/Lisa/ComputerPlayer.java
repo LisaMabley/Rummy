@@ -131,7 +131,7 @@ public class ComputerPlayer extends Player {
                 // Output action on terminal
                 System.out.print(this.nickname + " added ");
                 card.outputCardToTerminalInColor();
-                System.out.println(" to this " + selectedMeld.getClass() + ": ");
+                System.out.println(" to this " + selectedMeld.getMeldName() + ": ");
                 selectedMeld.outputGroupOnOneLine();
             }
         }
